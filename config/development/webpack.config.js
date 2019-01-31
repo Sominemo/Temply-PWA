@@ -6,10 +6,16 @@ const BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const WebpackAutoInject = require("webpack-auto-inject-version")
 const ResourceHintWebpackPlugin = require("resource-hints-webpack-plugin")
+const webpack = require("webpack")
+const dateformat = require("dateformat")
+
+const __root = path.join(__dirname, "..", "..")
+
+const pack = require(path.join(__root, "package.json"))
 
 const PATHS = {
-    source: path.join(__dirname, "src"),
-    build: path.join(__dirname, "build"),
+    source: path.join(__root, "src"),
+    build: path.join(__root, "build"),
     public: "https://app.temply.procsec.top/",
 }
 
@@ -17,7 +23,17 @@ PATHS.resources = path.join(PATHS.source, "res")
 
 module.exports = {
     optimization: {
-        runtimeChunk: "single",
+        runtimeChunk: false,
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /node_modules/,
+                    chunks: "initial",
+                    name: "vendor",
+                    enforce: true,
+                },
+            },
+        },
     },
     entry: [
         path.join(PATHS.source, "index.js"),
@@ -65,14 +81,16 @@ module.exports = {
     },
     plugins: [
         new BitBarWebpackProgressPlugin(),
-        new CleanWebpackPlugin([PATHS.build]),
+        new CleanWebpackPlugin([PATHS.build], {
+            root: process.cwd(),
+        }),
         new WebpackAutoInject({
             SILENT: true,
             SHORT: "TEMPLY",
             components: {
                 InjectAsComment: false,
-                InjectByTag: true,
-                AutoIncreaseVersion: false,
+                InjectByTag: false,
+                AutoIncreaseVersion: true,
             },
             componentsOptions: {
                 AutoIncreaseVersion: {
@@ -131,6 +149,12 @@ module.exports = {
                     handler: "cacheOnly",
                 },
             ],
+        }),
+        new webpack.DefinePlugin({
+            __PACKAGE_APP_NAME: JSON.stringify(pack.description),
+            __PACKAGE_VERSION_NUMBER: JSON.stringify(pack.version),
+            __PACKAGE_BRANCH: JSON.stringify(pack.config.branch),
+            __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(dateformat(new Date(), "dd.mm.yyyy HH:MM:ss")), true),
         }),
     ],
 }

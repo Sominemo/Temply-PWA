@@ -1,0 +1,54 @@
+{
+    "name": "temply-pwa",
+    "version": "0.2.0",
+    "description": "Temply Progressive Web App client",
+    "main": "index.html",
+    "config": {
+        "branch": "early-dev"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "webpack --config config/development/webpack.config.js --watch",
+        "start-major": "webpack --config config/development/webpack.config.js --env.major",
+        "start-minor": "webpack --config config/development/webpack.config.js --env.minor",
+        "start-patch": "webpack --config config/development/webpack.config.js --env.patch",
+        "build-prod": "webpack --config config/production/webpack.config.js"
+    },
+    "repository": "git+https://github.com/Sominemo/Temply-PWA.git",
+    "keywords": [],
+    "author": "Sominemo <me@sominemo.com>",
+    "license": "GPL-2.0",
+    "bugs": {
+        "url": "https://github.com/Sominemo/Temply-PWA/issues"
+    },
+    "homepage": "https://github.com/Sominemo/Temply-PWA#readme",
+    "devDependencies": {
+        "@babel/core": "^7.2.2",
+        "@babel/plugin-proposal-class-properties": "^7.2.3",
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@babel/preset-env": "^7.2.3",
+        "babel-loader": "^8.0.4",
+        "bitbar-webpack-progress-plugin": "^1.0.0",
+        "clean-webpack-plugin": "^1.0.0",
+        "css-loader": "^2.1.0",
+        "eslint": "^5.10.0",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-plugin-import": "^2.14.0",
+        "file-loader": "^3.0.1",
+        "html-webpack-plugin": "^3.2.0",
+        "resource-hints-webpack-plugin": "^0.0.2",
+        "style-loader": "^0.23.1",
+        "uglifyjs-webpack-plugin": "^2.1.1",
+        "url-loader": "^1.1.2",
+        "webpack": "^4.28.2",
+        "webpack-auto-inject-version": "^1.2.2",
+        "webpack-cli": "^3.1.2",
+        "webpack-pwa-manifest": "^4.0.0",
+        "workbox-webpack-plugin": "^3.6.3"
+    },
+    "dependencies": {
+        "core-js": "^2.6.1",
+        "dateformat": "^3.0.3",
+        "idb": "^2.1.3"
+    }
+}

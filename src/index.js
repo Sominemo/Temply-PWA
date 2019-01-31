@@ -8,6 +8,9 @@ import App from "./js/main/app"
 import SW from "./js/main/SW"
 import Report from "./js/main/report"
 
+import "./js/services/Modules"
+import "./js/services/Listeners"
+
 Report.write(`App ${App.fullName}: Build date ${App.buildDate}`)
 
 if (process.env.NODE_ENV === "development") {

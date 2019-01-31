@@ -1,4 +1,5 @@
 import idb from "idb"
+import App from "./app"
 
 class ReportDB {
     constructor() {
@@ -14,7 +15,7 @@ export default class Report {
     }
 
     static write(...log) {
-        if (process.env.NODE_ENV === "development") {
+        if (App.debug) {
             const lines = this.trace()
             console.log(...log)
             console.groupCollapsed("Trace")

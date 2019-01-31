@@ -127,6 +127,20 @@ main {
     z-index: 5;
 }
 
+#s--wm-overlays-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#s--wm-overlays.shown {
+    display: block;
+}
+
+#s--wm-overlays.transclick {
+    pointer-events: none;
+}
+
 #s--wm-windows {
     max-width: calc(100vw - var(--sizes-nav-width));
     flex: 1;

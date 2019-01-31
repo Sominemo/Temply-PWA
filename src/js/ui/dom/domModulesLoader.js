@@ -28,8 +28,6 @@ DOMController.setConfig({
     allowNodeAttributeDefinition: false,
 })
 
-global.wow = DOMController
-
 // Register functions
 htmlSet()
 elementConstructor()

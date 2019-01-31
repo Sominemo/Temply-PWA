@@ -1,18 +1,22 @@
+/* global __PACKAGE_VERSION_NUMBER, __PACKAGE_BUILD_TIME, __PACKAGE_APP_NAME, __PACKAGE_BRANCH */
+import WindowManager from "../ui/SimpleWindowManager"
+import DOM from "../ui/dom/dom"
+
 export default class App {
     static get version() {
-        return "[AIV]{version}[/AIV]"
+        return __PACKAGE_VERSION_NUMBER
     }
 
     static get buildDate() {
-        return "[AIV]{date}[/AIV]"
+        return __PACKAGE_BUILD_TIME
     }
 
     static get appName() {
-        return "Temply PWA"
+        return __PACKAGE_APP_NAME
     }
 
     static get branch() {
-        return "early-dev"
+        return __PACKAGE_BRANCH
     }
 
     static get fullName() {
@@ -20,7 +24,15 @@ export default class App {
     }
 
     static get debug() {
-        return this.branch.includes("dev")
-            || this.branch.includes("beta")
+        return process.env.NODE_ENV === "development"
+    }
+
+    static InitAboutScreen() {
+        const w = WindowManager.newWindow()
+
+        w.append(new DOM({
+            type: "t",
+            new: `Welcome to ${App.fullName}. Build Date: ${App.buildDate}`,
+        }))
     }
 }
