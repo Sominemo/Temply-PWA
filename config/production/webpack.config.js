@@ -115,7 +115,7 @@ module.exports = {
             inject: "head",
             charset: "utf-8",
             meta: {
-                viewport: "width=device-width, initial-scale=1.0",
+                viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
                 description: "Universal time management diary to help you handle the routine",
             },
             prefetch: [

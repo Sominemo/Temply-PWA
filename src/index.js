@@ -2,7 +2,7 @@ import "core-js/modules/es6.promise"
 import "core-js/modules/es6.array.iterator"
 
 import "./res/styles/fonts.css"
-import "./res/styles/general.css"
+import "./res/styles/constructor.css"
 
 import App from "./js/main/app"
 import SW from "./js/main/SW"
