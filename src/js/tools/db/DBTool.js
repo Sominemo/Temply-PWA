@@ -2,7 +2,7 @@
 
 import idb from "idb"
 
-export default class dbTool {
+export default class DBTool {
     DBName = null
 
     DBVersion = 0
@@ -42,9 +42,9 @@ export default class dbTool {
         })
     }
 
-    getObjectStore(name) {
+    getObjectStore(name, type = false) {
         return new Promise((resolve, reject) => {
-            this.getTransaction(name).then(e => e.objectStore(name))
+            this.getTransaction(name, type).then(e => e.objectStore(name))
                 .then(os => resolve(os))
         })
     }
@@ -85,11 +85,11 @@ export default class dbTool {
         })
     }
 
-    getTransaction(name) {
+    getTransaction(name, type = false) {
         return new Promise((resolve, reject) => {
             this.getConnection()
                 .then((db) => {
-                    resolve(db.transaction(name, "readonly"))
+                    resolve(db.transaction(name, (type ? "readwrite" : "readonly")))
                 })
         })
     }

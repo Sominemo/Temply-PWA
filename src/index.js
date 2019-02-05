@@ -8,8 +8,7 @@ import App from "./js/main/app"
 import SW from "./js/main/SW"
 import Report from "./js/main/report"
 
-import "./js/services/Modules"
-import "./js/services/Listeners"
+import "./js/loaders/MainLoader"
 
 Report.write(`App ${App.fullName}: Build date ${App.buildDate}`)
 

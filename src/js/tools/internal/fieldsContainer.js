@@ -33,9 +33,11 @@ export default class FieldsContainer {
         const e = []
         if (this.array && !Array.isArray(a)) throw new FieldCheckerError(4, "Not array")
 
-        tr[0].forEach((v) => {
+        Object.keys(tr[1]).forEach((v) => {
             let sc = 0
-            if (!(v in a)) throw new FieldCheckerError(3, `No required item ${v}`)
+            const exists = (v in a)
+            if (tr[0].includes(v) && !exists) throw new FieldCheckerError(3, `No required item ${v}`)
+            else if (!exists) return
             if (v in tr[1]) {
                 let y = null
                 if (tr[1][v] instanceof FieldChecker || tr[1][v] instanceof FieldsContainer) {

@@ -104,6 +104,20 @@ export default class FieldChecker {
             }
         }
 
+        // Checker
+        if (Object.prototype.hasOwnProperty.call(o, "checker") && (Array.isArray(o.checker) || typeof o.checker === "function")) {
+            let checkers
+
+            if (!Array.isArray) checkers = [o.checker]
+            else { checkers = o.checker }
+
+            try {
+                checkers.every(e => e(q))
+            } catch (e) {
+                return false
+            }
+        }
+
         return true
     }
 }
