@@ -6,6 +6,8 @@ import WindowManager from "../../ui/SimpleWindowManager"
 import Report from "../../main/report"
 import DBTool from "../db/DBTool"
 import DBUserPresence from "../../services/DBUserPresence"
+import SettingsStorage from "../../services/Settings/SettingsStorage"
+import SettingsCheckProvider from "../../services/Settings/SettingsCheckProvider"
 
 const DevUtils = {
     dom: DOM,
@@ -16,6 +18,8 @@ const DevUtils = {
     report: Report,
     dbtool: DBTool,
     dbuser: DBUserPresence,
+    setStor: SettingsStorage,
+    setCh: SettingsCheckProvider,
 }
 
 global.idb = idb
