@@ -2,7 +2,6 @@ import FieldsContainer from "../../tools/internal/fieldsContainer"
 import FieldChecker from "../../tools/internal/fieldChecker"
 import DomRegistredProperty from "./domRegistredProperty"
 import DomRegistredModule from "./domRegistredModule"
-import isClass from "../../tools/internal/isClass"
 import Report from "../../main/report"
 
 export default class DOMController {
@@ -60,7 +59,6 @@ export default class DOMController {
 
     static registerModule(module) {
         new FieldChecker({ type: "array" }).set(module)
-        if (!isClass(module[0])) return false
         if (1 in module && typeof module[1] !== "function") return false
 
 

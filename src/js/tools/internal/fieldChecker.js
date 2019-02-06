@@ -112,10 +112,19 @@ export default class FieldChecker {
             else { checkers = o.checker }
 
             try {
-                checkers.every(e => e(q))
+                checkers.every(e => e(q, or))
             } catch (e) {
                 return false
             }
+        }
+
+        // InstanceOf
+        if (Object.prototype.hasOwnProperty.call(o, "instanceOf") && typeof Array.isArray(o.instanceOf)) {
+            let checkFunc
+            if (typeof or === "function") checkFunc = e => or.name === e
+            if (typeof or === "object" && typeof or.constructor === "function") checkFunc = e => or.constructor.name === e
+            else return false
+            if (!o.instanceOf.some(checkFunc)) return false
         }
 
         return true

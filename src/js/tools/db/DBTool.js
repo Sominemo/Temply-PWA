@@ -9,13 +9,18 @@ export default class DBTool {
 
     DBConnection = null
 
+    upgradeAgent = null
+
     size = Object.create(null)
 
-    constructor(db, version) {
-        if (typeof db !== "string") throw new Error("Incorrect DB name")
+    constructor(db, version, upgradeAgent = () => { }) {
+        if (typeof db !== "string"
+            || typeof version !== "number"
+            || typeof upgradeAgent !== "function") throw new Error("Incorrect DB params")
 
         this.DBName = db
         this.DBVersion = version
+        this.upgradeAgent = upgradeAgent
     }
 
     getTableSize(name) {
@@ -77,7 +82,7 @@ export default class DBTool {
 
     openDB() {
         return new Promise((resolve, reject) => {
-            idb.open(this.DBName, this.version)
+            idb.open(this.DBName, this.version, this.upgradeAgent)
                 .then((res) => {
                     this.DBConnection = res
                     resolve(res)
