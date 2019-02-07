@@ -8,6 +8,8 @@ import DBTool from "../db/DBTool"
 import DBUserPresence from "../../services/DBUserPresence"
 import SettingsStorage from "../../services/Settings/SettingsStorage"
 import SettingsCheckProvider from "../../services/Settings/SettingsCheckProvider"
+import FieldChecker from "./fieldChecker"
+import FieldsContainer from "./fieldsContainer"
 
 const DevUtils = {
     dom: DOM,
@@ -20,6 +22,8 @@ const DevUtils = {
     dbuser: DBUserPresence,
     setStor: SettingsStorage,
     setCh: SettingsCheckProvider,
+    fch: FieldChecker,
+    fct: FieldsContainer,
 }
 
 global.idb = idb

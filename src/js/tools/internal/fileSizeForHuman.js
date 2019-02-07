@@ -1,8 +1,8 @@
-export default function fileSizeForHuman(bytes) {
-    const thresh = 1024
-    if (Math.abs(bytes) < thresh) return `${bytes} B`
+const thresh = 1024
+const units = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
 
-    const units = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+export default function fileSizeForHuman(bytes) {
+    if (Math.abs(bytes) < thresh) return `${bytes} B`
     let u = -1
     do {
         bytes /= thresh
