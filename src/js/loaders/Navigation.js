@@ -1,7 +1,7 @@
 import Navigation from "../main/navigation"
 import Timetable from "../diary/timetable"
 import Tasks from "../diary/tasks"
-import Nav from "../ui/dom/domLibrary/buildBlock/nav"
+import Nav from "../ui/DOM/Library/buildBlock/nav"
 
 Navigation.addModule({
     name: "Timetable",

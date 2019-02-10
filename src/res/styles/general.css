@@ -19,7 +19,7 @@ body {
     min-height: 100vh;
 }
 
-icon {
+md-icon {
     font-family: 'Material Icons Round';
     font-weight: normal;
     font-style: normal;
@@ -74,7 +74,7 @@ nav .nav-item {
     color: var(--color-nav-icon);
 }
 
-nav icon {
+nav md-icon {
     color: inherit;
     font-size: calc(var(--size-nav-width) * 0.4);
 }

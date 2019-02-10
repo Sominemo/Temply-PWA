@@ -1,6 +1,6 @@
 // Temporary simplified way to manage windows w/o OOP and whatever
 
-import DOM from "./dom/dom"
+import DOM from "./DOM/Classes/dom"
 import Navigation from "../main/navigation"
 
 export default class WindowManager {
@@ -28,10 +28,9 @@ export default class WindowManager {
 
         })
 
-        const generated = w.element
+        const generated = w
         this.windows.push(generated)
-        this.controlWin.elementView.innerHTML = ""
-        this.controlWin.elementView.appendChild(generated)
+        this.controlWin.clear(generated)
 
         if (typeof h === "function") h(w)
         return this.currentWindow
@@ -45,9 +44,9 @@ export default class WindowManager {
     static generateWindow(e) {
         return ({
             element: e,
-            append: p => e.appendChild(p.element),
-            clear: () => { e.innerHTML = "" },
-            replace: (p) => { e.innerHTML = ""; e.appendChild(p.element) },
+            append: p => e.render(p),
+            clear: () => { e.clear() },
+            replace: (p) => { e.clear(p) },
         })
     }
 
@@ -55,9 +54,9 @@ export default class WindowManager {
         e = e || [undefined, {}]
         return ({
             element: e[0],
-            append: p => e[0].appendChild(p.element),
-            clear: () => { e[0].innerHTML = "" },
-            replace: (p) => { e[0].innerHTML = ""; e[0].appendChild(p.element) },
+            append: p => e[0].render(p),
+            clear: () => { e[0].clear() },
+            replace: (p) => { e[0].clear(p) },
             options: e[1],
         })
     }
@@ -70,13 +69,11 @@ export default class WindowManager {
 
         })
 
-        const generated = w.element
+        const generated = w
 
         this.overlays.push([generated, options])
 
-        this.controlOver.elementView.innerHTML = ""
-
-        this.controlOver.elementView.appendChild(generated)
+        this.controlOver.clear(generated)
 
         this.OverContainer(true)
 
@@ -92,11 +89,11 @@ export default class WindowManager {
     }
 
     static popOverlay() {
-        this.controlOver.elementView.innerHTML = ""
+        this.controlOver.clear()
         this.overlays.pop()
         const e = this.currentOverlay
-        if (e.element !== undefined) {
-            this.controlOver.elementView.appendChild(e.element)
+        if (e !== undefined && e.native !== undefined) {
+            this.controlOver.render(e)
             if (e.options.transclick) this.OverlayClicks(true)
             else this.OverlayClicks(false)
         } else this.OverContainer(false)
@@ -105,22 +102,22 @@ export default class WindowManager {
 
     static OverContainer(state = true) {
         if (state) {
-            this.generalOver.elementView.classList.add("shown")
+            this.generalOver.native.classList.add("shown")
         } else {
-            this.generalOver.elementView.classList.remove("shown")
+            this.generalOver.native.classList.remove("shown")
         }
     }
 
     static OverlayClicks(state = false) {
         if (state) {
-            this.generalOver.elementView.classList.add("transclick")
+            this.generalOver.native.classList.add("transclick")
         } else {
-            this.generalOver.elementView.classList.remove("transclick")
+            this.generalOver.native.classList.remove("transclick")
         }
     }
 
     static closeAllOverlays() {
-        this.controlOver.elementView.innerHTML = ""
+        this.controlOver.clear()
         this.overlays = []
         this.OverContainer(false)
         this.OverlayClicks(false)
@@ -160,10 +157,9 @@ export default class WindowManager {
         const last = this.windows.pop()
 
         this.futureWindows.push(last)
-        const we = this.currentWindow.element
+        const we = this.currentWindow
         if (we === undefined) return Navigation.go(a, b)
-        this.controlWin.elementView.innerHTML = ""
-        this.controlWin.elementView.appendChild(we)
+        this.controlWin.clear(we)
 
         return [this.generateWindow(last), this.currentWindow]
     }
@@ -173,10 +169,9 @@ export default class WindowManager {
 
         this.windows.push(last)
 
-        const we = this.currentWindow.element
+        const we = this.currentWindow
         if (we === undefined) return Navigation.go(a, b)
-        this.controlWin.elementView.innerHTML = ""
-        this.controlWin.elementView.appendChild(we)
+        this.controlWin.clear(we)
 
         return [this.generateWindow(last), this.currentWindow]
     }

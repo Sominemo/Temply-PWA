@@ -1,6 +1,6 @@
 {
     "name": "temply-pwa",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Temply Progressive Web App client",
     "main": "index.html",
     "config": {
@@ -9,10 +9,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "webpack --config config/development/webpack.config.js --watch",
-        "start-major": "webpack --config config/development/webpack.config.js --env.major",
-        "start-minor": "webpack --config config/development/webpack.config.js --env.minor",
-        "start-patch": "webpack --config config/development/webpack.config.js --env.patch",
-        "build-prod": "webpack --config config/production/webpack.config.js"
+        "major": "webpack --config config/development/webpack.config.js --env.major",
+        "minor": "webpack --config config/development/webpack.config.js --env.minor",
+        "patch": "webpack --config config/development/webpack.config.js --env.patch",
+        "prod": "webpack --config config/production/webpack.config.js"
     },
     "repository": "git+https://github.com/Sominemo/Temply-PWA.git",
     "keywords": [],

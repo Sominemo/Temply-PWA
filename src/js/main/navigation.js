@@ -1,9 +1,9 @@
 import FieldsContainer from "../tools/internal/fieldsContainer"
 import FieldChecker from "../tools/internal/fieldChecker"
-import Nav from "../ui/dom/domLibrary/buildBlock/nav"
+import Nav from "../ui/DOM/Library/buildBlock/nav"
 import WindowManager from "../ui/SimpleWindowManager"
 import Report from "./report"
-import DOM from "../ui/dom/dom"
+import DOM from "../ui/DOM/Classes/dom"
 
 export default class Navigation {
     static prefix = "/"

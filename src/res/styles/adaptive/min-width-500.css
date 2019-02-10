@@ -42,7 +42,7 @@
         border-radius: 2em;
         margin: auto;
     }
-    nav icon {
+    nav md-icon {
         font-size: calc(var(--size-nav-width) * 0.45);
     }
 }

@@ -18,10 +18,11 @@ if (process.env.NODE_ENV === "development") {
             Report.write("DevTools loaded")
             global.dev = dev
         })
+        import(/* webpackChunkName: "testlab" */ "./testlab")
 }
 
 SW.register()
 
-import(/* webpackChunkName: "uiload" */ "./js/ui/dom/domModulesLoader").then(() => {
+import(/* webpackChunkName: "uiload" */ "./js/ui/DOM/Helpers/domIncludesLoader").then(() => {
     import(/* webpackChunkName: "uiinit" */ "./js/ui/UIinit")
 })

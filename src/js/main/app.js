@@ -1,6 +1,6 @@
 /* global __PACKAGE_VERSION_NUMBER, __PACKAGE_BUILD_TIME, __PACKAGE_APP_NAME, __PACKAGE_BRANCH */
 import WindowManager from "../ui/SimpleWindowManager"
-import DOM from "../ui/dom/dom"
+import DOM from "../ui/DOM/Classes/dom"
 
 export default class App {
     static get version() {

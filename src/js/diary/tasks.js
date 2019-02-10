@@ -1,6 +1,6 @@
 import WindowManager from "../ui/SimpleWindowManager"
-import DOM from "../ui/dom/dom"
-import Nav from "../ui/dom/domLibrary/buildBlock/nav"
+import DOM from "../ui/DOM/Classes/dom"
+import Nav from "../ui/DOM/Library/buildBlock/nav"
 import Navigation from "../main/navigation"
 
 Nav.newItem({
