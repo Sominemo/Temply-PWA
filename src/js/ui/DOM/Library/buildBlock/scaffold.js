@@ -1,4 +1,4 @@
-import DOM from "../../dom"
+import DOM from "../../Classes/dom"
 import Nav from "./nav"
 import WindowManager from "../../../SimpleWindowManager"
 

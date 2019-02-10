@@ -1,6 +1,6 @@
-import DOMController from "../domController"
+import DOMController from "../../../Helpers/domController"
 
-export default () => {
+export default (() => {
     const unique = "elementConstructor"
 
     const handler = (data) => {
@@ -26,11 +26,11 @@ export default () => {
             type = "attribute"
         } else throw new Error("Incorrect node type")
 
-        data.element = document[createMethod].bind(document)
+        const element = document[createMethod].bind(document)
 
         data.rewrite(type)
 
-        return data.element
+        return element
     }
 
     const error = (data) => {
@@ -49,4 +49,4 @@ export default () => {
         handler,
         error,
     })
-}
+})()

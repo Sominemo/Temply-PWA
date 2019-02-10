@@ -1,4 +1,4 @@
-import DOM from "../../dom"
+import DOM from "../../Classes/dom"
 
 export default class HTML {
     constructor(html) {

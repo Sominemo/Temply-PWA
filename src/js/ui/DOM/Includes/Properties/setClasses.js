@@ -1,6 +1,6 @@
-import DOMController from "../domController"
+import DOMController from "../../Helpers/domController"
 
-export default () => {
+export default (() => {
     const unique = "setClasses"
 
     const error = (data) => {
@@ -13,7 +13,7 @@ export default () => {
         else w = data.value
 
         w.forEach((cls) => {
-            data.element.classList.add(cls.toString())
+            data.element.native.classList.add(cls.toString())
         })
     }
 
@@ -24,4 +24,4 @@ export default () => {
         error,
         unique,
     })
-}
+})()

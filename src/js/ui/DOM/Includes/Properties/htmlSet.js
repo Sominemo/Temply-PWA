@@ -1,6 +1,6 @@
-import DOMController from "../domController"
+import DOMController from "../../Helpers/domController"
 
-export default () => {
+export default (() => {
     const unique = "htmlSet"
 
     const error = () => {
@@ -26,4 +26,4 @@ export default () => {
         handler,
         error,
     })
-}
+})()

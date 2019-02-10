@@ -1,8 +1,8 @@
-import DOMController from "../domController"
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import DOMController from "../../Helpers/domController"
+import FieldsContainer from "../../../../tools/internal/fieldsContainer"
+import FieldChecker from "../../../../tools/internal/fieldChecker"
 
-export default () => {
+export default (() => {
     const unique = "eventsSetter"
 
     const error = (data) => {
@@ -36,7 +36,7 @@ export default () => {
 
         w.forEach((e) => {
             try {
-                data.element.addEventListener(e.event, e.handler)
+                data.element.native.addEventListener(e.event, e.handler)
             } catch (e2) {
                 if (!DOMController.errorIgnore(unique)) throw new Error("Failed to set a property")
             }
@@ -50,4 +50,4 @@ export default () => {
         error,
         unique,
     })
-}
+})()

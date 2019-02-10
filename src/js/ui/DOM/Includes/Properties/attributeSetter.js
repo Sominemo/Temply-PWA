@@ -1,9 +1,9 @@
-import DOMController from "../domController"
-import DOM from "../dom"
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import DOMController from "../../Helpers/domController"
+import DOM from "../../Classes/dom"
+import FieldsContainer from "../../../../tools/internal/fieldsContainer"
+import FieldChecker from "../../../../tools/internal/fieldChecker"
 
-export default () => {
+export default (() => {
     const unique = "attributeSetter"
 
     const error = (data) => {
@@ -11,7 +11,7 @@ export default () => {
     }
 
     const handler = (data) => {
-        if (data.element.nodeType !== 1) {
+        if (data.element.get("nodeType") !== 1) {
             error()
             return data.element
         }
@@ -33,14 +33,14 @@ export default () => {
         data.value.forEach((attr) => {
             if (attr instanceof DOM) {
                 if (data.config.allowDeprecatedAttributeConstructor !== true
-                    || attr.elementView.nodeType !== 2) {
+                    || attr.elementParse.get("nodeType") !== 2) {
                     error()
                     return
                 }
 
                 attr = {
-                    name: attr.elementView.nodeName,
-                    value: attr.elementView.value,
+                    name: attr.elementParse.get("nodeName"),
+                    value: attr.elementParse.get("value"),
                 }
             }
 
@@ -49,7 +49,7 @@ export default () => {
                 { name: new FieldChecker({ type: "string" }) },
             ]).set(attr)
 
-            data.element.setAttribute(attr.name, attr.value)
+            data.element.native.setAttribute(attr.name, attr.value)
         })
 
         return data.element
@@ -62,4 +62,4 @@ export default () => {
         handler,
         error,
     })
-}
+})()

@@ -1,6 +1,7 @@
-import DOMController from "../domController"
+import DOMController from "../../../Helpers/domController"
+import DOMObjectWrapper from "../../../Helpers/domObjectWrapper"
 
-export default () => {
+export default (() => {
     const unique = "genericElement"
 
     const error = () => {
@@ -11,7 +12,7 @@ export default () => {
         if (data.shared.elementConstructorSkipped) return data.element
 
         if (typeof data.value !== "string") error()
-        data.element = data.element(data.value)
+        data.element = DOMObjectWrapper(data.element(data.value))
 
         return data.element
     }
@@ -23,4 +24,4 @@ export default () => {
         handler,
         error,
     })
-}
+})()

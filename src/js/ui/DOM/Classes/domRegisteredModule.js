@@ -1,8 +1,8 @@
-import DOMController from "./domController"
+import DOMController from "../Helpers/domController"
 
-export default class DomRegistredModule {
+export default class DomRegisteredModule {
     constructor(id) {
-        const data = DOMController.getPropertyData(id)
+        const data = DOMController.getModuleData(id)
         if (typeof data !== "object") throw new Error("Incorrect module ID")
 
         this.id = id

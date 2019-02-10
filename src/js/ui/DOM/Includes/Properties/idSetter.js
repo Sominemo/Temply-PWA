@@ -1,6 +1,6 @@
-import DOMController from "../domController"
+import DOMController from "../../Helpers/domController"
 
-export default () => {
+export default (() => {
     const unique = "idSetter"
 
     const error = (data) => {
@@ -11,7 +11,7 @@ export default () => {
     const handler = (data) => {
         if (!("id" in data.element)) error()
 
-        data.element.id = data.value
+        data.element.native.id = data.value
 
         return data.element
     }
@@ -23,4 +23,4 @@ export default () => {
         handler,
         error,
     })
-}
+})()

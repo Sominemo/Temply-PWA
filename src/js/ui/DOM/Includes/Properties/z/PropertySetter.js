@@ -1,6 +1,6 @@
-import DOMController from "../domController"
+import DOMController from "../../../Helpers/domController"
 
-export default () => {
+export default (() => {
     const unique = "propertySetter"
 
     const error = (data) => {
@@ -20,7 +20,7 @@ export default () => {
                     return
                 }
 
-                data.element[k] = data.value[k]
+                data.element.native[k] = data.value[k]
             } catch (e) {
                 error()
             }
@@ -34,4 +34,4 @@ export default () => {
         error,
         unique,
     })
-}
+})()

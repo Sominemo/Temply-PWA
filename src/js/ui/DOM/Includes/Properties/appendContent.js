@@ -1,16 +1,16 @@
-import DOM from "../dom"
-import DOMController from "../domController"
+import DOM from "../../Classes/dom"
+import DOMController from "../../Helpers/domController"
 
-export default () => {
+export default (() => {
     const unique = "appendContent"
 
     const error = (data) => {
-        if (!DOMController.errorIgnore(unique)) throw new Error(`Content is unapplicapable to this nodeType: ${data.element.nodeType}`)
+        if (!DOMController.errorIgnore(unique)) throw new Error(`Content of type ${typeof data.value} and not DOM instance is unapplicapable to this nodeType: ${data.element.get("nodeType")}`)
         return data.element
     }
 
     const handler = (data) => {
-        if (data.element.nodeType !== 1) error()
+        if (data.element.get("nodeType") !== 1) error()
 
         if (typeof data.value === "string" && DOMController.config.contentStringAsTextNode === true) {
             data.value = new DOM({
@@ -28,9 +28,13 @@ export default () => {
                 if (DOMController.errorIgnore(unique)) return
                 throw new Error("Can't apply not DOM-class object")
             }
-            const res = item.callbackElement
-            data.element.appendChild(res[0])
-            data.shared.contentNodesCallback.push(res[1])
+            data.element.render(item)
+        })
+
+        data.event.on("render", () => {
+            data.value.forEach((e) => {
+                e.emitEvent("render", { asContent: true })
+            })
         })
 
         return data.element
@@ -43,4 +47,4 @@ export default () => {
         handler,
         error,
     })
-}
+})()

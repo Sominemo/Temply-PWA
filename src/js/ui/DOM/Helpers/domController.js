@@ -1,8 +1,9 @@
-import FieldsContainer from "../../tools/internal/fieldsContainer"
-import FieldChecker from "../../tools/internal/fieldChecker"
-import DomRegistredProperty from "./domRegistredProperty"
-import DomRegistredModule from "./domRegistredModule"
-import Report from "../../main/report"
+import FieldsContainer from "../../../tools/internal/fieldsContainer"
+import FieldChecker from "../../../tools/internal/fieldChecker"
+import DomRegisteredProperty from "../Classes/domRegisteredProperty"
+import DomRegisteredModule from "../Classes/domRegisteredModule"
+import Report from "../../../main/report"
+import DOM from "../Classes/dom"
 
 export default class DOMController {
     static _settings = {
@@ -12,12 +13,16 @@ export default class DOMController {
         properties: [
 
         ],
+        modificators: [
+
+        ],
         config: {
 
         },
         errorsIgnore: false,
     }
 
+    // #region Properties
     static registerProperty(property) {
         if (this._settings.config.reportRegistration === true) Report.write("DOMController.Prop.New: ", property)
         new FieldsContainer([
@@ -41,12 +46,12 @@ export default class DOMController {
         }
 
         const uncomp = this._settings.properties.findIndex(compMethod)
-        if (uncomp !== -1) throw new Error(`Property is already registred with ID ${uncomp}`)
+        if (uncomp !== -1) throw new Error(`Property is already registered with ID ${uncomp}`)
 
         const id = this._settings.properties.length
         this._settings.properties.push(property)
 
-        return new DomRegistredProperty(id)
+        return new DomRegisteredProperty(id)
     }
 
     static getPropertyData(id) {
@@ -57,15 +62,25 @@ export default class DOMController {
         return false
     }
 
-    static registerModule(module) {
-        new FieldChecker({ type: "array" }).set(module)
-        if (1 in module && typeof module[1] !== "function") return false
+    static getProperties() {
+        return this._settings.properties
+    }
 
+    // #endregion
+
+    // #region Modules
+    static registerModule(module) {
+        new FieldsContainer([
+            ["onRender"],
+            {
+                onRender: new FieldChecker({ type: "function" }),
+            },
+        ]).set(module)
 
         const id = this._settings.modules.length
         this._settings.modules.push()
 
-        return new DomRegistredModule(id)
+        return new DomRegisteredModule(id)
     }
 
     static getModuleData(id) {
@@ -76,13 +91,11 @@ export default class DOMController {
         return false
     }
 
-    static getProperties() {
-        return this._settings.properties
-    }
-
     static getModules() {
         return this._settings.modules
     }
+
+    // #endregion
 
     static get config() {
         return this._settings.config
@@ -114,5 +127,39 @@ export default class DOMController {
         new FieldsContainer(["array", new FieldChecker({ type: "string" })]).set(n)
         this._settings.errorsIgnore = n
         return true
+    }
+
+    static registerModificator({ name, handler }) {
+        new FieldsContainer([
+            ["name", "handler"],
+            {
+                name: new FieldChecker({
+                    type: "string",
+                    symbols: "a-zA-Z",
+                    min: 3,
+                    max: 20,
+                }),
+                handler: new FieldChecker({ type: "function" }),
+            },
+        ]).set({ name, handler })
+
+        if (this._settings.modificators[name] !== undefined
+            || name in DOM.prototype) throw new Error(`Method ${name} is already declared`)
+
+        Object.defineProperty(DOM.prototype, name,
+            {
+                value: handler,
+                writable: false,
+            })
+
+        this._settings.modificators[name] = handler
+    }
+
+    static getModificator(name) {
+        if (!(name in this._settings.modificators) || typeof this._settings.modificators[name] !== "function") {
+            throw new Error("Incorrect modificator")
+        }
+
+        return this._settings.modificators[name]
     }
 }

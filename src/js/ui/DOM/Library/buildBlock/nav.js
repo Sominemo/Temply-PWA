@@ -1,4 +1,4 @@
-import DOM from "../../dom"
+import DOM from "../../Classes/dom"
 import Icon from "../object/icon"
 import FieldsContainer from "../../../../tools/internal/fieldsContainer"
 import FieldChecker from "../../../../tools/internal/fieldChecker"

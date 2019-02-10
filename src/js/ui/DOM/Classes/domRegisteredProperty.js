@@ -1,6 +1,6 @@
-import DOMController from "./domController"
+import DOMController from "../Helpers/domController"
 
-export default class DomRegistredProperty {
+export default class DomRegisteredProperty {
     constructor(id) {
         const data = DOMController.getPropertyData(id)
         if (typeof data !== "object") throw new Error("Incorrect property ID")
