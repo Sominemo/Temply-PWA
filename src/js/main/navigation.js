@@ -3,7 +3,6 @@ import FieldChecker from "../tools/internal/fieldChecker"
 import Nav from "../ui/DOM/Library/buildBlock/nav"
 import WindowManager from "../ui/SimpleWindowManager"
 import Report from "./report"
-import DOM from "../ui/DOM/Classes/dom"
 
 export default class Navigation {
     static prefix = "/"
@@ -160,7 +159,7 @@ export default class Navigation {
         const { hash } = this
 
         if ((typeof parsed === "object" && "error" in parsed)
-        || (typeof hash === "object" && "error" in hash)) throw Error(parsed.info)
+            || (typeof hash === "object" && "error" in hash)) throw Error(parsed.info)
 
         if (event === "change") {
             this.history.push(hash)
@@ -190,23 +189,29 @@ export default class Navigation {
     static go(module, params, manual) {
         const callbacks = this.modulesRegister.filter(e => e.id === module)
 
+        if (!(callbacks.length > 0)) {
+            if (manual !== undefined) this.InitNavigationError()
+            return false
+        }
+
+        Nav.highlight({ id: module })
         callbacks.forEach((e) => {
             if ("callback" in e && typeof e.callback === "function") e.callback(module, params)
         })
-        if (callbacks.length > 0) {
-            Nav.highlight({ id: module })
-            return true
-        }
-        if (manual !== undefined) this.InitNavigationError()
-        return false
+        return true
     }
 
     static InitNavigationError() {
-        const w = WindowManager.newWindow()
+        this.hash = {
+            module: "timetable",
+            params: {},
+        }
+    }
 
-        w.append(new DOM({
-            type: "t",
-            new: "There's no such page, try again",
-        }))
+    static defaultScreen() {
+        this.hash = {
+            module: "timetable",
+            params: {},
+        }
     }
 }

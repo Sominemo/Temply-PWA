@@ -158,8 +158,8 @@ export default class WindowManager {
 
         this.futureWindows.push(last)
         const we = this.currentWindow
-        if (we === undefined) return Navigation.go(a, b)
-        this.controlWin.clear(we)
+        if (we === undefined || we.element === undefined) return Navigation.go(a, b)
+        this.controlWin.clear(we.element)
 
         return [this.generateWindow(last), this.currentWindow]
     }
@@ -170,8 +170,8 @@ export default class WindowManager {
         this.windows.push(last)
 
         const we = this.currentWindow
-        if (we === undefined) return Navigation.go(a, b)
-        this.controlWin.clear(we)
+        if (we === undefined || we.element === undefined) return Navigation.go(a, b)
+        this.controlWin.clear(we.element)
 
         return [this.generateWindow(last), this.currentWindow]
     }

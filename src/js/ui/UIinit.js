@@ -1,7 +1,6 @@
 import Scaffold from "./DOM/Library/buildBlock/scaffold"
 import Report from "../main/report"
 import Navigation from "../main/navigation"
-import App from "../main/app"
 import DOMObjectWrapper from "./DOM/Helpers/domObjectWrapper"
 
 document.body.innerHTML = ""
@@ -15,7 +14,7 @@ DOMObjectWrapper(document.body)
 try {
     if (!Navigation.listener("change")) throw new Error("No such listener")
 } catch (e) {
-    App.InitAboutScreen()
+    Navigation.defaultScreen()
 }
 
 Report.write("UI Scaffold inited")

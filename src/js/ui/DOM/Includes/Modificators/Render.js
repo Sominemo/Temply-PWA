@@ -1,4 +1,5 @@
 import DOMController from "../../Helpers/domController"
+import Report from "../../../../main/report"
 
 DOMController.registerModificator({
     name: "render",
@@ -7,7 +8,7 @@ DOMController.registerModificator({
             try {
                 this.elementParse.render(e)
             } catch (er) {
-                // Error during rendering
+                Report.write("Render error", er)
             }
         })
     },

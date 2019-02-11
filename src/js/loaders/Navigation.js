@@ -1,7 +1,8 @@
 import Navigation from "../main/navigation"
 import Timetable from "../diary/timetable"
 import Tasks from "../diary/tasks"
-import Nav from "../ui/DOM/Library/buildBlock/nav"
+import SettingsUI from "../settings/ui"
+import App from "../main/app"
 
 Navigation.addModule({
     name: "Timetable",
@@ -15,9 +16,14 @@ Navigation.addModule({
     callback: Tasks.Init.bind(Tasks),
 })
 
-Nav.newItem({
+Navigation.addModule({
     name: "Settings",
-    icon: "settings",
-    handler: () => {},
     id: "settings",
+    callback: SettingsUI.Init.bind(SettingsUI),
+})
+
+Navigation.addModule({
+    name: "About",
+    id: "about",
+    callback: App.InitAboutScreen.bind(App),
 })
