@@ -21,6 +21,8 @@
 	--color-nav-delimiter: #DCDCDC;
 	--color-nav-shadow: rgba(0, 0, 0, 0.14);
 	--color-nav-active: var(--color-accent);
+	--color-nav-hover: var(--color-nav-icon);
+	--color-nav-hover-active: var(--color-nav-active);
 
 	--color-main-bg: #ffffff;
 

@@ -143,12 +143,14 @@ module.exports = {
         }),
         new workboxPlugin.GenerateSW({
             swDest: "sw.js",
+            navigateFallback: "/",
+            directoryIndex: "index.html",
             clientsClaim: true,
             skipWaiting: true,
             runtimeCaching: [
                 {
                     urlPattern: "https://api.temply.procsec.top",
-                    handler: "staleWhileRevalidate",
+                    handler: "networkFirst",
                 },
                 {
                     urlPattern: "https://fonts.gstatic.com/",

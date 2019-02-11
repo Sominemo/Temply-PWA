@@ -23,7 +23,7 @@ md-icon {
     font-family: 'Material Icons Round';
     font-weight: normal;
     font-style: normal;
-    font-size: 24px;
+    font-size: var(--size-icon-default);
     display: inline-block;
     line-height: 1;
     text-transform: none;
@@ -86,6 +86,34 @@ nav .nav-item {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+nav .nav-item::after {
+    display: block;
+    padding: 0;
+    transition: all .2s;
+    border-radius: 50%;
+    background: transparent;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+nav .nav-item:hover::after {
+    padding: calc(var(--size-nav-width) / 3);
+    background: var(--color-nav-hover);
+    opacity: .07
+}
+
+nav .nav-item:active::after, nav .nav-item:focus::after {
+    padding: calc(var(--size-nav-width) / 2.8);
+    background: var(--color-nav-hover);
+    opacity: .14
+}
+
+nav .nav-item.active:active::after, nav .nav-item.active:hover::after, nav .nav-item.active:focus::after {
+    background: var(--color-nav-hover-active);
 }
 
 nav .menu-buttons .nav-item {
@@ -162,7 +190,7 @@ main {
 }
 
 #s--wm-windows {
-    max-width: calc(100vw - var(--sizes-nav-width));
+    max-width: calc(100vw - var(--size-nav-width));
     flex: 1;
     max-height: 100vh;
     overflow: auto;
@@ -171,7 +199,9 @@ main {
 /*#endregion*/
 
 /*#region General styles*/
+
 [user-select-disabled="true"] {
     user-select: none;
 }
+
 /*#endregion*/

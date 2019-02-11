@@ -73,7 +73,6 @@ export default class Nav {
             class: "nav-item",
             id: `${this.navItemIdPrefix}${i.id}`,
             content: new Icon(i.icon),
-            tabIndex: 0,
             attributes: {
                 hint: i.name,
             },
@@ -134,7 +133,6 @@ export default class Nav {
                         new DOM({
                             new: "div",
                             class: "menu-area",
-                            tabIndex: 0,
                             content: new DOM({
                                 new: "div",
                                 class: "nav-item",
@@ -154,7 +152,6 @@ export default class Nav {
                 new DOM({
                     new: "div",
                     class: "menu-pc-bottom",
-                    tabIndex: 0,
                     content: new DOM({
                         new: "div",
                         class: "nav-item",

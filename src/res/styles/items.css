@@ -3,6 +3,8 @@
     font-weight: 300;
     margin: 20px;
     user-select: none;
+    display: flex;
+    align-items: center;
 }
 
 .inline-title-level-1 {

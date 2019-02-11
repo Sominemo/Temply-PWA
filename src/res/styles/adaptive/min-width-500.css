@@ -2,6 +2,12 @@
     #scaffold {
         flex-direction: column-reverse;
     }
+
+    #s--wm-windows {
+        max-height: calc(100vh - var(--size-nav-width));
+        max-width: 100vw;
+    }
+
     nav {
         height: var(--size-nav-width);
         width: 100vw;

@@ -22,4 +22,6 @@ DOMController.setConfig({
     contentStringAsTextNode: true,
 
     allowNodeAttributeDefinition: false,
+
+    eventsOnClickAutoTabIndex: true,
 })

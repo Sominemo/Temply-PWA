@@ -135,10 +135,12 @@ module.exports = {
             swDest: "sw.js",
             clientsClaim: true,
             skipWaiting: true,
+            navigateFallback: "/",
+            directoryIndex: "index.html",
             runtimeCaching: [
                 {
                     urlPattern: "https://api.temply.procsec.top",
-                    handler: "staleWhileRevalidate",
+                    handler: "networkFirst",
                 },
                 {
                     urlPattern: "https://fonts.gstatic.com/",

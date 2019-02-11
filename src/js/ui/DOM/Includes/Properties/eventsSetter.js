@@ -37,6 +37,15 @@ export default (() => {
         w.forEach((e) => {
             try {
                 data.element.native.addEventListener(e.event, e.handler)
+                try {
+                    if (data.config.eventsOnClickAutoTabIndex === true
+                        && ["click"]
+                            .includes(e.event)) {
+                        data.element.native.tabIndex = 0
+                    }
+                } catch (e3) {
+                    // This automation is not neccessary
+                }
             } catch (e2) {
                 if (!DOMController.errorIgnore(unique)) throw new Error("Failed to set a property")
             }
