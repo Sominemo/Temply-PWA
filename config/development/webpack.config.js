@@ -21,6 +21,7 @@ const PATHS = {
 }
 
 PATHS.resources = path.join(PATHS.source, "res")
+PATHS.js = path.join(PATHS.source, "js")
 
 module.exports = {
     optimization: {
@@ -37,7 +38,7 @@ module.exports = {
         },
     },
     entry: [
-        path.join(PATHS.source, "index.js"),
+        path.join(PATHS.js, "index.js"),
     ],
     devtool: "source-map",
     output: {

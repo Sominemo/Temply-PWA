@@ -22,9 +22,9 @@
 }
 
 .card {
-    border: solid var(--color-card-border) 1.5px;
+    border: solid var(--color-card-border) 1px;
     border-radius: .8em;
-    box-shadow: 0 3 15 var(--color-card-shadow);
+    box-shadow: 0 5px 20px var(--color-card-shadow);
     overflow: hidden;
 }
 

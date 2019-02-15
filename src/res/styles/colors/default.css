@@ -1,4 +1,6 @@
 :root {
+	--fallback-main-bg-color: #ffffff;
+	
 	--color-main-light-a: #51bba0;
 	--color-main-light: #079d7b;
 	--color-main: #007f60;
@@ -26,7 +28,7 @@
 
 	--color-main-bg: #ffffff;
 
-	--color-card-border: #e8e8e8;
+	--color-card-border: rgba(232, 232, 232, 0.57);
 	--color-card-shadow: rgba(0, 0, 0, 0.06);
 	--color-card-item-highlight: #f9f9f9;
 	--color-card-item-highlight-focus: #f3f3f3;
