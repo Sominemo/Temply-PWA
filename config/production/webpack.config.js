@@ -7,6 +7,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin")
 const WebpackAutoInject = require("webpack-auto-inject-version")
 const ResourceHintWebpackPlugin = require("resource-hints-webpack-plugin")
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
 const webpack = require("webpack")
 const dateformat = require("dateformat")
 
@@ -94,6 +95,9 @@ module.exports = {
         new CleanWebpackPlugin([PATHS.build], {
             root: process.cwd(),
         }),
+        new CopyWebpackPlugin([
+            { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
+        ]),
         new WebpackAutoInject({
             SILENT: true,
             SHORT: "TEMPLY",
@@ -144,6 +148,7 @@ module.exports = {
         new workboxPlugin.GenerateSW({
             swDest: "sw.js",
             navigateFallback: "/",
+            navigateFallbackBlacklist: [/^\.well-known/],
             directoryIndex: "index.html",
             clientsClaim: true,
             skipWaiting: true,

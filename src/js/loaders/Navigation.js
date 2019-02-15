@@ -1,7 +1,7 @@
 import Navigation from "../main/navigation"
 import Timetable from "../diary/timetable"
 import Tasks from "../diary/tasks"
-import SettingsUI from "../settings/ui"
+import SettingsUI from "../services/Settings/user/ui"
 import App from "../main/app"
 
 Navigation.addModule({

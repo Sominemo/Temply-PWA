@@ -1,0 +1,7 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target" : { "namespace": "android_app", "package_name": "top.procsec.temply.pwa",
+                 "sha256_cert_fingerprints": [
+                     "EE:F8:08:49:FB:80:D0:CA:92:C0:B2:58:1F:8C:18:EE:8C:AE:73:BD:19:EF:BA:8F:A5:3B:CD:2B:66:8A:F0:EA"
+                     ] }
+  }]

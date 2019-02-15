@@ -23,7 +23,7 @@ export default class Timetable {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
-        const days = () => w.render(new Card(new CardTextList(["Sundey", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])))
+        const days = () => w.render(new Card(new CardTextList(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])))
 
         w.render(new Title("Timetable"))
 
