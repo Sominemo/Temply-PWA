@@ -39,7 +39,7 @@ module.exports = env => ({
         },
         minimizer: [
             new UglifyJSPlugin({
-                sourceMap: true,
+                sourceMap: !!env.makeMaps,
                 uglifyOptions: {
                     compress: {
                         inline: true,
