@@ -17,13 +17,14 @@ const pack = require(path.join(__root, "package.json"))
 
 const PATHS = {
     source: path.join(__root, "src"),
-    build: path.join(__root, "prod"),
+    build: path.join(__root, "build"),
     public: "https://app.temply.procsec.top/",
 }
 
 PATHS.resources = path.join(PATHS.source, "res")
+PATHS.js = path.join(PATHS.source, "js")
 
-module.exports = {
+module.exports = env => ({
     optimization: {
         runtimeChunk: false,
         splitChunks: {
@@ -38,7 +39,7 @@ module.exports = {
         },
         minimizer: [
             new UglifyJSPlugin({
-                sourceMap: false,
+                sourceMap: true,
                 uglifyOptions: {
                     compress: {
                         inline: true,
@@ -48,8 +49,9 @@ module.exports = {
         ],
     },
     entry: [
-        path.join(PATHS.source, "index.js"),
+        path.join(PATHS.js, "index.js"),
     ],
+    ...(env.makeMaps ? { devtool: "source-map" } : {}),
     output: {
         path: PATHS.build,
         chunkFilename: "[id].js",
@@ -103,7 +105,7 @@ module.exports = {
             SHORT: "TEMPLY",
             components: {
                 InjectAsComment: false,
-                InjectByTag: true,
+                InjectByTag: false,
                 AutoIncreaseVersion: false,
             },
             componentsOptions: {
@@ -147,11 +149,11 @@ module.exports = {
         }),
         new workboxPlugin.GenerateSW({
             swDest: "sw.js",
+            clientsClaim: true,
+            skipWaiting: true,
             navigateFallback: "/",
             navigateFallbackBlacklist: [/^\.well-known/],
             directoryIndex: "index.html",
-            clientsClaim: true,
-            skipWaiting: true,
             runtimeCaching: [
                 {
                     urlPattern: "https://api.temply.procsec.top",
@@ -174,4 +176,4 @@ module.exports = {
             __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(dateformat(new Date(), "dd.mm.yyyy HH:MM:ss")), true),
         }),
     ],
-}
+})

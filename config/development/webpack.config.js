@@ -23,7 +23,7 @@ const PATHS = {
 PATHS.resources = path.join(PATHS.source, "res")
 PATHS.js = path.join(PATHS.source, "js")
 
-module.exports = {
+module.exports = env => ({
     optimization: {
         runtimeChunk: false,
         splitChunks: {
@@ -165,4 +165,4 @@ module.exports = {
             __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(dateformat(new Date(), "dd.mm.yyyy HH:MM:ss")), true),
         }),
     ],
-}
+})

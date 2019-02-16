@@ -12,7 +12,8 @@
         "major": "webpack --config config/development/webpack.config.js --env.major",
         "minor": "webpack --config config/development/webpack.config.js --env.minor",
         "patch": "webpack --config config/development/webpack.config.js --env.patch",
-        "prod": "webpack --config config/production/webpack.config.js"
+        "prod": "webpack --config config/production/webpack.config.js",
+        "prod-debug": "webpack --config config/production/webpack.config.js --env.makeMaps"
     },
     "repository": "git+https://github.com/Sominemo/Temply-PWA.git",
     "keywords": [],

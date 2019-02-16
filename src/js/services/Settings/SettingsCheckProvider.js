@@ -18,7 +18,7 @@ export default class SettingsCheckProvider {
             new FieldsContainer([
                 ["default"],
                 {
-                    checker: new FieldChecker({ instanceOf: ["FieldChecker", "FieldsContainer"] }),
+                    checker: new FieldChecker({ type: "object" }),
                     onfail: new FieldChecker({ type: "function" }),
                     onupdate: new FieldChecker({ type: "function" }),
                 },

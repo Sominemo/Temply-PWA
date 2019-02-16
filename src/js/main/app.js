@@ -42,7 +42,7 @@ export default class App {
                 new TwoSidesWrapper("Version", this.version),
                 new TwoSidesWrapper("Build date", this.buildDate),
                 new TwoSidesWrapper("Branch", this.branch),
-                new TwoSidesWrapper("Debug", this.debug.toString()),
+                ...(this.debug ? [new TwoSidesWrapper("Debug", this.debug.toString())] : []),
             ],
             {}, true,
         )))
