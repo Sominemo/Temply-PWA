@@ -1,5 +1,6 @@
 :root {
-	--fallback-main-bg-color: #ffffff;
+	--color-fallback-main-bg: #ffffff;
+	--color-scrollbar-fill: rgba(116,116,116,.5);
 	
 	--color-main-light-a: #51bba0;
 	--color-main-light: #079d7b;
