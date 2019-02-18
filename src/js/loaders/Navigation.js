@@ -7,23 +7,23 @@ import App from "../main/app"
 Navigation.addModule({
     name: "Timetable",
     id: "timetable",
-    callback: Timetable.Init.bind(Timetable),
+    callback() { Timetable.Init() },
 })
 
 Navigation.addModule({
     name: "Tasks",
     id: "tasks",
-    callback: Tasks.Init.bind(Tasks),
+    callback() { Tasks.Init() },
 })
 
 Navigation.addModule({
     name: "Settings",
     id: "settings",
-    callback: SettingsUI.Init.bind(SettingsUI),
+    callback() { SettingsUI.Init() },
 })
 
 Navigation.addModule({
     name: "About",
     id: "about",
-    callback: App.InitAboutScreen.bind(App),
+    callback() { App.InitAboutScreen() },
 })

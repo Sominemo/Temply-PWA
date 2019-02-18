@@ -1,48 +1,43 @@
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import SettingsAct from "../classes/act"
+import insert from "../../../tools/internal/arrayInsert"
 
 export default class SettingsLayout {
-    static _structure = []
+    _structure = []
 
-    static _map = new Map()
+    _map = new WeakMap()
 
-    static _insert(a, i, { type, target }) {
+    createAct(p = {}, r = {}) {
+        const { id } = p
 
+        if (this._map.has(id)) throw new Error(`Such id (${id}) already exists`)
+        const children = []
+        const save = new SettingsAct(p, this, children)
+        const insertion = { object: save, children }
+
+        this._structure = insert(this._structure, insertion, r)
+        this._map.set(id, save)
     }
 
-    static createAct({
-        id,
-        display,
-        locked,
-        element,
-    }, r = {}) {
-        new FieldsContainer([
-            ["id", "dom"],
-            {
-                id: new FieldChecker({ type: "string", symbols: "a-zA-Z-" }),
-                display: new FieldChecker({ type: "function" }),
-                locked: new FieldChecker({ type: "function" }),
-                dom: new FieldChecker({ type: "function" }),
-                options: new FieldsContainer([
-                    [],
-                    {
-                        onchange: new FieldChecker({ type: "function" }),
-                    },
-                ]),
-            },
-        ]).set({
-            id, display, locked, element,
-        })
+    getAct(id) {
+        const q = this._map.get(id)
+        if (!(q instanceof SettingsAct)) return false
+        return q
+    }
 
-        const save = {
-            id,
-            element,
-            ...(display !== undefined ? display : {}),
-            ...(locked !== undefined ? locked : {}),
-        }
+    getByID(id) {
+        return this._map.get(id)
+    }
 
-        if (this._map.has(id)) throw new Error(`Such id (${id}) is already exists`)
+    isIdRegistered(id) {
+        return this._map.has(id)
+    }
 
-        this._insert(this._structure, save, r)
+    get structure() {
+        return this._structure
+    }
+
+    mapRegister(id, save) {
+        if (!this.isIdRegistered(id)) throw Error("Such ID is already registered")
+        return this._map.set(id, save)
     }
 }

@@ -32,6 +32,7 @@ export default class App {
     }
 
     static InitAboutScreen() {
+        console.log(this)
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
