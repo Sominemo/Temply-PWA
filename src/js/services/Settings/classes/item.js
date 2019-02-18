@@ -1,24 +1,18 @@
+import SettingsGroup from "./group"
 import FieldsContainer from "../../../tools/internal/fieldsContainer"
 import FieldChecker from "../../../tools/internal/fieldChecker"
-import SettingsLayout from "../user/layout"
-import SettingsSection from "./section"
-import insert from "../../../tools/internal/arrayInsert"
 
-export default class SettingsAct {
+export default class SettingsItem {
     _data = {}
-
-    generatedInstance = false
 
     _parent = false
 
-    _children = []
+    generatedInstance = false
 
-    constructor(data, parent, children) {
-        if (!(parent instanceof SettingsLayout)) throw new TypeError("Only Settings Layout can be a parrent")
-        if (!(Array.isArray(children))) throw new TypeError("Children must be array")
+    constructor(data, parent) {
+        if (!(parent instanceof SettingsGroup)) throw new TypeError("Only Settings Group can be a parrent")
 
         this._parent = parent
-        this._children = children
 
         new FieldsContainer([
             ["id", "dom"],
@@ -47,6 +41,7 @@ export default class SettingsAct {
 
     get onupdate() {
         return (e) => {
+            this._parent.onupdate()
             if (typeof this._data.options.onupdate === "function") return this._data.options.onupdate()
             return true
         }
@@ -54,6 +49,7 @@ export default class SettingsAct {
 
     get onfail() {
         return (e) => {
+            this._parent.onfail()
             if (typeof this._data.options.onfail === "function") return this._data.options.onfail()
             return true
         }
@@ -68,26 +64,6 @@ export default class SettingsAct {
     }
 
     get layout() {
-        return this._parent
-    }
-
-    getSection(id) {
-        const q = this.layout.getByID(id)
-        if (!(q instanceof SettingsSection)) return false
-        return q
-    }
-
-    createSection(p = {}, r = {}) {
-        const { id } = p
-        if (this.layout.isIdRegistered(id)) throw new Error("Such ID is already registered")
-        const children = []
-        const save = new SettingsSection(p, this, children)
-        const insertion = {
-            object: save,
-            children,
-        }
-        this._children = insert(this._children, insertion, r)
-        this.layout.mapRegister(id, save)
-        return this
+        return this._parent.layout
     }
 }

@@ -1,18 +1,24 @@
 import FieldsContainer from "../../../tools/internal/fieldsContainer"
 import FieldChecker from "../../../tools/internal/fieldChecker"
 import SettingsAct from "./act"
+import insert from "../../../tools/internal/arrayInsert"
+import SettingsGroup from "./group"
 
 export default class SettingsSection {
     _data = {}
 
     _parent = false
 
+    _children = []
+
     generatedInstance = false
 
-    constructor(data, parent) {
+    constructor(data, parent, children) {
         if (!(parent instanceof SettingsAct)) throw new TypeError("Only Settings Act can be a parrent")
+        if (!(Array.isArray(children))) throw new TypeError("Children must be array")
 
         this._parent = parent
+        this._children = children
 
         new FieldsContainer([
             ["id", "dom"],
@@ -35,6 +41,10 @@ export default class SettingsSection {
         this._data = data
     }
 
+    get id() {
+        return this._data.id
+    }
+
     get onupdate() {
         return (e) => {
             this._parent.onupdate()
@@ -53,5 +63,33 @@ export default class SettingsSection {
 
     get parent() {
         return this._parent
+    }
+
+    get children() {
+        return this._children
+    }
+
+    get layout() {
+        return this._parent.layout
+    }
+
+    getGroup(id) {
+        const q = this.layout.getByID(id)
+        if (!(q instanceof SettingsGroup)) return false
+        return q
+    }
+
+    createGroup(p = {}, r = {}) {
+        const { id } = p
+        if (this.layout.isIdRegistered(id)) throw new Error("Such ID is already registered")
+        const children = []
+        const save = new SettingsGroup(p, this, children)
+        const insertion = {
+            object: save,
+            children,
+        }
+        this._children = insert(this._children, insertion, r)
+        this.layout.mapRegister(id, save)
+        return this
     }
 }

@@ -13,12 +13,12 @@ import Report from "./main/report"
 Report.write(`App ${App.fullName}: Build date ${App.buildDate}`)
 
 if (process.env.NODE_ENV === "development") {
-    import(/* webpackChunkName: "devtools" */ "./tools/internal/dev")
+    import(/* webpackChunkName: "devtools" */ "./dev")
         .then((dev) => {
             Report.write("DevTools loaded")
             global.dev = dev
         })
-        import(/* webpackChunkName: "testlab" */ "./testlab")
+    import(/* webpackChunkName: "testlab" */ "./testlab")
 }
 
 SW.register()

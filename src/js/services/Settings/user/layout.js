@@ -4,7 +4,7 @@ import insert from "../../../tools/internal/arrayInsert"
 export default class SettingsLayout {
     _structure = []
 
-    _map = new WeakMap()
+    _map = new Map()
 
     createAct(p = {}, r = {}) {
         const { id } = p
@@ -15,11 +15,12 @@ export default class SettingsLayout {
         const insertion = { object: save, children }
 
         this._structure = insert(this._structure, insertion, r)
-        this._map.set(id, save)
+        this.mapRegister(id, save)
+        return this
     }
 
     getAct(id) {
-        const q = this._map.get(id)
+        const q = this.getByID(id)
         if (!(q instanceof SettingsAct)) return false
         return q
     }
@@ -37,7 +38,7 @@ export default class SettingsLayout {
     }
 
     mapRegister(id, save) {
-        if (!this.isIdRegistered(id)) throw Error("Such ID is already registered")
+        if (this.isIdRegistered(id)) throw Error("Such ID is already registered")
         return this._map.set(id, save)
     }
 }
