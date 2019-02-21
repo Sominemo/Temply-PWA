@@ -2,12 +2,6 @@
     "compilerOptions": {
       "target": "esNext",
       "allowSyntheticDefaultImports": true,
-      "moduleResolution": "node",
-      "paths": {
-        "*": [
-          "*",
-          "src/js/*"
-        ]
+      "moduleResolution": "node"
       }
-    }
   }

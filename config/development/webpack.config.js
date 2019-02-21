@@ -8,7 +8,7 @@ const WebpackAutoInject = require("webpack-auto-inject-version")
 const ResourceHintWebpackPlugin = require("resource-hints-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const webpack = require("webpack")
-const dateformat = require("dateformat")
+const fecha = require("fecha")
 
 const __root = path.join(__dirname, "..", "..")
 
@@ -162,7 +162,7 @@ module.exports = env => ({
             __PACKAGE_APP_NAME: JSON.stringify(pack.description),
             __PACKAGE_VERSION_NUMBER: JSON.stringify(pack.version),
             __PACKAGE_BRANCH: JSON.stringify(pack.config.branch),
-            __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(dateformat(new Date(), "dd.mm.yyyy HH:MM:ss")), true),
+            __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(fecha.format(new Date(), "dd.mm.YYYY HH:MM:ss")), true),
         }),
     ],
 })
