@@ -1,20 +1,20 @@
 import SettingsLayout from "./services/Settings/user/layout"
-import DOM from "./ui/DOM/Classes/dom"
+import SettingsActContainer from "./ui/DOM/Library/settings/SettingsActContainer"
+import SettingsUI from "./services/Settings/user/ui"
+import SettingsSectionElement from "./ui/DOM/Library/settings/SettingsSectionElement"
+import SettingsGroupContainer from "./ui/DOM/Library/settings/SettingsGroupContainer"
+import CardContent from "./ui/DOM/Library/object/card/cardContent"
 
 const a = new SettingsLayout()
-    .createAct({ id: "settings", dom: DOM })
-    .createAct({ id: "logs", dom: DOM })
-    .createAct({ id: "updates", dom: DOM })
-    .createAct({ id: "debug", dom: DOM })
+    .createAct({ id: "settings", dom: SettingsActContainer, options: { name: "All Settings" } })
 
-const b = a.getAct("settings")
-    .createSection({ id: "general", dom: DOM })
-    .createSection({ id: "other", dom: DOM })
+a.getAct("settings")
+    .createSection({ id: "general", dom: SettingsSectionElement, options: { name: "General" } })
+    .getSection("general")
+    .createGroup({ id: "newone", dom: SettingsGroupContainer, options: { name: "Test Name" } })
+    .getGroup("newone")
+    .createItem({ dom: CardContent, options: ["Hello, just a test label!"], id: "justtest" })
 
-const c = b.getSection("general")
-    .createGroup({ id: "general-group", dom: DOM })
-
-c.getGroup("general-group")
-    .createItem({ id: "test", dom: DOM })
+SettingsUI.applyLayout(a)
 
 console.log(a)

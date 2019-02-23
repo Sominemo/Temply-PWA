@@ -1,6 +1,7 @@
 import SettingsGroup from "./group"
 import FieldsContainer from "../../../tools/internal/fieldsContainer"
 import FieldChecker from "../../../tools/internal/fieldChecker"
+import Navigation from "../../../main/navigation"
 
 export default class SettingsItem {
     _data = {}
@@ -15,20 +16,20 @@ export default class SettingsItem {
         this._parent = parent
 
         new FieldsContainer([
-            ["id", "dom"],
+            ["id", "dom", "options"],
             {
                 id: new FieldChecker({ type: "string", symbols: "a-zA-Z-" }),
                 display: new FieldChecker({ type: "function" }),
                 locked: new FieldChecker({ type: "function" }),
                 dom: new FieldChecker({ type: "function" }),
-                options: new FieldsContainer([
-                    ["name"],
+                events: new FieldsContainer([
+                    [],
                     {
                         onupdate: new FieldChecker({ type: "function" }),
                         onfail: new FieldChecker({ type: "function" }),
-                        name: new FieldChecker({ type: "string" }),
                     },
                 ]),
+                options: new FieldChecker({ type: "object" }),
             },
         ]).set(data)
 
@@ -42,7 +43,7 @@ export default class SettingsItem {
     get onupdate() {
         return (e) => {
             this._parent.onupdate()
-            if (typeof this._data.options.onupdate === "function") return this._data.options.onupdate()
+            if (typeof this._data.events.onupdate === "function") return this._data.events.onupdate()
             return true
         }
     }
@@ -50,7 +51,7 @@ export default class SettingsItem {
     get onfail() {
         return (e) => {
             this._parent.onfail()
-            if (typeof this._data.options.onfail === "function") return this._data.options.onfail()
+            if (typeof this._data.events.onfail === "function") return this._data.events.onfail()
             return true
         }
     }
@@ -65,5 +66,14 @@ export default class SettingsItem {
 
     get layout() {
         return this._parent.layout
+    }
+
+    render() {
+        if ("display" in this._data && !(this._data.display())) {
+            return false
+        }
+        // eslint-disable-next-line new-cap
+        this.generatedInstance = new this._data.dom(this._data.options, Navigation.parse())
+        return this.generatedInstance
     }
 }

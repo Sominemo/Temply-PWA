@@ -8,9 +8,10 @@ export default class CardList {
         new FieldsContainer([
             "array",
             new FieldsContainer([
-                [], {
+                ["content"], {
                     handler: new FieldChecker({ type: "function" }),
                     userSelect: new FieldChecker({ type: "boolean" }),
+                    style: new FieldChecker({ type: "object" }),
                 },
             ]),
         ]).set(content)
@@ -27,6 +28,9 @@ export default class CardList {
                     name: "user-select-disabled",
                     value: "true",
                 })
+            }
+            if ("style" in e) {
+                params.style = e.style
             }
             if ("handler" in e) {
                 params.class.push("card-list-item-clickable")

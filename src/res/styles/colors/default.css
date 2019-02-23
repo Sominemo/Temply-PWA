@@ -8,16 +8,18 @@
 	--color-main-dark: #006f51;
     --color-main-dark-a: #005336;
     
-	--color-accent-dark-a: #0071c6;
-	--color-accent-dark: #0095ef;
-	--color-accent: #00bfff;
-	--color-accent-light: #6ed1ff;
-    --color-accent-light-a: #abe3ff;
+	--color-accent-dark-a: #0f203d;
+	--color-accent-dark: #234a8f;
+	--color-accent: #4073d0;
+	--color-accent-light: #7096dc;
+    --color-accent-light-a: #c2d2f0;
     
 	--color-generic-light-b: #c0c3c9;
 	--color-generic-light-a: #787b81;
 	--color-generic-light: #44474d;
 	--color-generic: #23262b;
+
+	--color-generic-inverted: #ffffff;
 
 	--color-nav-bg: #ffffff;
 	--color-nav-icon: #7d7d7d;

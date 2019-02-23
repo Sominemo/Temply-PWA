@@ -10,6 +10,7 @@
     outline: 0;
     scrollbar-color: var(--color-scrollbar-fill) transparent;
     scrollbar-width: thin;
+    color: inherit;
 }
 
 body {

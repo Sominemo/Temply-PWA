@@ -3,6 +3,7 @@ import FieldChecker from "../../../tools/internal/fieldChecker"
 import SettingsAct from "./act"
 import insert from "../../../tools/internal/arrayInsert"
 import SettingsGroup from "./group"
+import Navigation from "../../../main/navigation"
 
 export default class SettingsSection {
     _data = {}
@@ -21,20 +22,20 @@ export default class SettingsSection {
         this._children = children
 
         new FieldsContainer([
-            ["id", "dom"],
+            ["id", "dom", "options"],
             {
                 id: new FieldChecker({ type: "string", symbols: "a-zA-Z-" }),
                 display: new FieldChecker({ type: "function" }),
                 locked: new FieldChecker({ type: "function" }),
                 dom: new FieldChecker({ type: "function" }),
-                options: new FieldsContainer([
-                    ["name"],
+                events: new FieldsContainer([
+                    [],
                     {
                         onupdate: new FieldChecker({ type: "function" }),
                         onfail: new FieldChecker({ type: "function" }),
-                        name: new FieldChecker({ type: "string" }),
                     },
                 ]),
+                options: new FieldChecker({ type: "object" }),
             },
         ]).set(data)
 
@@ -48,7 +49,7 @@ export default class SettingsSection {
     get onupdate() {
         return (e) => {
             this._parent.onupdate()
-            if (typeof this._data.options.onupdate === "function") return this._data.options.onupdate()
+            if (typeof this._data.events.onupdate === "function") return this._data.events.onupdate()
             return true
         }
     }
@@ -56,7 +57,7 @@ export default class SettingsSection {
     get onfail() {
         return (e) => {
             this._parent.onfail()
-            if (typeof this._data.options.onfail === "function") return this._data.options.onfail()
+            if (typeof this._data.events.onfail === "function") return this._data.events.onfail()
             return true
         }
     }
@@ -72,6 +73,20 @@ export default class SettingsSection {
     get layout() {
         return this._parent.layout
     }
+
+    render() {
+        if ("display" in this._data && !(this._data.display())) {
+            return false
+        }
+        // eslint-disable-next-line new-cap
+        this.generatedInstance = new this._data.dom(this._data.options, Navigation.parse())
+        this.children.forEach((e) => {
+            const m = e.object.render()
+            if (m) this.generatedInstance.render(m)
+        })
+        return this.generatedInstance
+    }
+
 
     getGroup(id) {
         const q = this.layout.getByID(id)

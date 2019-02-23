@@ -6,6 +6,8 @@ export default class SettingsLayout {
 
     _map = new Map()
 
+    defaultAct = "settings"
+
     createAct(p = {}, r = {}) {
         const { id } = p
 

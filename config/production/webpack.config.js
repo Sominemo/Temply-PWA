@@ -173,7 +173,7 @@ module.exports = env => ({
             __PACKAGE_APP_NAME: JSON.stringify(pack.description),
             __PACKAGE_VERSION_NUMBER: JSON.stringify(pack.version),
             __PACKAGE_BRANCH: JSON.stringify(pack.config.branch),
-            __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(fecha.format(new Date(), "DD.MM.YYYY HH:MM:ss")), true),
+            __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(fecha.format(new Date(), "DD.MM.YYYY HH:mm:ss")), true),
         }),
     ],
 })

@@ -12,18 +12,18 @@ export default (() => {
     const handler = (data) => {
         if (data.element.get("nodeType") !== 1) error()
 
-        if (typeof data.value === "string" && DOMController.config.contentStringAsTextNode === true) {
-            data.value = new DOM({
-                type: "text",
-                new: data.value,
-            })
-        }
-
         if (!Array.isArray(data.value)) data.value = [data.value]
 
         data.shared.contentNodesCallback = []
 
         data.value.forEach((item) => {
+            if (typeof item === "string" && DOMController.config.contentStringAsTextNode === true) {
+                item = new DOM({
+                    type: "text",
+                    new: item,
+                })
+            }
+
             if (!(item instanceof DOM)) {
                 if (DOMController.errorIgnore(unique)) return
                 throw new Error("Can't apply not DOM-class object")
