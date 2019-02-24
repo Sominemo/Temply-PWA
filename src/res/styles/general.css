@@ -201,7 +201,7 @@ main {
     display: block;
 }
 
-#s--wm-overlays.transclick {
+.transclick {
     pointer-events: none;
 }
 

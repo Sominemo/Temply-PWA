@@ -9,7 +9,7 @@ export default class Navigation {
 
     static paramsDelimeter = "/?/"
 
-    static fallbackSplitter = "-"
+    static fallbackSplitter = "/"
 
     static modulesRegister = []
 
@@ -26,12 +26,13 @@ export default class Navigation {
     static set hash(hash) {
         if (typeof hash === "object") {
             new FieldsContainer([
-                ["module", "params"],
+                ["module"],
                 {
                     module: new FieldChecker({ type: "string" }),
                     params: new FieldChecker({ type: "object" }),
                 },
             ]).set(hash)
+            hash.params = hash.params || {}
             const stringHash = `${this.prefix}${hash.module}${(Object.keys(hash.params).length > 0 ? `${this.paramsDelimeter}${this.paramsGenerator(hash.params)}` : "")}`
             this.hash = stringHash
             return stringHash

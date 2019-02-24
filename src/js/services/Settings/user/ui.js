@@ -40,7 +40,31 @@ export default class SettingsUI {
             }
 
             const l = this._layout
-            w.render(l.getAct(l.defaultAct).render())
+            const path = Navigation.parse().params
+            const tAct = (path.length > 0 ? path.join("--") : l.defaultAct)
+            const actObj = l.getAct(tAct)
+
+            if (!(typeof actObj === "object")) {
+                w.clear()
+                w.render(new Title("Oops!"))
+                w.render(new Card(new CardList([
+                    {
+                        content: "There's no such settings page",
+                    },
+
+                    {
+                        content: "Go to main",
+                        handler() { Navigation.hash = { module: "settings" } },
+                        style: {
+                            background: Design.getVar("color-accent"),
+                            color: Design.getVar("color-generic-inverted"),
+                        },
+                    },
+                ])))
+                return
+            }
+
+            w.render(actObj.render())
         } catch (e) {
             w.clear()
             w.render(new Title("Oops!"))
@@ -51,7 +75,7 @@ export default class SettingsUI {
 
                 {
                     content: "Open About screen",
-                    handler() { Navigation.hash = { module: "about", params: {} } },
+                    handler() { Navigation.hash = { module: "about" } },
                     style: {
                         background: Design.getVar("color-accent"),
                         color: Design.getVar("color-generic-inverted"),

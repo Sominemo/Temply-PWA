@@ -85,6 +85,7 @@ export default class SettingsAct {
                 ],
             })
         }
+        this._data.options.lock = !!this._data.lock()
         // eslint-disable-next-line new-cap
         this.generatedInstance = new this._data.dom(this._data.options, Navigation.parse())
         this.children.forEach((e) => {

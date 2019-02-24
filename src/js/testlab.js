@@ -6,7 +6,9 @@ import SettingsGroupContainer from "./ui/DOM/Library/settings/SettingsGroupConta
 import CardContent from "./ui/DOM/Library/object/card/cardContent"
 
 const a = new SettingsLayout()
-    .createAct({ id: "settings", dom: SettingsActContainer, options: { name: "All Settings" } })
+    .createAct({
+ id: "settings", lock: () => true, dom: SettingsActContainer, options: { name: "All Settings" } 
+})
 
 a.getAct("settings")
     .createSection({ id: "general", dom: SettingsSectionElement, options: { name: "General" } })
