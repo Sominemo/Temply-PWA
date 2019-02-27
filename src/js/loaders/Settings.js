@@ -1,5 +1,5 @@
 import SettingsCheckProvider from "../services/Settings/SettingsCheckProvider"
-import FieldChecker from "../tools/internal/fieldChecker"
+import FieldChecker from "../tools/validation/fieldChecker"
 
 SettingsCheckProvider.setRules({
     test: {

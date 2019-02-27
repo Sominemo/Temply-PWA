@@ -1,5 +1,5 @@
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import FieldsContainer from "../../../tools/validation/fieldsContainer"
+import FieldChecker from "../../../tools/validation/fieldChecker"
 import DomRegisteredProperty from "../Classes/domRegisteredProperty"
 import DomRegisteredModule from "../Classes/domRegisteredModule"
 import Report from "../../../main/report"

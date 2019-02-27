@@ -1,5 +1,5 @@
-import FieldsContainer from "../../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../../tools/internal/fieldChecker"
+import FieldsContainer from "../../../../tools/validation/fieldsContainer"
+import FieldChecker from "../../../../tools/validation/fieldChecker"
 import DOM from "../../Classes/dom"
 import Title from "../object/title"
 

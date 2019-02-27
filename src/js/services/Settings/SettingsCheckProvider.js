@@ -1,5 +1,5 @@
-import FieldsContainer from "../../tools/internal/fieldsContainer"
-import FieldChecker from "../../tools/internal/fieldChecker"
+import FieldsContainer from "../../tools/validation/fieldsContainer"
+import FieldChecker from "../../tools/validation/fieldChecker"
 
 export default class SettingsCheckProvider {
     static rules = {

@@ -1,5 +1,5 @@
 import SettingsAct from "../classes/act"
-import insert from "../../../tools/internal/arrayInsert"
+import insert from "../../../tools/transformation/object/arrayInsert"
 
 export default class SettingsLayout {
     _structure = []

@@ -1,6 +1,6 @@
 import SettingsGroup from "./group"
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import FieldsContainer from "../../../tools/validation/fieldsContainer"
+import FieldChecker from "../../../tools/validation/fieldChecker"
 import Navigation from "../../../main/navigation"
 
 export default class SettingsItem {

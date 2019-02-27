@@ -1,6 +1,6 @@
 import DOM from "../../../Classes/dom"
-import FieldsContainer from "../../../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../../../tools/internal/fieldChecker"
+import FieldsContainer from "../../../../../tools/validation/fieldsContainer"
+import FieldChecker from "../../../../../tools/validation/fieldChecker"
 import CardContent from "./cardContent"
 
 export default class CardList {

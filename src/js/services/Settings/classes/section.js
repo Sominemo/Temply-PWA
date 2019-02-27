@@ -1,7 +1,7 @@
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import FieldsContainer from "../../../tools/validation/fieldsContainer"
+import FieldChecker from "../../../tools/validation/fieldChecker"
 import SettingsAct from "./act"
-import insert from "../../../tools/internal/arrayInsert"
+import insert from "../../../tools/transformation/object/arrayInsert"
 import SettingsGroup from "./group"
 import Navigation from "../../../main/navigation"
 

@@ -9,8 +9,8 @@ import DBUserPresence from "./services/DBUserPresence"
 import SettingsStorage from "./services/Settings/SettingsStorage"
 import SettingsCheckProvider from "./services/Settings/SettingsCheckProvider"
 import SettingsLayout from "./services/Settings/user/layout"
-import FieldChecker from "./tools/internal/fieldChecker"
-import FieldsContainer from "./tools/internal/fieldsContainer"
+import FieldChecker from "./tools/validation/fieldChecker"
+import FieldsContainer from "./tools/validation/fieldsContainer"
 import DOMController from "./ui/DOM/Helpers/domController"
 
 const DevUtils = {

@@ -1,8 +1,8 @@
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import FieldsContainer from "../../../tools/validation/fieldsContainer"
+import FieldChecker from "../../../tools/validation/fieldChecker"
 import SettingsLayout from "../user/layout"
 import SettingsSection from "./section"
-import insert from "../../../tools/internal/arrayInsert"
+import insert from "../../../tools/transformation/object/arrayInsert"
 import Navigation from "../../../main/navigation"
 import DOM from "../../../ui/DOM/Classes/dom"
 import Title from "../../../ui/DOM/Library/object/title"
@@ -85,7 +85,7 @@ export default class SettingsAct {
                 ],
             })
         }
-        this._data.options.lock = !!this._data.lock()
+        this._data.options.lock = (this._data.lock ? !!this._data.lock() : false)
         // eslint-disable-next-line new-cap
         this.generatedInstance = new this._data.dom(this._data.options, Navigation.parse())
         this.children.forEach((e) => {

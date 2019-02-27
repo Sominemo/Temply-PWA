@@ -1,7 +1,7 @@
 import DOMController from "../../Helpers/domController"
 import DOM from "../../Classes/dom"
-import FieldsContainer from "../../../../tools/internal/fieldsContainer"
-import FieldChecker from "../../../../tools/internal/fieldChecker"
+import FieldsContainer from "../../../../tools/validation/fieldsContainer"
+import FieldChecker from "../../../../tools/validation/fieldChecker"
 
 export default (() => {
     const unique = "attributeSetter"

@@ -1,5 +1,5 @@
-import FieldsContainer from "../tools/internal/fieldsContainer"
-import FieldChecker from "../tools/internal/fieldChecker"
+import FieldsContainer from "../tools/validation/fieldsContainer"
+import FieldChecker from "../tools/validation/fieldChecker"
 import Nav from "../ui/DOM/Library/buildBlock/nav"
 import WindowManager from "../ui/SimpleWindowManager"
 import Report from "./report"

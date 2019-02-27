@@ -41,7 +41,7 @@ export default class SettingsUI {
 
             const l = this._layout
             const path = Navigation.parse().params
-            const tAct = (path.length > 0 ? path.join("--") : l.defaultAct)
+            const tAct = (path.length > 0 ? path[0] : l.defaultAct)
             const actObj = l.getAct(tAct)
 
             if (!(typeof actObj === "object")) {

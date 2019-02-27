@@ -1,6 +1,6 @@
-import FieldChecker from "../../../tools/internal/fieldChecker"
+import FieldChecker from "../../../tools/validation/fieldChecker"
 import DOMController from "../Helpers/domController"
-import FieldsContainer from "../../../tools/internal/fieldsContainer"
+import FieldsContainer from "../../../tools/validation/fieldsContainer"
 
 export default class DOM {
     elementParse = null
