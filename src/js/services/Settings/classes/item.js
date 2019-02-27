@@ -68,8 +68,8 @@ export default class SettingsItem {
         return this._parent.layout
     }
 
-    render() {
-        if ("display" in this._data && !(this._data.display())) {
+    async render() {
+        if ("display" in this._data && !(await this._data.display())) {
             return false
         }
         // eslint-disable-next-line new-cap

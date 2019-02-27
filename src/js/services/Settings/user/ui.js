@@ -30,7 +30,7 @@ export default class SettingsUI {
         this._layout = l
     }
 
-    static Init() {
+    static async Init() {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
@@ -64,7 +64,7 @@ export default class SettingsUI {
                 return
             }
 
-            w.render(actObj.render())
+            w.render(await actObj.render())
         } catch (e) {
             w.clear()
             w.render(new Title("Oops!"))

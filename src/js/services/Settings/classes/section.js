@@ -74,15 +74,15 @@ export default class SettingsSection {
         return this._parent.layout
     }
 
-    render() {
-        if ("display" in this._data && !(this._data.display())) {
+    async render() {
+        if ("display" in this._data && !(await this._data.display())) {
             return false
         }
         // eslint-disable-next-line new-cap
         this.generatedInstance = new this._data.dom(this._data.options, Navigation.parse())
-        this.children.forEach((e) => {
-            const m = e.object.render()
-            if (m) this.generatedInstance.render(m)
+        this.children.forEach(async (e) => {
+            const m = await e.object.render()
+            if (m) await this.generatedInstance.render(m)
         })
         return this.generatedInstance
     }

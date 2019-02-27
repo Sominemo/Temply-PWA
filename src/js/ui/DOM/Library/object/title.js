@@ -7,7 +7,18 @@ export default class Title {
             new: "div",
             style,
             class: ["inline-title-block", `inline-title-level-${parseInt(level.toString(), 10)}`],
-            content: (icon ? [icon, new DOM({ type: "text", new: content.toString() })] : content.toString()),
+            content: new DOM({
+                new: "div",
+                class: ["flex-container"],
+                content: [
+                    ...(icon ? [icon] : []),
+                    new DOM({
+                        new: "span",
+                        class: ["title-text-content"],
+                        content: content.toString(),
+                    }),
+                ],
+            }),
         })
     }
 }

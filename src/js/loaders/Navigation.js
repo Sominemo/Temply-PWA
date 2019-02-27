@@ -3,6 +3,7 @@ import Timetable from "../diary/timetable"
 import Tasks from "../diary/tasks"
 import SettingsUI from "../services/Settings/user/ui"
 import App from "../main/app"
+import FlagsUI from "../main/flags"
 
 Navigation.addModule({
     name: "Timetable",
@@ -26,4 +27,10 @@ Navigation.addModule({
     name: "About",
     id: "about",
     callback() { App.InitAboutScreen() },
+})
+
+Navigation.addModule({
+    name: "Flags",
+    id: "flags",
+    callback() { FlagsUI.Init() },
 })

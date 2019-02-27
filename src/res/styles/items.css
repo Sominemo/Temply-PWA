@@ -17,8 +17,21 @@
 }
 
 .inline-title-level-3 {
-    font-size: 18px;
-    margin: 10px 40px;
+    font-weight: 500;
+    font-size: 13px;
+    margin: 10px auto;
+    border: solid 1.5px #f3f3f3;
+    padding: 5px 15px;
+    border-radius: 2em;
+    display: table;
+}
+
+.inline-title-block .title-text-content {
+    display: table-cell;
+}
+
+.inline-title-block>.flex-container>* {
+    align-self: center
 }
 
 .card {
@@ -60,4 +73,39 @@
 .two-sides-content-wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+switch-input {
+    transition: all .2s;
+    display: block;
+    width: 35px;
+    height: 12px;
+    border-radius: 13px;
+    background: var(--color-main-light-a);
+    position: relative;
+    min-width: 35px;
+    min-height: 12px;
+}
+
+switch-input:before {
+    transition: all .2s;
+    content: "";
+    width: 22px;
+    height: 22px;
+    border-radius: 22px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
+    position: absolute;
+    left: 100%;
+    transform: translate(-100%, -25%);
+    background: var(--color-main);
+}
+
+switch-input[state="0"] {
+    filter: grayscale(100)
+}
+
+switch-input[state="0"]:before {
+    left: 0;
+    transform: translate(0, -25%);
 }

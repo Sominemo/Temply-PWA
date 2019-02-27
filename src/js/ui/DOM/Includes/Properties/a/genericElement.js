@@ -9,7 +9,7 @@ export default (() => {
     }
 
     const handler = (data) => {
-        if (data.shared.elementConstructorSkipped) return data.element
+        if (data.shared.elementConstructorSkipped) return DOMObjectWrapper(data.element)
 
         if (typeof data.value !== "string") error()
         data.element = DOMObjectWrapper(data.element(data.value))

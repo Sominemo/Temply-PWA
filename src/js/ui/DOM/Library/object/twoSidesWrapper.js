@@ -5,7 +5,7 @@ export default class TwoSidesWrapper {
         return new DOM({
             new: "div",
             class: ["two-sides-content-wrapper"],
-            content: a.map(e => new DOM({ new: "div", content: e })),
+            content: a.map(e => (e instanceof DOM ? e : new DOM({ new: "div", content: e }))),
         })
     }
 }

@@ -4,7 +4,7 @@ export default (() => {
     const unique = "elementConstructor"
 
     const handler = (data) => {
-        if (data.element instanceof HTMLElement) {
+        if (data.element instanceof HTMLElement || data.element instanceof Element) {
             data.shared.elementConstructorSkipped = true
             return data.element
         }

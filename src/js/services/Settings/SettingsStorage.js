@@ -85,7 +85,8 @@ export default class SettingsStorage {
         const db = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
         let gr = true
         Object.keys(flags).forEach(async (key) => {
-            const ov = ova.find(e => e.key === key).value
+            let ov = ova.find(e => e.key === key)
+            if (ov !== undefined) ov = ov.value || undefined
             const si = SettingsCheckProvider.check(key, flags[key], "flags")
 
             if (!si[0]) {

@@ -15,7 +15,7 @@ export default class DOM {
         new FieldChecker({ type: "object" }).set(object)
         this.object = object
 
-        this.onEvent("render", this._moduleWorkerOnRender)
+        this.onEvent("render", (c = {}) => (c.asContent ? this._moduleWorkerOnRender : () => {}))
         this._propertyWorker()
     }
 
@@ -46,7 +46,7 @@ export default class DOM {
 
         this.events[event].forEach((e) => {
             try {
-                if (typeof e === "function") e()
+                if (typeof e === "function") e(data)
             } catch (r) {
                 // Ignore bad listeners
             }
