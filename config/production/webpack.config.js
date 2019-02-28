@@ -24,7 +24,7 @@ const PATHS = {
 PATHS.resources = path.join(PATHS.source, "res")
 PATHS.js = path.join(PATHS.source, "js")
 
-module.exports = env => ({
+module.exports = (env = {}) => ({
     optimization: {
         runtimeChunk: false,
         splitChunks: {
@@ -81,7 +81,7 @@ module.exports = env => ({
                 loader: ["url-loader"],
             },
             {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
                     loader: "file-loader",
                     options: {
@@ -89,6 +89,10 @@ module.exports = env => ({
                         outputPath: "assets/fonts/",
                     },
                 }],
+            },
+            {
+                test: /\.svg$/,
+                loader: "svg-inline-loader",
             },
         ],
     },
