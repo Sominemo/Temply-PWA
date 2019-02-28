@@ -8,6 +8,7 @@
     scrollbar-width: thin;
     color: inherit;
     font-family: inherit;
+    scroll-behavior: smooth;
 }
 
 body {

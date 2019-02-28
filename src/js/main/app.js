@@ -2,9 +2,11 @@
 import WindowManager from "../ui/SimpleWindowManager"
 import WindowContainer from "../ui/DOM/Library/buildBlock/windowContainer"
 import Card from "../ui/DOM/Library/object/card/card"
-import CardTextList from "../ui/DOM/Library/object/card/cardTextList"
 import Title from "../ui/DOM/Library/object/title"
 import TwoSidesWrapper from "../ui/DOM/Library/object/twoSidesWrapper"
+import CardList from "../ui/DOM/Library/object/card/cardList"
+import Navigation from "./navigation"
+import getCounter from "../tools/objects/counter"
 
 export default class App {
     static get version() {
@@ -35,14 +37,21 @@ export default class App {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
+        const counter = getCounter()
+        function openFlags() {
+            const r = counter()
+            if (r < 4) return
+            Navigation.hash = { module: "flags" }
+        }
+
         w.render(new Title("About App"))
-        w.render(new Card(new CardTextList(
+        w.render(new Card(new CardList(
             [
-                this.appName,
-                new TwoSidesWrapper("Version", this.version),
-                new TwoSidesWrapper("Build date", this.buildDate),
-                new TwoSidesWrapper("Branch", this.branch),
-                ...(this.debug ? [new TwoSidesWrapper("Debug", this.debug.toString())] : []),
+                { content: this.appName },
+                { content: new TwoSidesWrapper("Version", this.version), handler: openFlags },
+                { content: new TwoSidesWrapper("Build date", this.buildDate) },
+                { content: new TwoSidesWrapper("Branch", this.branch) },
+                ...(this.debug ? [{ content: new TwoSidesWrapper("Debug", this.debug.toString()) }] : []),
             ],
             {}, true,
         )))
