@@ -11,7 +11,7 @@ export default (() => {
 
         let createMethod = ""
         let type = null
-        if (data.value === null || data.value === "e" || data.value === "element") {
+        if (data.value === null || data.value === undefined || data.value === "e" || data.value === "element") {
             createMethod = "createElement"
             type = "element"
         } else if (data.value === "t" || data.value === "text") {
