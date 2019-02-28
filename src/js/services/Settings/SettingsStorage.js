@@ -106,6 +106,15 @@ export default class SettingsStorage {
         return gr
     }
 
+    static async reset(type) {
+        if (typeof type !== "string"
+            || !this.ObjectStoreNames.includes(type)) throw new TypeError("Undefined section name")
+
+        const o = await this.db.getObjectStore(type, true)
+        const r = await o.clear()
+        return r
+    }
+
     static addListener = SettingsCheckProvider.addListener.bind(SettingsCheckProvider)
 
     static removeListener = SettingsCheckProvider.removeListener.bind(SettingsCheckProvider)

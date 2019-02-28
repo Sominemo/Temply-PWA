@@ -20,7 +20,7 @@
     font-weight: 500;
     font-size: 13px;
     margin: 10px auto;
-    border: solid 1.5px #f3f3f3;
+    border: solid 1.5px var(--color-card-border);
     padding: 5px 15px;
     border-radius: 2em;
     display: table;
@@ -93,7 +93,7 @@ switch-input:before {
     content: "";
     width: 22px;
     height: 22px;
-    border-radius: 22px;
+    border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
     position: absolute;
     left: 100%;
@@ -108,4 +108,103 @@ switch-input[state="0"] {
 switch-input[state="0"]:before {
     left: 0;
     transform: translate(0, -25%);
+}
+
+switch-input:after {
+    transition: all .2s;
+    content: "";
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    left: 100%;
+    transform: translate(-87%, -32%);
+    background: transparent;
+    pointer-events: none;
+}
+
+switch-input[state="0"]::after {
+    transform: translate(-13%, -32%);
+    left: 0;
+}
+
+switch-input:focus:after, 
+switch-input:active:after, 
+.card-list-item-clickable:focus switch-input:after,
+.card-list-item-clickable:active switch-input:after {
+    background: rgba(0,0,0,.2);
+}
+
+
+md-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background: var(--color-main);
+    color: var(--color-generic-inverted);
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    transition: all .2s;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    font-family: "Product Sans", "Roboto", Arial, Helvetica, sans-serif;
+}
+
+md-button:hover {
+    box-shadow: 0 4px 9px rgba(0, 0, 0, .3);
+}
+
+md-button.light {
+    color: var(--color-main);
+    background: var(--color-generic-inverted);
+}
+
+md-button.accent {
+    background: var(--color-accent);
+}
+
+md-button.accent.light {
+    background: var(--color-generic-inverted);
+    color: var(--color-accent);
+    
+}
+
+@keyframes ripple {
+    0% {
+        border-radius: 50%;
+    }
+    50% {
+        border-radius: 50%;
+    }
+    100% {
+        border-radius: 0;
+    }
+}
+
+md-button::before {
+    content: "";
+    background: rgba(0,0,0,.2);
+    width: 110%;
+    height: 110%;
+    top: 50%;
+    left: 50%;
+    display: block;
+    position: absolute;
+    transition: all .2s;
+    transform: translate(-50%,-50%) scale(0);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+md-button:active:before, md-button:focus:before {
+    animation-name: ripple;
+    animation-fill-mode: forwards;
+    animation-duration: .2s;
+    transform: translate(-50%,-50%) scale(1);
 }

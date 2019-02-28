@@ -10,6 +10,7 @@ import Design from "./design"
 import App from "./app"
 import SwitchLabel from "../ui/DOM/Library/object/input/switchLabel"
 import SettingsStorage from "../services/Settings/SettingsStorage"
+import Button from "../ui/DOM/Library/object/input/button"
 
 export default class FlagsUI {
     static async Init() {
@@ -27,6 +28,10 @@ export default class FlagsUI {
                 `This features are experimental and some of them may cause problems, make the app unstable or break it at all.
             It's recommended to restart the application after commiting any changes.`,
             ),
+            new CardContent([
+                new Button({ content: "Reload page", handler: () => { window.location.reload() } }),
+                new Button({ content: "Reset flags", handler: () => { SettingsStorage.reset("flags"); window.location.reload() }, type: ["light"] }),
+            ]),
         ]))
         const exps = []
 
