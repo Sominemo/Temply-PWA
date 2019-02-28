@@ -26,17 +26,34 @@ export default class SettingsStorage {
         return this._dbConnection
     }
 
-    static async get(setting) {
+    static async get(setting, integrityCheck = false) {
         if (typeof setting !== "string") throw new Error("Incorrect key")
         const db = await this.db.getObjectStore(this.ObjectStoreNames[0])
-        const res = await db.get(setting)
+        const res = (await db.get(setting))
         if (res === undefined) {
-            const props = SettingsCheckProvider.get(setting, "user")
+            let props = SettingsCheckProvider.get(setting, "user")
             if (typeof props !== "object") return undefined
+            props = props[props.length - 1]
             if (typeof props.default === "function") return props.default()
             return props.default
         }
-        return res.value
+        const resv = res.value
+        if (integrityCheck) {
+            const si = SettingsCheckProvider.check(setting, resv, "user")
+            if (!si[0]) {
+                let repl = resv
+                await si[1](resv, setting, async (v, ou = true) => {
+                    const ndb = await this.db.getObjectStore(this.ObjectStoreNames[0], true)
+                    await ndb.put({ key: setting, value: v })
+                    repl = v
+                    if (ou) si[3](v, resv, setting, si[2])
+                })
+
+                return repl
+            }
+        }
+
+        return resv
     }
 
     static async set(setting, value) {
@@ -60,17 +77,34 @@ export default class SettingsStorage {
         return true
     }
 
-    static async getFlag(flag) {
+    static async getFlag(flag, integrityCheck = false) {
         if (typeof flag !== "string") throw new Error("Incorrect key")
         const db = await this.db.getObjectStore(this.ObjectStoreNames[1])
-        const res = await db.get(flag)
+        const res = (await db.get(flag))
         if (res === undefined) {
-            const props = SettingsCheckProvider.get(flag, "flags")
+            let props = SettingsCheckProvider.get(flag, "flags")
             if (typeof props !== "object") return undefined
+            props = props[props.length - 1]
             if (typeof props.default === "function") return props.default()
             return props.default
         }
-        return res.value
+        const resv = res.value
+        if (integrityCheck) {
+            const si = SettingsCheckProvider.check(flag, resv, "flags")
+            if (!si[0]) {
+                let repl = resv
+                await si[1](resv, flag, async (v, ou = true) => {
+                    const ndb = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
+                    await ndb.put({ key: flag, value: v })
+                    repl = v
+                    if (ou) si[3](v, resv, flag, si[2])
+                })
+
+                return repl
+            }
+        }
+
+        return resv
     }
 
     static async getAllFlags() {
@@ -79,31 +113,25 @@ export default class SettingsStorage {
         return res
     }
 
-    static async setFlags(flags) {
-        if (typeof flags !== "object") throw new Error("Incorrect data")
-        const ova = await this.getAllFlags()
+    static async setFlag(flag, value) {
+        if (typeof flag !== "string") throw new Error("Incorrect flag name")
+
+        const si = SettingsCheckProvider.check(flag, value, "flags")
+        const ov = await this.get(flag)
         const db = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
-        let gr = true
-        Object.keys(flags).forEach(async (key) => {
-            let ov = ova.find(e => e.key === key)
-            if (ov !== undefined) ov = ov.value || undefined
-            const si = SettingsCheckProvider.check(key, flags[key], "flags")
+        if (!si[0]) {
+            const res = si[1](value, flag, async (v, ou = true) => {
+                const ndb = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
+                await ndb.put({ key: flag, value: v })
+                if (ou) si[3](v, ov, flag, si[2])
+            })
 
-            if (!si[0]) {
-                si[1](flags[key], key, async (v, ou = true) => {
-                    const ndb = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
-                    await ndb.put({ key, value: v })
+            return (!!res)
+        }
 
-                    if (ou) si[3](v, ov, key, si[2])
-                })
-
-                gr = false
-                return
-            }
-            db.put({ key, value: flags[key] })
-            si[3](flags[key], ov, key, si[2])
-        })
-        return gr
+        await db.put({ key: flag, value })
+        si[3](value, ov, flag, si[2])
+        return true
     }
 
     static async reset(type) {

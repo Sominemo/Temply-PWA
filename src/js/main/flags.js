@@ -90,9 +90,7 @@ export default class FlagsUI {
         return new Card([
             new SwitchLabel(
                 [r, (n) => {
-                    const s = {}
-                    s[id] = n
-                    SettingsStorage.setFlags(s)
+                    SettingsStorage.setFlag(id, n)
                 }],
                 new DOM({
                     new: "div",

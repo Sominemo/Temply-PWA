@@ -3,64 +3,79 @@ import FieldChecker from "../../tools/validation/fieldChecker"
 
 export default class SettingsCheckProvider {
     static rules = {
-        user: {},
-        flags: {},
+        user: new Map(),
+        flags: new Map(),
     }
 
     static updates = {
-        user: {},
-        flags: {},
+        user: new Map(),
+        flags: new Map(),
     }
 
     static setRules(rules, type = "user") {
         new FieldsContainer([
             "array",
-            new FieldsContainer([
-                ["default"],
-                {
-                    checker: new FieldChecker({ type: "object" }),
-                    onfail: new FieldChecker({ type: "function" }),
-                    onupdate: new FieldChecker({ type: "function" }),
-                },
+            new FieldsContainer([["name", "rule"], {
+                name: new FieldChecker({ type: "string" }),
+                rule:
+                    new FieldsContainer([
+                        ["default"],
+                        {
+                            checker: new FieldChecker({ type: "object" }),
+                            onfail: new FieldChecker({ type: "function" }),
+                            onupdate: new FieldChecker({ type: "function" }),
+                        },
+                    ]),
+            },
             ]),
         ]).set(Object.values(rules))
 
-        this.rules[type] = Object.assign(this.rules[type], rules)
+        rules.forEach((e) => {
+            const cha = this.get(e.name, type)
+            this.rules[type].set(e.name, [...(Array.isArray(cha) ? cha : []), e.rule])
+        })
     }
 
     static check(rule, value, type = "user") {
         if (typeof rule !== "string" || typeof type !== "string") throw new Error("Incorrect key")
 
-        const r = this.rules[type][rule]
-        if (typeof r !== "object") return [true, () => {}, undefined, () => {}]
-
+        const ri = this.rules[type].get(rule)
+        if (!Array.isArray(ri)) return [true, () => { }, undefined, () => { }]
         let success = true
-
+        let rc
         try {
-            if (Object.prototype.hasOwnProperty.call(r, "checker")) success = r.checker.set(value)
-            else success = true
+            ri.forEach((r) => {
+                if (!Object.prototype.hasOwnProperty.call(r, "onfail")) r.onfail = () => { }
+                if (!Object.prototype.hasOwnProperty.call(r, "onupdate")) r.onupdate = () => { }
+
+                rc = r
+
+                try {
+                    if (Object.prototype.hasOwnProperty.call(r, "checker")) success = r.checker.set(value)
+                    else success = true
+                } catch (e) {
+                    success = false
+                    throw new Error("Setting check failed")
+                }
+
+                if (Array.isArray(this.updates[type].get(rule))) {
+                    const of = r.onupdate
+                    r.onupdate = (...params) => {
+                        of(...params)
+                        this.updates[type].get(rule).forEach((e) => {
+                            if (typeof e === "function") e(...params)
+                        })
+                    }
+                }
+            })
         } catch (e) {
-            success = false
+            // Just fail
         }
-
-        if (!Object.prototype.hasOwnProperty.call(r, "onfail")) r.onfail = () => {}
-        if (!Object.prototype.hasOwnProperty.call(r, "onupdate")) r.onupdate = () => {}
-
-        if (Array.isArray(this.updates[type][rule])) {
-            const of = r.onupdate
-            r.onupdate = (...params) => {
-                of(...params)
-                this.updates[type][rule].forEach((e) => {
-                    if (typeof e === "function") e(...params)
-                })
-            }
-        }
-
-        return [success, r.onfail, r.default, r.onupdate]
+        return [success, rc.onfail, rc.default, rc.onupdate]
     }
 
     static get(rule, type = "user") {
-        return this.rules[type][rule]
+        return this.rules[type].get(rule)
     }
 
     static addListener(key, func, type = "user") {
