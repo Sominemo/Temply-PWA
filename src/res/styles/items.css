@@ -1,5 +1,5 @@
 .inline-title-block {
-    font-family: "Product Sans", "Roboto";
+    font-family: var(--font-accent);
     font-weight: 300;
     margin: 20px;
     user-select: none;
@@ -94,7 +94,7 @@ switch-input:before {
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .3);
+    box-shadow: 0 2px 5px var(--color-switch-shadow);
     position: absolute;
     left: 100%;
     transform: translate(-100%, -25%);
@@ -132,18 +132,18 @@ switch-input:focus:after,
 switch-input:active:after, 
 .card-list-item-clickable:focus switch-input:after,
 .card-list-item-clickable:active switch-input:after {
-    background: rgba(0,0,0,.2);
+    background: var(--color-switch-ripple);
 }
 
 
 md-button {
     display: inline-block;
     padding: 10px 15px;
-    background: var(--color-main);
-    color: var(--color-generic-inverted);
+    background: var(--color-button-background);
+    color: var(--color-button-text);
     margin: 5px;
     border-radius: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    box-shadow: 0 2px 6px var(--color-button-shadow);
     transition: all .2s;
     overflow: hidden;
     position: relative;
@@ -153,25 +153,26 @@ md-button {
     -ms-user-select: none;
     -khtml-user-select: none;
     user-select: none;
-    font-family: "Product Sans", "Roboto", Arial, Helvetica, sans-serif;
+    font-family: var(--font-accent);
 }
 
 md-button:hover {
-    box-shadow: 0 4px 9px rgba(0, 0, 0, .3);
+    box-shadow: 0 4px 9px var(--color-button-shadow-hover);
 }
 
 md-button.light {
-    color: var(--color-main);
-    background: var(--color-generic-inverted);
+    color: var(--color-button-text-light);
+    background: var(--color-button-background-light);
 }
 
 md-button.accent {
-    background: var(--color-accent);
+    background: var(--color-button-background-accent);
+    color: var(--color-button-text-accent);
 }
 
 md-button.accent.light {
-    background: var(--color-generic-inverted);
-    color: var(--color-accent);
+    background: var(--color-button-background-accent-light);
+    color: var(--color-button-text-accent-light);
     
 }
 
@@ -189,7 +190,7 @@ md-button.accent.light {
 
 md-button::before {
     content: "";
-    background: rgba(0,0,0,.2);
+    background: var(--color-button-ripple);
     width: 110%;
     height: 110%;
     top: 50%;

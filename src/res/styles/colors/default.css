@@ -37,4 +37,22 @@
 	--color-card-item-highlight-focus: #f3f3f3;
 
 	--color-attention: #ca1414;
+
+	--color-switch-shadow: rgba(0, 0, 0, .3);
+	--color-switch-ripple: rgba(0,0,0,.2);
+
+	--color-button-shadow: rgba(0, 0, 0, .25);
+	--color-button-shadow-hover: rgba(0, 0, 0, .3);
+	--color-button-ripple: rgba(0,0,0,.2);
+
+	--color-button-background: var(--color-main);
+	--color-button-text: var(--color-generic-inverted);
+	--color-button-text-light: var(--color-main);
+	--color-button-background-light: var(--color-generic-inverted);
+
+	--color-button-background-accent: var(--color-accent);
+	--color-button-text-accent: var(--color-generic-inverted);
+	--color-button-text-accent-light: var(--color-accent);
+	--color-button-background-accent-light: var(--color-generic-inverted);
+
 }
