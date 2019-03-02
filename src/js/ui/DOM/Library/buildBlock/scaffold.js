@@ -16,6 +16,12 @@ export default class Scaffold {
                 new DOM({
                     new: "main",
                     content: WindowManager.Scaffold,
+                    attributes: [
+                        {
+                            name: "role",
+                            value: "main",
+                        },
+                    ],
                 }),
             ],
         })
