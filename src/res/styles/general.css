@@ -23,7 +23,11 @@ body {
     background-position: center;
     background-size: 25vh;
     background-repeat: no-repeat;
-    min-height: 100vh;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    min-height: 100%;
 }
 
 *::-webkit-scrollbar-thumb,

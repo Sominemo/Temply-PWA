@@ -2,6 +2,7 @@
 
 import DOM from "./DOM/Classes/dom"
 import Navigation from "../main/navigation"
+import SettingsStorage from "../services/Settings/SettingsStorage"
 
 export default class WindowManager {
     static windows = []
@@ -15,6 +16,8 @@ export default class WindowManager {
     static controlWin = false
 
     static controlOver = false
+
+    static fullscreen = false
 
     static newLayer() {
         return Error("Only Windows and Overlays in this implementation")
@@ -174,5 +177,19 @@ export default class WindowManager {
         this.controlWin.clear(we.element)
 
         return [this.generateWindow(last), this.currentWindow]
+    }
+
+    static async EnableFullScreenExperience() {
+        if (!("webkitRequestFullscreen" in document.documentElement)
+        || !await SettingsStorage.getFlag("fullscreen_on_tap")) return
+
+        window.addEventListener("load", () => {
+            document.documentElement.addEventListener("touchend", () => {
+                if (!this.fullscreen) {
+                    document.documentElement.webkitRequestFullscreen()
+                    this.fullscreen = !this.fullscreen
+                }
+            })
+        })
     }
 }

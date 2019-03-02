@@ -50,6 +50,15 @@ export default class FlagsUI {
             })
         }
 
+        if ("webkitRequestFullscreen" in document.documentElement) {
+            exps.push({
+                title: "Use full-screen experience",
+                about: `Sends user to full screen mode on touch if "webkitRequestFullscreen" option
+                is supported`,
+                id: "fullscreen_on_tap",
+            })
+        }
+
         w.render(new Title("List", 2))
         exps.forEach(async (e) => {
             const re = await this.renderSwitch(e.title, e.about, e.id)

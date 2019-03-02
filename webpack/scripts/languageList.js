@@ -6,8 +6,6 @@ const getDirectories = source => readdirSync(source)
     .map(name => [join(source, name), name])
     .filter(isDirectory)
 
-// const list = getDirectories(join("src", "res", "language"));
-
 module.exports = function getLangMap(path) {
     const r = []
     const list = getDirectories(path)
