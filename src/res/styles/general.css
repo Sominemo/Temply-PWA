@@ -10,6 +10,9 @@
     font-family: inherit;
     scroll-behavior: smooth;
 }
+html {
+    overflow-x: hidden;
+}
 
 body {
     color: var(--color-generic);

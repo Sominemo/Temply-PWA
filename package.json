@@ -8,12 +8,11 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "webpack --config config/development/webpack.config.js --watch",
-        "major": "webpack --config config/development/webpack.config.js --env.major",
-        "minor": "webpack --config config/development/webpack.config.js --env.minor",
-        "patch": "webpack --config config/development/webpack.config.js --env.patch",
-        "prod": "webpack --config config/production/webpack.config.js",
-        "prod-debug": "webpack --config config/production/webpack.config.js --env.makeMaps"
+        "start": "webpack --config webpack/webpack.config.js --watch",
+        "major": "webpack --config webpack/webpack.config.js --env.major --en",
+        "minor": "webpack --config webpack/webpack.config.js --env.minor",
+        "patch": "webpack --config webpack/webpack.config.js --env.patch",
+        "force-maps": "webpack --config  webpack/webpack.config.js --env.makeMaps"
     },
     "repository": "git+https://github.com/Sominemo/Temply-PWA.git",
     "keywords": [],
@@ -33,6 +32,7 @@
         "bitbar-webpack-progress-plugin": "^1.0.0",
         "clean-webpack-plugin": "^1.0.0",
         "copy-webpack-plugin": "^4.6.0",
+        "create-file-webpack": "^1.0.2",
         "css-loader": "^2.1.0",
         "eslint": "^5.10.0",
         "eslint-config-airbnb-base": "^13.1.0",
