@@ -17,7 +17,7 @@ export default class WindowManager {
 
     static controlOver = false
 
-    static fullscreen = false
+    static get fullscreen() { return document.webkitFullscreenElement !== null }
 
     static newLayer() {
         return Error("Only Windows and Overlays in this implementation")
@@ -187,7 +187,6 @@ export default class WindowManager {
             document.documentElement.addEventListener("touchend", () => {
                 if (!this.fullscreen) {
                     document.documentElement.webkitRequestFullscreen()
-                    this.fullscreen = !this.fullscreen
                 }
             })
         })
