@@ -12,6 +12,7 @@ import SettingsLayout from "./services/Settings/user/layout"
 import FieldChecker from "./tools/validation/fieldChecker"
 import FieldsContainer from "./tools/validation/fieldsContainer"
 import DOMController from "./ui/DOM/Helpers/domController"
+import LanguageCore from "./services/Language/core"
 
 const DevUtils = {
     dom: DOM,
@@ -28,6 +29,7 @@ const DevUtils = {
     setLay: SettingsLayout,
     fch: FieldChecker,
     fct: FieldsContainer,
+    langCore: LanguageCore,
 }
 
 global.idb = idb

@@ -1,5 +1,6 @@
 import SettingsCheckProvider from "../services/Settings/SettingsCheckProvider"
 import FieldChecker from "../tools/validation/fieldChecker"
+import App from "../main/app"
 
 SettingsCheckProvider.setRules([
     {
@@ -15,9 +16,9 @@ SettingsCheckProvider.setRules([
 
 SettingsCheckProvider.setRules([
     {
-        name: "enable_tab_navigation",
+        name: "miscellaneous_in_settings",
         rule: {
-            default: true,
+            default: App.debug,
             checker: new FieldChecker({ type: "boolean" }),
             onfail: async (a, b, c) => { await c(!!a); return true },
         },

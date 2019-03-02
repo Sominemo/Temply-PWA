@@ -8,12 +8,8 @@ const WebpackAutoInject = require("webpack-auto-inject-version")
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
 const ResourceHintWebpackPlugin = require("resource-hints-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
-const CreateFileWebpack = require("create-file-webpack")
 const webpack = require("webpack")
 const fecha = require("fecha")
-
-// Own scripts
-const getLangMap = require(path.join(__dirname, "scripts", "languageList"))
 
 const __root = process.cwd()
 const pack = require(path.join(__root, "package.json"))
@@ -28,6 +24,10 @@ const PATHS = {
 PATHS.resources = path.join(PATHS.source, "res")
 PATHS.js = path.join(PATHS.source, "js")
 PATHS.language = path.join(PATHS.resources, "language")
+
+// Own scripts
+const makeLangMap = require(path.join(__dirname, "scripts", "languageList"))
+makeLangMap(PATHS.language)
 
 module.exports = (env = {}) => ({
     optimization: {
@@ -112,14 +112,6 @@ module.exports = (env = {}) => ({
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
         ]),
-        new CreateFileWebpack(
-            {
-                path: PATHS.language,
-                fileName: "list.json",
-                content: JSON.stringify(getLangMap(PATHS.language)),
-            },
-        ),
-        // new GenerateJsonPlugin("languageMap.json", getLangMap(PATHS.language)),
         new WebpackAutoInject({
             SILENT: true,
             SHORT: "TEMPLY",

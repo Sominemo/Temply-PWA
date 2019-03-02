@@ -1,4 +1,6 @@
-const { lstatSync, readdirSync, readFileSync } = require("fs")
+const {
+    lstatSync, readdirSync, readFileSync, writeFileSync,
+} = require("fs")
 const { join } = require("path")
 
 const isDirectory = source => lstatSync(source[0]).isDirectory()
@@ -6,7 +8,7 @@ const getDirectories = source => readdirSync(source)
     .map(name => [join(source, name), name])
     .filter(isDirectory)
 
-module.exports = function getLangMap(path) {
+function getLangMap(path) {
     const r = []
     const list = getDirectories(path)
     list.forEach((e) => {
@@ -17,4 +19,9 @@ module.exports = function getLangMap(path) {
     })
 
     return r
+}
+
+module.exports = function makeLangMap(path) {
+    const map = getLangMap(path)
+    writeFileSync(join(path, "list.json"), JSON.stringify(map))
 }
