@@ -25,7 +25,7 @@ export default class Language {
     }
 
     async loadData() {
-        const res = import(`../../../res/language/${this.info.dir}/index`)
+        const res = import(`Resources/language/${this.info.dir}/index`)
         return res
     }
 }

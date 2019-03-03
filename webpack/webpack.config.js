@@ -67,6 +67,12 @@ module.exports = (env = {}) => ({
             ],
         } : {}),
     },
+    resolve: {
+        alias: {
+            Resources: PATHS.resources,
+            DOMPath: path.resolve(PATHS.js, "ui", "DOM"),
+        },
+    },
     entry: [
         path.join(PATHS.js, "index.js"),
     ],
@@ -183,19 +189,19 @@ module.exports = (env = {}) => ({
             runtimeCaching: [
                 {
                     urlPattern: /language/,
-                    handler: "cacheFirst",
+                    handler: "CacheFirst",
                 },
                 {
                     urlPattern: new RegExp("^https://api.temply.procsec.top/"),
-                    handler: "networkFirst",
+                    handler: "NetworkFirst",
                 },
                 {
                     urlPattern: new RegExp("^https://fonts.gstatic.com/"),
-                    handler: "cacheFirst",
+                    handler: "CacheFirst",
                 },
                 {
                     urlPattern: new RegExp("^https://fonts.googleapis.com/"),
-                    handler: "cacheFirst",
+                    handler: "CacheFirst",
                 },
             ],
         }),

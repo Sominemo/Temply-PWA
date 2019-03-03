@@ -1,4 +1,4 @@
-import idb from "idb"
+import { openDb } from "idb"
 import App from "./app"
 
 export default class Report {
@@ -57,7 +57,7 @@ export default class Report {
 
     static get openDB() {
         return new Promise((resolve, reject) => {
-            idb.open(this.DBName, 1, (upgradeDB) => {
+            openDb(this.DBName, 1, (upgradeDB) => {
                 if (upgradeDB.oldVersion === 0) {
                     upgradeDB.createObjectStore(this.StorageName, {
                         keyPath: "key",

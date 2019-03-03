@@ -1,4 +1,4 @@
-import langList from "../../../res/language/list.json"
+import langList from "Resources/language/list.json"
 
 export default class LanguageCore {
     static packsLocation = "/language"

@@ -87,7 +87,7 @@ export default class FlagsUI {
                 padding: "20px 0",
             },
             content: [
-                new SVG(await import("../../res/images/placeholders/experiments.svg"), {
+                new SVG(await import("Resources/images/placeholders/experiments.svg"), {
                     width: "30vmin",
                     margin: "auto",
                     display: "block",

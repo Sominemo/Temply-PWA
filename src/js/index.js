@@ -1,8 +1,8 @@
 import "core-js/modules/es6.promise"
 import "core-js/modules/es6.array.iterator"
 
-import "../res/styles/fonts.css"
-import "../res/styles/constructor.css"
+import "Resources/styles/fonts.css"
+import "Resources/styles/constructor.css"
 
 import "./loaders/MainLoader"
 

@@ -3,6 +3,13 @@
         "browser": true,
         "es6": true
     },
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "./webpack/webpack.config.js"
+            }
+        }
+    },
     "extends": "airbnb-base",
     "parser": "babel-eslint",
     "parserOptions": {
@@ -32,6 +39,11 @@
         "no-param-reassign": "off",
         "no-underscore-dangle": "off",
         "import/no-dynamic-require": "off",
-        "no-unused-vars": ["error", { "args": "none" }]
+        "no-unused-vars": [
+            "error",
+            {
+                "args": "none"
+            }
+        ]
     }
 }
