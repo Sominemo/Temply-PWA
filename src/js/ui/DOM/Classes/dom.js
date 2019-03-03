@@ -1,6 +1,7 @@
 import FieldChecker from "../../../tools/validation/fieldChecker"
 import DOMController from "../Helpers/domController"
 import FieldsContainer from "../../../tools/validation/fieldsContainer"
+import Report from "../../../main/report"
 
 export default class DOM {
     elementParse = null
@@ -80,6 +81,7 @@ export default class DOM {
                         },
                     })
                 } catch (e) {
+                    Report.write("DOM Property error", e)
                     r = p.error({
                         element: el,
                         value: o[p.name],

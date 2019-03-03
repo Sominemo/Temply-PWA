@@ -19,6 +19,8 @@ export default (() => {
             return r
         }
 
+        if (r.firstElementChild === null) throw new Error("Incorrect HTML")
+
         return r.firstElementChild
     }
 

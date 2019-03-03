@@ -39,6 +39,7 @@
         "no-param-reassign": "off",
         "no-underscore-dangle": "off",
         "import/no-dynamic-require": "off",
+        "global-require": "off",
         "no-unused-vars": [
             "error",
             {

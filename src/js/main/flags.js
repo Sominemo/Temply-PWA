@@ -78,13 +78,14 @@ export default class FlagsUI {
     }
 
     static async EmptyExperiments(w) {
+        const pic = require("Resources/images/placeholders/experiments.svg")
         w.render(new DOM({
             new: "div",
             style: {
                 padding: "20px 0",
             },
             content: [
-                new SVG(await import("Resources/images/placeholders/experiments.svg"), {
+                new SVG(pic, {
                     width: "30vmin",
                     margin: "auto",
                     display: "block",

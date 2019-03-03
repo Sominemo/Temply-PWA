@@ -8,11 +8,11 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "webpack --config webpack/webpack.config.js --watch",
+        "build": "webpack --config webpack/webpack.config.js --watch",
         "major": "webpack --config webpack/webpack.config.js --env.major --en",
         "minor": "webpack --config webpack/webpack.config.js --env.minor",
         "patch": "webpack --config webpack/webpack.config.js --env.patch",
-        "force-maps": "webpack --config  webpack/webpack.config.js --env.makeMaps"
+        "build-debug": "webpack --config  webpack/webpack.config.js --env.makeMaps"
     },
     "repository": "git+https://github.com/Sominemo/Temply-PWA.git",
     "keywords": [],

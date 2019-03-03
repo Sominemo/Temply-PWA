@@ -31,6 +31,7 @@ makeLangMap(PATHS.language)
 
 module.exports = (env = {}) => ({
     optimization: {
+        namedChunks: true,
         runtimeChunk: false,
         splitChunks: {
             cacheGroups: {

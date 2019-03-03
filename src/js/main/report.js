@@ -15,9 +15,9 @@ export default class Report {
     }
 
     static write(...log) {
+        const lines = this.trace()
+        this.saveToDB(...log, lines)
         if (App.debug) {
-            const lines = this.trace()
-            this.saveToDB(...log, lines)
             console.log(...log)
             console.groupCollapsed("Trace")
             lines.forEach((line) => {
