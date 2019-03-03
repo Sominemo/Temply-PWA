@@ -50,7 +50,7 @@ export default class FlagsUI {
             })
         }
 
-        if ("webkitRequestFullscreen" in document.documentElement) {
+        if ("ontouchend" in document && "webkitRequestFullscreen" in document.documentElement) {
             exps.push({
                 title: "Use full-screen experience",
                 about: `Sends user to full screen mode on touch if "webkitRequestFullscreen" option
