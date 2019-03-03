@@ -10,16 +10,21 @@ export default class Language {
     info = false
 
     constructor(code) {
-        const l = LanguageCore.languageList.find(e => e.code === code)
-        new FieldsContainer([
-            ["code", "name", "dir", "author"],
-            {
-                code: new FieldChecker({ type: "string", symbols: "a-z-" }),
-                name: new FieldChecker({ type: "string" }),
-                dir: new FieldChecker({ type: "string", symbols: "a-z-" }),
-                author: new FieldChecker({ type: "string", symbols: "a-zA-Zа-яА-Я._#@*-" }),
-            },
-        ]).set(l)
+        let l
+        try {
+            l = LanguageCore.languageList.find(e => e.code === code)
+            new FieldsContainer([
+                ["code", "name", "dir", "author"],
+                {
+                    code: new FieldChecker({ type: "string", symbols: "a-z-" }),
+                    name: new FieldChecker({ type: "string" }),
+                    dir: new FieldChecker({ type: "string", symbols: "a-z-" }),
+                    author: new FieldChecker({ type: "string", symbols: "a-zA-Zа-яА-Я._#@*-" }),
+                },
+            ]).set(l)
+        } catch (e) {
+            throw new Error("The language you specified does not supported or invalid")
+        }
 
         this.info = l
     }

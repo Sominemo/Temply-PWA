@@ -1,12 +1,10 @@
-import WindowManager from "../ui/SimpleWindowManager"
-import Nav from "../ui/DOM/Library/buildBlock/nav"
 import Navigation from "../main/navigation"
 import WindowContainer from "../ui/DOM/Library/buildBlock/windowContainer"
-import Title from "../ui/DOM/Library/object/title"
-import Card from "../ui/DOM/Library/object/card/card"
-import CardTextList from "../ui/DOM/Library/object/card/cardTextList"
-import Icon from "../ui/DOM/Library/object/icon"
 import Design from "../main/design"
+import { Nav } from "../ui/DOM/Library/buildBlock"
+import WindowManager from "../ui/SimpleWindowManager"
+import { Title, Icon } from "../ui/DOM/Library/object"
+import { Card, CardTextList } from "../ui/DOM/Library/object/card"
 
 Nav.newItem({
     name: "Tasks",

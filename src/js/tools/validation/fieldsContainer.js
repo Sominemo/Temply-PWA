@@ -31,6 +31,8 @@ export default class FieldsContainer {
         const tr = this.type
         if (!tr) throw new FieldCheckerError(3, "No rules defined")
         const e = []
+
+        if (typeof a !== "object") throw new FieldCheckerError(4, "Not object")
         if (this.array && !Array.isArray(a)) throw new FieldCheckerError(4, "Not array")
 
         Object.keys(tr[1]).forEach((v) => {

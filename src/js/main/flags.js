@@ -1,16 +1,13 @@
-import Card from "../ui/DOM/Library/object/card/card"
-import CardContent from "../ui/DOM/Library/object/card/cardContent"
 import WindowManager from "../ui/SimpleWindowManager"
 import WindowContainer from "../ui/DOM/Library/buildBlock/windowContainer"
-import Title from "../ui/DOM/Library/object/title"
 import DOM from "../ui/DOM/Classes/dom"
-import SVG from "../ui/DOM/Library/basic/svg"
-import Icon from "../ui/DOM/Library/object/icon"
 import Design from "./design"
 import App from "./app"
-import SwitchLabel from "../ui/DOM/Library/object/input/switchLabel"
 import SettingsStorage from "../services/Settings/SettingsStorage"
-import Button from "../ui/DOM/Library/object/input/button"
+import { Card, CardContent } from "../ui/DOM/Library/object/card"
+import { Title, Icon } from "../ui/DOM/Library/object"
+import { Button, SwitchLabel } from "../ui/DOM/Library/object/input"
+import { SVG } from "../ui/DOM/Library/basic"
 
 export default class FlagsUI {
     static async Init() {

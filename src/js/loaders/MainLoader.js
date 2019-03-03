@@ -1,5 +1,6 @@
 import "./ErrorHandler"
 import "./FeatureChecker"
+import "./SettingsLayout"
 import "./Settings"
 import "./Navigation"
 import "./Listeners"
