@@ -13,6 +13,7 @@ import FieldChecker from "./tools/validation/fieldChecker"
 import FieldsContainer from "./tools/validation/fieldsContainer"
 import DOMController from "./ui/DOM/Helpers/domController"
 import LanguageCore from "./services/Language/core"
+import Language from "./services/Language/instance"
 
 const DevUtils = {
     dom: DOM,
@@ -30,6 +31,7 @@ const DevUtils = {
     fch: FieldChecker,
     fct: FieldsContainer,
     langCore: LanguageCore,
+    langInstance: Language,
 }
 
 global.idb = idb

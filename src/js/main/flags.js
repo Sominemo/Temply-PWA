@@ -29,8 +29,20 @@ export default class FlagsUI {
             It's recommended to restart the application after commiting any changes.`,
             ),
             new CardContent([
-                new Button({ content: "Reload page", handler: () => { window.location.reload() } }),
-                new Button({ content: "Reset flags", handler: () => { SettingsStorage.reset("flags"); window.location.reload() }, type: ["light"] }),
+                new Button({
+                    content: "Reload page",
+                    handler() {
+                        window.location.reload()
+                    },
+                }),
+                new Button({
+                    content: "Reset flags",
+                    type: ["light"],
+                    handler() {
+                        SettingsStorage.reset("flags")
+                        window.location.reload()
+                    },
+                }),
             ]),
         ]))
         const exps = []
@@ -85,7 +97,7 @@ export default class FlagsUI {
                     style: {
                         textAlign: "center",
                         marginTop: "20px",
-                        fontFamily: "\"Product Sans\"",
+                        fontFamily: Design.getVar("font-accent"),
                         fontSize: "20px",
                     },
                     content: "There's no experiments for you right now",

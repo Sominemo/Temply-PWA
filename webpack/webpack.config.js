@@ -40,6 +40,18 @@ module.exports = (env = {}) => ({
                     name: "vendor",
                     enforce: true,
                 },
+                language: {
+                    test: /[\\/]res[\\/]language[\\/].+[\\/]/,
+                    enforce: true,
+                    name(module) {
+                        // get the name. E.g. node_modules/packageName/not/this/part.js
+                        // or node_modules/packageName
+                        const packageName = module.context.match(/[\\/]res[\\/]language[\\/](.*?)([\\/]|$)/)[1]
+
+                        // npm package names are URL-safe, but some servers don't like @ symbols
+                        return `language/${packageName.replace("@", "")}`
+                    },
+                },
             },
         },
         ...(PROD ? {
@@ -110,6 +122,7 @@ module.exports = (env = {}) => ({
         }),
         new CopyWebpackPlugin([
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
+            // { from: PATHS.language, to: path.join(PATHS.build, "language") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
         ]),
         new WebpackAutoInject({
@@ -163,21 +176,26 @@ module.exports = (env = {}) => ({
             swDest: "sw.js",
             clientsClaim: true,
             skipWaiting: true,
+            exclude: [/\.htaccess$/, /language\/.+$/],
             navigateFallback: "/",
-            navigateFallbackBlacklist: [/^\.well-known/],
+            navigateFallbackBlacklist: [/^\.well-known/, /language/],
             directoryIndex: "index.html",
             runtimeCaching: [
                 {
-                    urlPattern: "https://api.temply.procsec.top",
+                    urlPattern: /language/,
+                    handler: "cacheFirst",
+                },
+                {
+                    urlPattern: new RegExp("^https://api.temply.procsec.top/"),
                     handler: "networkFirst",
                 },
                 {
-                    urlPattern: "https://fonts.gstatic.com/",
-                    handler: "cacheOnly",
+                    urlPattern: new RegExp("^https://fonts.gstatic.com/"),
+                    handler: "cacheFirst",
                 },
                 {
-                    urlPattern: "https://fonts.googleapis.com/",
-                    handler: "cacheOnly",
+                    urlPattern: new RegExp("^https://fonts.googleapis.com/"),
+                    handler: "cacheFirst",
                 },
             ],
         }),
