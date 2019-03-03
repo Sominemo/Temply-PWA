@@ -1,11 +1,11 @@
 import Navigation from "../main/navigation"
 import SettingsStorage from "../services/Settings/SettingsStorage"
-import SettingsUI from "../services/Settings/user/ui"
 import {
     SettingsActContainer, SettingsSectionElement, SettingsGroupContainer, SettingsActLink,
 } from "../ui/DOM/Library/settings"
 import { CardList } from "../ui/DOM/Library/object/card"
 import SettingsLayout from "../services/Settings/user/layout"
+import SettingsLayoutManager from "../services/Settings/user/manager"
 
 const a = new SettingsLayout()
     .createAct({
@@ -33,4 +33,4 @@ a.getAct("settings")
     .getGroup("experiments-menus")
     .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "flags" } }, "Experiments"], id: "experiments-menu-link" })
 
-SettingsUI.applyLayout(a)
+SettingsLayoutManager.applyLayout(a)

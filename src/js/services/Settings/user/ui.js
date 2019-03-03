@@ -7,6 +7,7 @@ import Card from "../../../ui/DOM/Library/object/card/card"
 import Title from "../../../ui/DOM/Library/object/title"
 import CardList from "../../../ui/DOM/Library/object/card/cardList"
 import Design from "../../../main/design"
+import SettingsLayoutManager from "./manager"
 
 Nav.newItem({
     name: "Settings",
@@ -22,24 +23,16 @@ Nav.newItem({
 
 
 export default class SettingsUI {
-    static _layout = false
-
-    static applyLayout(l) {
-        if (!(l instanceof SettingsLayout)) throw new TypeError("Only Settings Layout can be applied")
-
-        this._layout = l
-    }
-
     static async Init() {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
+        const l = SettingsLayoutManager.layout
 
         try {
-            if (!(this._layout instanceof SettingsLayout)) {
+            if (!(l instanceof SettingsLayout)) {
                 throw new TypeError(`Incorrect Settings Layout applied of type ${typeof this._layout}`)
             }
 
-            const l = this._layout
             const path = Navigation.parse().params
             const tAct = (path.length > 0 ? path[0] : l.defaultAct)
             const actObj = l.getAct(tAct)
@@ -85,30 +78,5 @@ export default class SettingsUI {
 
             throw e
         }
-        /*
-
-        const aboutScreen = () => {
-            Navigation.hash = {
-                module: "about",
-                params: {},
-            }
-        }
-
-        w.render(new Title("Settings"))
-        w.render(new Title("General", 2))
-        w.render(new Card(new CardTextList(
-            ["Imaginary section", "Another one", "There's more"],
-            { userSelect: false, handler: aboutScreen }
-        )))
-        w.render(new Title("Miscellaneous", 2))
-        w.render(new Card(new CardTextList(
-            ["Imaginary section", "Another one", "There's more"],
-            { userSelect: false, handler: aboutScreen }
-        )))
-        w.render(new Card(new CardTextList(
-            ["Imaginary section", "Another one", "There's more"],
-            { userSelect: false, handler: aboutScreen }
-        )))
-        */
     }
 }
