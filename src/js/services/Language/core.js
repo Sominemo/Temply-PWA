@@ -3,6 +3,7 @@ import Language from "./instance"
 import FieldsContainer from "../../tools/validation/fieldsContainer"
 import FieldChecker from "../../tools/validation/fieldChecker"
 import Report from "../../main/report"
+import SettingsStorage from "../Settings/SettingsStorage"
 
 export default class LanguageCore {
     static _language = false
@@ -20,7 +21,10 @@ export default class LanguageCore {
         }
     }
 
-    static get defaultLang() {
+    static async defaultLang() {
+        const ul = await SettingsStorage.get("user_ui_language")
+        if (this.isSupported(ul)) return ul
+
         if (navigator.languages) {
             const lang = navigator.languages.find(e => this.isSupported(e.slice(0, 2)))
             return lang.slice(0, 2)
@@ -40,7 +44,7 @@ export default class LanguageCore {
     }
 
     static async autoLoad() {
-        const l = this.defaultLang
+        const l = await this.defaultLang()
         await this.applyLanguage(new Language(l))
 
         Report.write(`Language auto-loaded: ${l}`)
