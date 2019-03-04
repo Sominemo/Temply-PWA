@@ -30,7 +30,22 @@ export default class Language {
     }
 
     async loadData() {
-        const res = import(`Resources/language/${this.info.dir}/index`)
-        return res
+        try {
+            const { strings, library } = await import(`Resources/language/${this.info.dir}`)
+            new FieldsContainer([
+                ["strings", "library"],
+                {
+                    strings: new FieldChecker({ type: "object" }),
+                    library: new FieldChecker({ type: "function" }),
+                },
+            ]).set({ strings, library })
+
+            this.strings = strings
+            this.library = library
+        } catch (e) {
+            throw new Error("Invalid language package")
+        }
+
+        return true
     }
 }

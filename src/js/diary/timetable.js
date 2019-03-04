@@ -7,7 +7,7 @@ import { Title } from "../ui/DOM/Library/object"
 
 Nav.newItem({
     name: "Timetable",
-    icon: "access_time",
+    icon: "schedule",
     id: "timetable",
     handler: () => {
         Navigation.hash = {

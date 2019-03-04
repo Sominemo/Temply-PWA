@@ -10,6 +10,7 @@ import Report from "../main/report"
 import LoadState from "../services/LoadState"
 import SW from "../main/SW"
 import domIncludesLoader from "../ui/DOM/Helpers/domIncludesLoader"
+import LanguageCore from "../services/Language/core"
 
 if (process.env.NODE_ENV === "development") {
     import(/* webpackChunkName: "devtools" */ "../dev")
@@ -22,7 +23,10 @@ if (process.env.NODE_ENV === "development") {
 
 SW.register()
 
-domIncludesLoader().then(() => {
+Promise.all([
+    domIncludesLoader(),
+    LanguageCore.autoLoad(),
+]).then(() => {
     import(/* webpackChunkName: "uiinit" */ "../ui/UIinit")
 })
 

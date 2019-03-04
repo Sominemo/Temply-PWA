@@ -129,8 +129,8 @@ module.exports = (env = {}) => ({
         }),
         new CopyWebpackPlugin([
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
-            // { from: PATHS.language, to: path.join(PATHS.build, "language") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
+            { from: path.join(PATHS.resources, "images", "logo", "ios"), to: path.join(PATHS.build, "assets", "icons", "ios") },
         ]),
         new WebpackAutoInject({
             SILENT: true,

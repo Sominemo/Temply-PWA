@@ -1,7 +1,7 @@
 import library from "./library"
 import strings from "./strings"
 
-export default {
+export {
     library,
     strings,
 }
