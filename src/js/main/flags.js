@@ -96,7 +96,7 @@ export default class FlagsUI {
                         fontFamily: Design.getVar("font-accent"),
                         fontSize: "20px",
                     },
-                    content: "There's no experiments for you right now",
+                    content: $$("@expiriments/no_exps_placeholder"),
                 }),
             ],
         }))

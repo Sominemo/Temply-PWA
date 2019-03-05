@@ -60,6 +60,7 @@ export default {
         reload_page: "reload page",
         reset_flags: "reset flags",
         list: "list",
+        no_exps_placeholder: "there's no experiments for you right now",
     },
     unexpected_error: "oops!",
 }

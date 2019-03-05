@@ -60,6 +60,7 @@ export default {
         reload_page: "перегрузить",
         reset_flags: "сбросить",
         list: "список",
+        no_exps_placeholder: "сейчас тестировать нечего",
     },
     unexpected_error: "ой!",
 }
