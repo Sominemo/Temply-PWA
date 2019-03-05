@@ -5,9 +5,10 @@ import { Nav } from "../ui/DOM/Library/buildBlock"
 import WindowManager from "../ui/SimpleWindowManager"
 import { Title, Icon } from "../ui/DOM/Library/object"
 import { Card, CardTextList } from "../ui/DOM/Library/object/card"
+import { $$ } from "../services/Language/handler"
 
 Nav.newItem({
-    name: "Tasks",
+    name() { return $$("tasks") },
     icon: "assignment",
     id: "tasks",
     handler: () => {
@@ -23,10 +24,10 @@ export default class Tasks {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
-        w.render(new Title("Tasks"))
+        w.render(new Title($$("tasks")))
 
         w.render(
-            new Title("Your Agenda", 2,
+            new Title($$("@tasks/agenda"), 2,
                 {
                     marginLeft: `${30 - parseInt(Design.getVar("size-icon-default"), 10)}px`,
                 },
@@ -36,7 +37,7 @@ export default class Tasks {
 
 
         w.render(
-            new Title("Inbox", 2,
+            new Title($$("@tasks/inbox"), 2,
                 {
                     marginLeft: `${30 - parseInt(Design.getVar("size-icon-default"), 10)}px`,
                 },

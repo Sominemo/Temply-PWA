@@ -1,6 +1,5 @@
 import "./ErrorHandler"
 import "./FeatureChecker"
-import "./SettingsLayout"
 import "./Settings"
 import "./Navigation"
 import "./Listeners"
@@ -13,11 +12,6 @@ import domIncludesLoader from "../ui/DOM/Helpers/domIncludesLoader"
 import LanguageCore from "../services/Language/core"
 
 if (process.env.NODE_ENV === "development") {
-    import(/* webpackChunkName: "devtools" */ "../dev")
-        .then((dev) => {
-            Report.write("DevTools loaded")
-            global.dev = dev
-        })
     import(/* webpackChunkName: "testlab" */ "../testlab")
 }
 
@@ -27,7 +21,19 @@ Promise.all([
     domIncludesLoader(),
     LanguageCore.autoLoad(),
 ]).then(() => {
-    import(/* webpackChunkName: "uiinit" */ "../ui/UIinit")
+    import(/* webpackChunkName: "settingsLayout" */ "./SettingsLayout")
+        .then(() => import(/* webpackChunkName: "uiinit" */ "../ui/UIinit"))
+
+        // Development tool
+        .then(() => {
+            if (process.env.NODE_ENV === "development") {
+                import(/* webpackChunkName: "devtools" */ "../dev")
+                    .then((dev) => {
+                        Report.write("DevTools loaded")
+                        global.dev = dev
+                    })
+            }
+        })
 })
 
 LoadState.is = true

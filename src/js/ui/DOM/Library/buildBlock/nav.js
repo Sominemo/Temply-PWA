@@ -30,7 +30,6 @@ export default class Nav {
         new FieldsContainer([
             ["name", "icon", "handler", "id"],
             {
-                name: new FieldChecker({ type: "string" }),
                 icon: new FieldChecker({ type: "string" }),
                 handler: new FieldChecker({ type: "function" }),
                 id: new FieldChecker({ type: "string", symbols: "a-z_" }),
@@ -74,7 +73,7 @@ export default class Nav {
             id: `${this.navItemIdPrefix}${i.id}`,
             content: new Icon(i.icon),
             attributes: {
-                hint: i.name,
+                hint: (typeof i.name === "function" ? i.name() : i.name.toString()),
             },
             events: {
                 event: "click",
@@ -89,7 +88,6 @@ export default class Nav {
             ["icon", "name", "handler", "id"],
             {
                 icon: new FieldChecker({ type: "string" }),
-                name: new FieldChecker({ type: "string" }),
                 handler: new FieldChecker({ type: "function" }),
                 id: new FieldChecker({ type: "string", symbols: "a-z_" }),
             },

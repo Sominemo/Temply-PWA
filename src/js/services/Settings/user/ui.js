@@ -8,9 +8,10 @@ import Title from "../../../ui/DOM/Library/object/title"
 import CardList from "../../../ui/DOM/Library/object/card/cardList"
 import Design from "../../../main/design"
 import SettingsLayoutManager from "./manager"
+import { $$ } from "../../Language/handler"
 
 Nav.newItem({
-    name: "Settings",
+    name() { return $$("settings") },
     icon: "settings",
     id: "settings",
     handler: () => {
@@ -42,11 +43,11 @@ export default class SettingsUI {
                 w.render(new Title("Oops!"))
                 w.render(new Card(new CardList([
                     {
-                        content: "There's no such settings page",
+                        content: $$("@settings/errors/no_page"),
                     },
 
                     {
-                        content: "Go to main",
+                        content: $$("@settings/actions/go_main"),
                         handler() { Navigation.hash = { module: "settings" } },
                         style: {
                             background: Design.getVar("color-accent"),
@@ -60,14 +61,14 @@ export default class SettingsUI {
             w.render(await actObj.render())
         } catch (e) {
             w.clear()
-            w.render(new Title("Oops!"))
+            w.render(new Title($$("unexpected_error")))
             w.render(new Card(new CardList([
                 {
-                    content: "Looks like we failed to load settings layout.",
+                    content: $$("@settings/errors/layout_failed"),
                 },
 
                 {
-                    content: "Open About screen",
+                    content: $$("@settings/actions/open_about"),
                     handler() { Navigation.hash = { module: "about" } },
                     style: {
                         background: Design.getVar("color-accent"),

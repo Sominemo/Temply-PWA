@@ -1,1 +1,6 @@
+ExpiresActive On
+ExpiresByType text/javascript "access plus 1 week"
+ExpiresByType application/javascript "access plus 1 week"
+ExpiresDefault "access plus 1 week"
+
 ErrorDocument 404 /

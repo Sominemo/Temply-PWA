@@ -4,9 +4,10 @@ import { Nav } from "../ui/DOM/Library/buildBlock"
 import WindowManager from "../ui/SimpleWindowManager"
 import { Card, CardTextList } from "../ui/DOM/Library/object/card"
 import { Title } from "../ui/DOM/Library/object"
+import { $$ } from "../services/Language/handler"
 
 Nav.newItem({
-    name: "Timetable",
+    name() { return $$("timetable") },
     icon: "schedule",
     id: "timetable",
     handler: () => {
@@ -22,9 +23,19 @@ export default class Timetable {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
-        const days = () => w.render(new Card(new CardTextList(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])))
+        const days = () => w.render(new Card(new CardTextList(
+            [
+                $$("@dateformats/week/days/su"),
+                $$("@dateformats/week/days/mo"),
+                $$("@dateformats/week/days/tu"),
+                $$("@dateformats/week/days/we"),
+                $$("@dateformats/week/days/th"),
+                $$("@dateformats/week/days/fr"),
+                $$("@dateformats/week/days/sa"),
+            ],
+        )))
 
-        w.render(new Title("Timetable"))
+        w.render(new Title($$("timetable")))
 
         w.render(new Title("Today", 2))
         days()

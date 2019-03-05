@@ -1,5 +1,6 @@
 import { openDb } from "idb"
 import App from "./app"
+import errorToObject from "../tools/transformation/object/errorToObject"
 
 export default class Report {
     static DBConnection = null
@@ -16,7 +17,10 @@ export default class Report {
 
     static write(...log) {
         const lines = this.trace()
-        this.saveToDB(...log, lines)
+        this.saveToDB(
+            ...log.map(re => (re instanceof Error ? errorToObject(re) : re)),
+            lines,
+        )
         if (App.debug) {
             console.log(...log)
             console.groupCollapsed("Trace")

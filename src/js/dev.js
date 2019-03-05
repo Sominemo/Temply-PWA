@@ -14,6 +14,7 @@ import FieldsContainer from "./tools/validation/fieldsContainer"
 import DOMController from "./ui/DOM/Helpers/domController"
 import LanguageCore from "./services/Language/core"
 import Language from "./services/Language/instance"
+import { $ } from "./services/Language/handler"
 
 const DevUtils = {
     dom: DOM,
@@ -32,6 +33,7 @@ const DevUtils = {
     fct: FieldsContainer,
     langCore: LanguageCore,
     langInstance: Language,
+    $,
 }
 
 global.idb = idb

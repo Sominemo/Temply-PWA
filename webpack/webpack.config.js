@@ -44,11 +44,10 @@ module.exports = (env = {}) => ({
                 language: {
                     test: /[\\/]res[\\/]language[\\/].+[\\/]/,
                     enforce: true,
-                    name(module) {
+                    name(module, chunks) {
                         // get the name. E.g. node_modules/packageName/not/this/part.js
                         // or node_modules/packageName
                         const packageName = module.context.match(/[\\/]res[\\/]language[\\/](.*?)([\\/]|$)/)[1]
-
                         // npm package names are URL-safe, but some servers don't like @ symbols
                         return `language/${packageName.replace("@", "")}`
                     },
@@ -130,6 +129,7 @@ module.exports = (env = {}) => ({
         new CopyWebpackPlugin([
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
+            { from: path.join(PATHS.resources, "language.template.htaccess"), to: path.join(PATHS.build, "language", ".htaccess"), toType: "file" },
             { from: path.join(PATHS.resources, "images", "logo", "ios"), to: path.join(PATHS.build, "assets", "icons", "ios") },
         ]),
         new WebpackAutoInject({
@@ -190,7 +190,7 @@ module.exports = (env = {}) => ({
             runtimeCaching: [
                 {
                     urlPattern: /language/,
-                    handler: "CacheFirst",
+                    handler: "StaleWhileRevalidate",
                 },
                 {
                     urlPattern: new RegExp("^https://api.temply.procsec.top/"),

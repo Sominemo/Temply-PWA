@@ -11,6 +11,7 @@ function loadError(e) {
 
     document.body.innerHTML = `
     <style>h1,p{margin: 10px;}</style>
+    <div style="width: 100%; height: 100%; overflow: auto; position: fixed; top: 0; left: 0;">
     <div style="max-width: 500px; padding: 10px; border: solid black 2px; background: white; color: black; margin: auto; margin-top: 15px;">
     <h1>Temply PWA has encouraged a critical error</h1>
     <p>This app can't be launched in current browser.</p>
@@ -26,6 +27,7 @@ function loadError(e) {
     <p>
     <a href="https://temply.procsec.top/report/pwa/?error=${encodeURIComponent(error)}&browser=${encodeURIComponent(ua)}">If you sure you are using a modern browser you can send a report automatically by clicking this link</a>
     </p>
+    </div>
     </div>`
 }
 

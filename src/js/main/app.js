@@ -7,6 +7,7 @@ import TwoSidesWrapper from "../ui/DOM/Library/object/twoSidesWrapper"
 import CardList from "../ui/DOM/Library/object/card/cardList"
 import Navigation from "./navigation"
 import getCounter from "../tools/objects/counter"
+import { $$ } from "../services/Language/handler"
 
 export default class App {
     static get version() {
@@ -44,14 +45,14 @@ export default class App {
             Navigation.hash = { module: "flags" }
         }
 
-        w.render(new Title("About App"))
+        w.render(new Title($$("@about/app")))
         w.render(new Card(new CardList(
             [
                 { content: this.appName },
-                { content: new TwoSidesWrapper("Version", this.version), handler: openFlags },
-                { content: new TwoSidesWrapper("Build date", this.buildDate) },
-                { content: new TwoSidesWrapper("Branch", this.branch) },
-                ...(this.debug ? [{ content: new TwoSidesWrapper("Debug", this.debug.toString()) }] : []),
+                { content: new TwoSidesWrapper($$("@about/version"), this.version), handler: openFlags },
+                { content: new TwoSidesWrapper($$("@about/build_date"), this.buildDate) },
+                { content: new TwoSidesWrapper($$("@about/branch"), this.branch) },
+                ...(this.debug ? [{ content: new TwoSidesWrapper($$("@about/debug"), this.debug.toString()) }] : []),
             ],
             {}, true,
         )))
