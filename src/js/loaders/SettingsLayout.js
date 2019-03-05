@@ -26,12 +26,12 @@ a.getAct("settings")
     .createSection({
         id: "miscellaneous",
         dom: SettingsSectionElement,
-        options: { name: "Miscellaneous" },
+        options: { name: $$("@expiriments/miscellaneous") },
         display: async () => !!await SettingsStorage.getFlag("miscellaneous_in_settings"),
     })
     .getSection("miscellaneous")
     .createGroup({ id: "experiments-menus", dom: SettingsGroupContainer, options: {} })
     .getGroup("experiments-menus")
-    .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "flags" } }, "Experiments"], id: "experiments-menu-link" })
+    .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "flags" } }, $$("expiriments")], id: "experiments-menu-link" })
 
 SettingsLayoutManager.applyLayout(a)

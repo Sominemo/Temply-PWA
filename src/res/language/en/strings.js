@@ -51,5 +51,15 @@ export default {
         branch: "branch",
         debug: "debug",
     },
+    expiriments: {
+        __index: "expiriments",
+        miscellaneous: "miscellaneous",
+        warning: "warning",
+        harmful_actions: `this features are experimental and some of them may cause problems, make the app unstable or break it at all.
+        It's recommended to restart the application after commiting any changes.`,
+        reload_page: "reload page",
+        reset_flags: "reset flags",
+        list: "list",
+    },
     unexpected_error: "oops!",
 }

@@ -37,9 +37,9 @@ export default class Timetable {
 
         w.render(new Title($$("timetable")))
 
-        w.render(new Title("Today", 2))
+        w.render(new Title($$("@dateformats/relative/today"), 2))
         days()
-        w.render(new Title("Tomorrow", 2))
+        w.render(new Title($$("@dateformats/relative/tomorrow"), 2))
         days()
     }
 }

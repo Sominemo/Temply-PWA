@@ -8,32 +8,30 @@ import { Card, CardContent } from "../ui/DOM/Library/object/card"
 import { Title, Icon } from "../ui/DOM/Library/object"
 import { Button, SwitchLabel } from "../ui/DOM/Library/object/input"
 import { SVG } from "../ui/DOM/Library/basic"
+import { $$ } from "../services/Language/handler"
 
 export default class FlagsUI {
     static async Init() {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
-        w.render(new Title("Experiments"))
+        w.render(new Title($$("expiriments")))
         w.render(new Card([
-            new Title("Warning", 3, {}, new Icon("warning",
+            new Title($$("@expiriments/warning"), 3, {}, new Icon("warning",
                 {
                     marginRight: ".2em",
                     fontSize: "1.5em",
                     color: Design.getVar("color-attention"),
                 })),
-            new CardContent(
-                `This features are experimental and some of them may cause problems, make the app unstable or break it at all.
-            It's recommended to restart the application after commiting any changes.`,
-            ),
+            new CardContent($$("@expiriments/harmful_actions")),
             new CardContent([
                 new Button({
-                    content: "Reload page",
+                    content: $$("@expiriments/reload_page"),
                     handler() {
                         window.location.reload()
                     },
                 }),
                 new Button({
-                    content: "Reset flags",
+                    content: $$("@expiriments/reset_flags"),
                     type: ["light"],
                     handler() {
                         SettingsStorage.reset("flags")
@@ -68,7 +66,7 @@ export default class FlagsUI {
             })
         }
 
-        w.render(new Title("List", 2))
+        w.render(new Title($$("@expiriments/list"), 2))
         exps.forEach(async (e) => {
             const re = await this.renderSwitch(e.title, e.about, e.id)
             return w.render(re)
