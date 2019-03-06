@@ -1,11 +1,16 @@
-import { openDb } from "idb"
 import App from "./app"
 import errorToObject from "../tools/transformation/object/errorToObject"
+import DBTool from "../tools/db/DBTool"
 
 export default class Report {
-    static DBConnection = null
-
-    static DBName = "LogData"
+    static DBConnection = new DBTool("LogData", 1, (upgradeDB) => {
+        if (upgradeDB.oldVersion === 0) {
+            upgradeDB.createObjectStore(this.StorageName, {
+                keyPath: "key",
+                autoIncrement: true,
+            })
+        }
+    })
 
     static StorageName = "console-output"
 
@@ -31,47 +36,17 @@ export default class Report {
         }
     }
 
-    static saveToDB(...log) {
+    static async saveToDB(...log) {
         if (log.length === 1) [log] = log
-        this.getTransaction().then((connection) => {
-            connection.objectStore(this.StorageName).add(log)
-        })
+        const r = await this.DBConnection.getObjectStore(this.StorageName, true)
+            .then(a => a.add(log))
+        return r
     }
 
     static get allLog() {
         return new Promise((resolve, reject) => {
-            this.getTransaction(true)
-                .then(connection => connection.objectStore(this.StorageName).getAll())
+            this.DBConnection.getObjectStore(this.StorageName).then(a => a.getAll())
                 .then(res => resolve(res))
-        })
-    }
-
-    static getTransaction(readonly = false) {
-        return new Promise((resolve, reject) => this.getDBConnection.then(db => resolve(db.transaction(this.StorageName, (readonly ? "readonly" : "readwrite")))))
-    }
-
-    static get getDBConnection() {
-        return new Promise((resolve, reject) => {
-            if (this.DBConnection !== null) resolve(this.DBConnection)
-            else {
-                this.openDB.then(r => resolve(r))
-            }
-        })
-    }
-
-    static get openDB() {
-        return new Promise((resolve, reject) => {
-            openDb(this.DBName, 1, (upgradeDB) => {
-                if (upgradeDB.oldVersion === 0) {
-                    upgradeDB.createObjectStore(this.StorageName, {
-                        keyPath: "key",
-                        autoIncrement: true,
-                    })
-                }
-            }).then((db) => {
-                this.DBConnection = db
-                resolve(db)
-            })
         })
     }
 }
