@@ -21,8 +21,10 @@ Promise.all([
     domIncludesLoader(),
     LanguageCore.autoLoad(),
 ]).then(() => {
-    import(/* webpackChunkName: "settingsLayout" */ "./SettingsLayout")
-        .then(() => import(/* webpackChunkName: "uiinit" */ "../ui/UIinit"))
+    import(/* webpackChunkName: "uiinit" */ "../ui/UIinit")
+        .then(() => {
+            LoadState.is = true
+        })
 
         // Development tool
         .then(() => {
@@ -35,5 +37,3 @@ Promise.all([
             }
         })
 })
-
-LoadState.is = true

@@ -41,7 +41,7 @@ function $(string, p) {
 
         let data = strings[string]
 
-        if (string.match(/^@[a-zA-Z_/]+(?<!\/)$/)) {
+        if (string.match(/^@[a-zA-Z_/]+[^/]$/)) {
             const groups = string.substr(1).split("/")
             data = strings
             string = groups[groups.length - 1]

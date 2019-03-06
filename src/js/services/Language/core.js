@@ -70,6 +70,7 @@ export default class LanguageCore {
         }
 
         this._language = lang
+        document.documentElement.setAttribute("lang", lang.info.code)
 
         Report.write(`Language applied: ${lang.info.code}`)
 

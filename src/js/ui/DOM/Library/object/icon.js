@@ -5,6 +5,7 @@ export default class Icon {
         return new DOM({
             new: "md-icon",
             style,
+            class: ["notranslate"],
             content: new DOM({
                 type: "t",
                 new: name.toString(),

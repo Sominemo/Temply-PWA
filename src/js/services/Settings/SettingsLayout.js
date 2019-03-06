@@ -1,12 +1,12 @@
-import Navigation from "../main/navigation"
-import SettingsStorage from "../services/Settings/SettingsStorage"
+import Navigation from "../../main/navigation"
+import SettingsStorage from "./SettingsStorage"
 import {
     SettingsActContainer, SettingsSectionElement, SettingsGroupContainer, SettingsActLink,
-} from "../ui/DOM/Library/settings"
-import { CardList } from "../ui/DOM/Library/object/card"
-import SettingsLayout from "../services/Settings/user/layout"
-import SettingsLayoutManager from "../services/Settings/user/manager"
-import { $$ } from "../services/Language/handler"
+} from "../../ui/DOM/Library/settings"
+import { CardList } from "../../ui/DOM/Library/object/card"
+import SettingsLayout from "./user/layout"
+import SettingsLayoutManager from "./user/manager"
+import { $$ } from "../Language/handler"
 
 const a = new SettingsLayout()
     .createAct({
