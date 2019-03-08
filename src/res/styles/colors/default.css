@@ -31,6 +31,7 @@
 
 	--color-main-bg: #ffffff;
 
+	--color-card-background: #ffffff;
 	--color-card-border: rgba(232, 232, 232, 0.57);
 	--color-card-shadow: rgba(0, 0, 0, 0.06);
 	--color-card-item-highlight: #f9f9f9;
@@ -54,5 +55,7 @@
 	--color-button-text-accent: var(--color-generic-inverted);
 	--color-button-text-accent-light: var(--color-accent);
 	--color-button-background-accent-light: var(--color-generic-inverted);
+
+	--color-overlay-darkout: rgba(0, 0, 0, .4);
 
 }

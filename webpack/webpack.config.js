@@ -131,6 +131,7 @@ module.exports = (env = {}) => ({
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
             { from: path.join(PATHS.resources, "language.template.htaccess"), to: path.join(PATHS.build, "language", ".htaccess"), toType: "file" },
             { from: path.join(PATHS.resources, "images", "logo", "ios"), to: path.join(PATHS.build, "assets", "icons", "ios") },
+            { from: path.join(PATHS.resources, "animations"), to: path.join(PATHS.build, "assets", "animations") },
         ]),
         new WebpackAutoInject({
             SILENT: true,

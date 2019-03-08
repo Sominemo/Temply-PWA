@@ -138,4 +138,10 @@ export default class DOM {
         this.elementParse = el
         this.storage = sharedStorage
     }
+
+    static extract(el) {
+        if (!(el instanceof DOM)) throw new TypeError("Not a DOM object passed")
+
+        return el.elementParse
+    }
 }

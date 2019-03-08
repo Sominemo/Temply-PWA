@@ -61,6 +61,15 @@ export default class WindowManager {
             clear: () => { e[0].clear() },
             replace: (p) => { e[0].clear(p) },
             options: e[1],
+            pop: () => {
+                const i = this.overlays.indexOf(e)
+                if (i === -1) return false
+                if (e[0] === this.currentOverlay.element) {
+                    this.popOverlay()
+                    return true
+                } this.overlays.splice(i, 1)
+                return true
+            },
         })
     }
 
@@ -95,8 +104,8 @@ export default class WindowManager {
         this.controlOver.clear()
         this.overlays.pop()
         const e = this.currentOverlay
-        if (e !== undefined && e.native !== undefined) {
-            this.controlOver.render(e)
+        if (e.element !== undefined && e.element.elementParse.native !== undefined) {
+            this.controlOver.render(e.element)
             if (e.options.transclick) this.OverlayClicks(true)
             else this.OverlayClicks(false)
         } else this.OverContainer(false)
@@ -105,17 +114,17 @@ export default class WindowManager {
 
     static OverContainer(state = true) {
         if (state) {
-            this.generalOver.native.classList.add("shown")
+            this.generalOver.elementParse.native.classList.add("shown")
         } else {
-            this.generalOver.native.classList.remove("shown")
+            this.generalOver.elementParse.native.classList.remove("shown")
         }
     }
 
     static OverlayClicks(state = false) {
         if (state) {
-            this.generalOver.native.classList.add("transclick")
+            this.generalOver.elementParse.native.classList.add("transclick")
         } else {
-            this.generalOver.native.classList.remove("transclick")
+            this.generalOver.elementParse.native.classList.remove("transclick")
         }
     }
 
@@ -181,7 +190,7 @@ export default class WindowManager {
 
     static async EnableFullScreenExperience() {
         if (!("webkitRequestFullscreen" in document.documentElement)
-        || !await SettingsStorage.getFlag("fullscreen_on_tap")) return
+            || !await SettingsStorage.getFlag("fullscreen_on_tap")) return
 
         window.addEventListener("load", () => {
             document.documentElement.addEventListener("touchend", () => {

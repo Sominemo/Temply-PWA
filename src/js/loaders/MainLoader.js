@@ -29,6 +29,7 @@ Promise.all([
         // Development tool
         .then(() => {
             if (process.env.NODE_ENV === "development") {
+                import(/* webpackChunkName: "postlab" */"../postlab")
                 import(/* webpackChunkName: "devtools" */ "../dev")
                     .then((dev) => {
                         Report.write("DevTools loaded")
