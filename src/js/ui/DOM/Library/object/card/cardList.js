@@ -25,7 +25,6 @@ export default class CardList {
             if ("userSelect" in e && !e.userSelect) {
                 params.attributes = []
                 params.attributes.push({
-                    name: "user-select-disabled",
                     value: "true",
                 })
             }

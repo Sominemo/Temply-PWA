@@ -23,7 +23,7 @@ export default class SettingsActContainer {
             ],
             ...(data.lock ? {
                 style: { pointerEvents: "none", opacity: 0.5 },
-                attributes: [{ name: "user-select-disabled", value: true }],
+                attributes: [{ value: true }],
             } : {}),
         })
     }

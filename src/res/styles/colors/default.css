@@ -12,7 +12,7 @@
 	--color-accent-dark: #234a8f;
 	--color-accent: #4073d0;
 	--color-accent-light: #7096dc;
-    --color-accent-light-a: #c2d2f0;
+	--color-accent-light-a: #c2d2f0;
     
 	--color-generic-light-b: #c0c3c9;
 	--color-generic-light-a: #787b81;
@@ -20,6 +20,9 @@
 	--color-generic: #23262b;
 
 	--color-generic-inverted: #ffffff;
+
+	--color-main-text: var(--color-generic-inverted);
+	--color-accent-text: var(--color-generic-inverted);
 
 	--color-nav-bg: #ffffff;
 	--color-nav-icon: #7d7d7d;
@@ -57,5 +60,9 @@
 	--color-button-background-accent-light: var(--color-generic-inverted);
 
 	--color-overlay-darkout: rgba(0, 0, 0, .4);
+
+	--color-radio-selected: var(--color-main);
+	--color-radio-ripple: rgba(0,0,0,.2);
+	--color-radio-ripple-hover: rgba(0,0,0,.12);
 
 }

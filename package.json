@@ -1,6 +1,6 @@
 {
     "name": "temply-pwa",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Temply Progressive Web App client",
     "main": "index.html",
     "config": {
@@ -56,6 +56,7 @@
     "dependencies": {
         "@babel/runtime": "^7.3.1",
         "core-js": "^2.6.1",
+        "git-rev-sync": "^1.12.0",
         "idb": "^3.0.2"
     }
 }

@@ -10,6 +10,7 @@
     font-family: inherit;
     scroll-behavior: smooth;
 }
+
 html {
     overflow-x: hidden;
 }
@@ -30,15 +31,34 @@ body {
     background-position: center -90%;
 }
 
-*::-webkit-scrollbar-thumb,
-*::-webkit-scrollbar {
+body {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+[user-select-enabled="all"] {
+    -moz-user-select: all;
+    -webkit-user-select: all;
+    -ms-user-select: all;
+    user-select: all;
+}
+
+[user-select-enabled="text"] {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+*::-webkit-scrollbar-thumb, *::-webkit-scrollbar {
     background: transparent;
     width: 5px;
     padding: 3px;
 }
 
-*::-webkit-scrollbar-thumb,
-*::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
     background: var(--color-scrollbar-fill);
     border-radius: 2em 0 0 2em;
 }
@@ -216,11 +236,6 @@ main {
     max-height: 100vh;
     overflow-x: hidden;
     overflow-y: scroll;
-}
-
-
-[user-select-disabled="true"] {
-    user-select: none;
 }
 
 .flex-container {

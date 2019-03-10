@@ -4,6 +4,7 @@ import Tasks from "../diary/tasks"
 import SettingsUI from "../services/Settings/user/ui"
 import App from "../main/app"
 import FlagsUI from "../main/flags"
+import TestField from "../main/testField"
 
 Navigation.addModule({
     name: "Timetable",
@@ -33,4 +34,10 @@ Navigation.addModule({
     name: "Flags",
     id: "flags",
     callback() { FlagsUI.Init() },
+})
+
+Navigation.addModule({
+    name: "Test Field",
+    id: "test",
+    callback() { TestField.Init() },
 })

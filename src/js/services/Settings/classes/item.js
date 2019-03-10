@@ -73,7 +73,7 @@ export default class SettingsItem {
             return false
         }
         // eslint-disable-next-line new-cap
-        this.generatedInstance = new this._data.dom(this._data.options, Navigation.parse())
+        this.generatedInstance = await new this._data.dom(this._data.options, Navigation.parse())
         return this.generatedInstance
     }
 }

@@ -2,12 +2,16 @@
     .columns-container {
         flex-direction: column;
     }
-    
     .columns-container>.columns-sector {
         flex-direction: row;
     }
-
     .columns-container>.columns-sector>div {
         flex: 1;
+    }
+    .columns-sector .column-video {
+        flex: 0.5 !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }

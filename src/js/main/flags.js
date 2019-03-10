@@ -55,6 +55,11 @@ export default class FlagsUI {
                 click event for current active element`,
                 id: "enable_tab_navigation",
             })
+            exps.push({
+                title: "Enable Test Field",
+                about: "Allows user to enter /test module with layout tests etc.",
+                id: "test_field_enabled",
+            })
         }
 
         if ("ontouchend" in document && "webkitRequestFullscreen" in document.documentElement) {
@@ -113,7 +118,7 @@ export default class FlagsUI {
                     new: "div",
                     content: [
                         new DOM({ new: "div", content: title, style: { fontWeight: "500", fontSize: "20px" } }),
-                        new DOM({ new: "div", content: id, style: { color: "lightgrey", fontSize: "12px" } }),
+                        new DOM({ new: "div", content: id, style: { color: "lightgray", fontSize: "12px" } }),
                     ],
                     id: `flag-id-${id}`,
                 }),

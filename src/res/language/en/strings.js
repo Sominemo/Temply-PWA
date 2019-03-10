@@ -42,6 +42,39 @@ export default {
             information: "information",
             welcome_alpha: "welcome to alpha-testing of Temply PWA",
         },
+        updates: {
+            __index: "updates",
+            title: "update settings",
+            description: `choose preferred behaviour for "New update" notification, so it can distract you less if you wish.
+            Press the pictures to see how it looks like`,
+            first_time_explanation_1: `looks like it's first time you recieve an update. Temply is a web-based
+            application. After first time you run it the app saves itself on your device so you don't have to
+            spend your data by re-downloading it everytime you want to use Temply. In that time we are checking for new
+            updates automatically and downloading them if we found such.`,
+            first_time_explanation_2: `since it's web-based application we can do this only
+            while it's on your screen. When the update is ready it waits to be aplied right after the app is being re-opened.
+            We can inform you about this updates so you will know about changes and enchantments at first hand`,
+            change_notify_way: "show updates settings",
+            notify_later: "notify only after installing",
+            ready: "new update is ready",
+            types: {
+                silently: {
+                    __index: "silently",
+                    info: `temply will do the job silently so you may discover the changes by yourself.
+                    New updates are applying after restarting the app`,
+                },
+                toast: {
+                    __index: "toast",
+                    info: `when there will be an update you will see a small toast. By clicking it you will
+                    get information about the update and can apply related actions`,
+                },
+                popup: {
+                    __index: "popup",
+                    info: `new update alert and changelog will pop up on your screen automatically
+                    so you don't have to click anywhere`,
+                },
+            },
+        },
     },
     about: {
         __index: "about",

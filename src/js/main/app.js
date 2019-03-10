@@ -1,4 +1,5 @@
-/* global __PACKAGE_VERSION_NUMBER, __PACKAGE_BUILD_TIME, __PACKAGE_APP_NAME, __PACKAGE_BRANCH */
+/* global __PACKAGE_VERSION_NUMBER, __PACKAGE_BUILD_TIME,
+__PACKAGE_APP_NAME, __PACKAGE_BRANCH, __PACKAGE_CHANGELOG */
 import WindowManager from "../ui/SimpleWindowManager"
 import WindowContainer from "../ui/DOM/Library/buildBlock/windowContainer"
 import Card from "../ui/DOM/Library/object/card/card"
@@ -24,6 +25,10 @@ export default class App {
 
     static get branch() {
         return __PACKAGE_BRANCH
+    }
+
+    static get changelog() {
+        return __PACKAGE_CHANGELOG
     }
 
     static get fullName() {

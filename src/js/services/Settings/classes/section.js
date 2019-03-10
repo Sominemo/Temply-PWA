@@ -79,7 +79,7 @@ export default class SettingsSection {
             return false
         }
         // eslint-disable-next-line new-cap
-        this.generatedInstance = new this._data.dom(this._data.options, Navigation.parse())
+        this.generatedInstance = await new this._data.dom(this._data.options, Navigation.parse())
         this.children.forEach(async (e) => {
             const m = await e.object.render()
             if (m) await this.generatedInstance.render(m)

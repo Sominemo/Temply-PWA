@@ -2,7 +2,9 @@ import FieldsContainer from "../../../../tools/validation/fieldsContainer"
 import DOM from "../../Classes/dom"
 
 export default class Columns {
-    constructor(content) {
+    constructor(content, {
+        styleFirst = {}, styleLast = {}, classFirst = [], classLast = [],
+    } = {}) {
         new FieldsContainer(["array", new FieldsContainer([
             ["first", "last"], {},
         ])]).set(content)
@@ -16,10 +18,14 @@ export default class Columns {
                     new DOM({
                         new: "div",
                         content: e.first,
+                        style: styleFirst,
+                        class: classFirst,
                     }),
                     new DOM({
                         new: "div",
                         content: e.last,
+                        style: styleLast,
+                        class: classLast,
                     }),
                 ],
             }))

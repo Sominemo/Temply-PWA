@@ -24,8 +24,11 @@ export default (() => {
         data.value.forEach((co) => {
             const mo = new MutationObserver(co.handler)
 
+            let installed = false
+
             data.event.on("render", (c) => {
-                if (!c.asContent) return
+                if (installed) return
+                installed = true
                 mo.observe(data.element.native, co.config)
             })
         })

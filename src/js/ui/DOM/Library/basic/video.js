@@ -22,12 +22,15 @@ export default class VideoBlock {
                                         event: "ended",
                                         handler() { onended(this) },
                                     },
-                                ],
-                                call: [
-                                    ["load", [], (a, e) => { e.currentTime = defaultTime }],
+                                    {
+                                        event: "loadedmetadata",
+                                        handler() {
+                                            this.currentTime = defaultTime
+                                            resolve(video)
+                                        },
+                                    },
                                 ],
                             })
-                            resolve(video)
                         })
                 })
                 .catch((e) => {
