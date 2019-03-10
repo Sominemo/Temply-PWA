@@ -29,8 +29,7 @@ PATHS.language = path.join(PATHS.resources, "language")
 const makeLangMap = require(path.join(__dirname, "scripts", "languageList"))
 makeLangMap(PATHS.language)
 
-const getLastCommit = require(path.join(__dirname, "scripts", "getLastCommit"))
-const lastCommit = getLastCommit(PROD)
+const getChangelog = require(path.join(__dirname, "scripts", "getChangelog"))
 
 module.exports = (env = {}) => ({
     optimization: {
@@ -215,10 +214,7 @@ module.exports = (env = {}) => ({
             __PACKAGE_VERSION_NUMBER: JSON.stringify(pack.version),
             __PACKAGE_BRANCH: JSON.stringify(pack.config.branch),
             __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(fecha.format(new Date(), "DD.MM.YYYY HH:mm:ss")), true),
-            __PACKAGE_CHANGELOG: JSON.stringify((PROD
-                ? "No changelog for this release"
-                : `Generate changelog by visiting <a href="${pack.repository.slice(4, -4)}/compare/${lastCommit}...master" target="_blank">this link</a>`
-            )),
+            __PACKAGE_CHANGELOG: JSON.stringify(getChangelog(PROD, pack.version, fecha.format(new Date(), "DD.MM.YYYY"), pack.repository)),
         }),
     ],
 })

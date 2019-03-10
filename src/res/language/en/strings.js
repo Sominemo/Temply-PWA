@@ -83,6 +83,13 @@ export default {
         build_date: "build date",
         branch: "branch",
         debug: "debug",
+        changelog: {
+            __index: "changelog",
+            added: "added",
+            changed: "changed",
+            removed: "removed",
+            other: "other",
+        },
     },
     expiriments: {
         __index: "expiriments",

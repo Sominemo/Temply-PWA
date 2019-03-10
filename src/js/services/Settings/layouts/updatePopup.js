@@ -1,7 +1,7 @@
 import {
     Title, Columns, Preloader, Icon,
 } from "../../../ui/DOM/Library/object"
-import { VideoBlock, HTML } from "../../../ui/DOM/Library/basic"
+import { VideoBlock } from "../../../ui/DOM/Library/basic"
 import { SwitchLabel, Radio } from "../../../ui/DOM/Library/object/input"
 import { Card, CardContent } from "../../../ui/DOM/Library/object/card"
 import { $$ } from "../../Language/handler"
@@ -196,14 +196,14 @@ export default async function updatePopup({ wait = false, update = false } = {})
             ], ["center", "row"],
         ))
     }
-    output.push(new Title("Change Log", 2))
+    output.push(new Title($$("@about/changelog"), 2))
     output.push(new CardContent(new DOM({
         new: "div",
         style: {
             maxWidth: "100%",
             overflowX: "auto",
         },
-        content: new HTML([`<div>${App.changelog}</div>`]),
+        content: App.changelogFormated(),
     })))
 
     return output

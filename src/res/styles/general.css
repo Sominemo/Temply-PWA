@@ -9,6 +9,7 @@
     color: inherit;
     font-family: inherit;
     scroll-behavior: smooth;
+    word-break: break-word;
 }
 
 html {

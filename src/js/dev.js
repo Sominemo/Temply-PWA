@@ -15,8 +15,10 @@ import DOMController from "./ui/DOM/Helpers/domController"
 import LanguageCore from "./services/Language/core"
 import Language from "./services/Language/instance"
 import { $ } from "./services/Language/handler"
+import App from "./main/app"
 
 const DevUtils = {
+    app: App,
     dom: DOM,
     domc: DOMController,
     nav: Nav,

@@ -9,6 +9,9 @@ import CardList from "../ui/DOM/Library/object/card/cardList"
 import Navigation from "./navigation"
 import getCounter from "../tools/objects/counter"
 import { $$ } from "../services/Language/handler"
+import DOM from "../ui/DOM/Classes/dom"
+import Link from "../ui/DOM/Library/basic/link"
+import { CardContent, CardTextList } from "../ui/DOM/Library/object/card"
 
 export default class App {
     static get version() {
@@ -29,6 +32,66 @@ export default class App {
 
     static get changelog() {
         return __PACKAGE_CHANGELOG
+    }
+
+    static changelogFormated(cl) {
+        cl = cl || this.changelog
+        const output = []
+        cl.forEach((group) => {
+            const r = (e) => {
+                const st = [e]
+                let mat
+                // eslint-disable-next-line no-cond-assign
+                while (mat = /\[(.+?)\]\((.+?)\)/.exec(st[st.length - 1])) {
+                    const cur = st.pop()
+                    const all = cur.split(mat[0])
+                    const link = new Link(mat[2].slice(1, -1), mat[1])
+                    st.push(all[0], link, all[1])
+                }
+
+                const el = new CardContent(st)
+
+                return el
+            }
+            if (group.list.added.length
+                + group.list.changed.length
+                + group.list.removed.length
+                + group.list.other.length === 0) return
+            output.push(new Title(group.name, 2))
+
+            if (group.list.added.length) {
+                output.push(new Card([
+                    new Title($$("@about/changelog/added"), 3),
+                    new CardTextList(group.list.added.map(r)),
+                ]))
+            }
+
+            if (group.list.changed.length) {
+                output.push(new Card([
+                    new Title($$("@about/changelog/changed"), 3),
+                    new CardTextList(group.list.changed.map(r)),
+                ]))
+            }
+
+            if (group.list.removed.length) {
+                output.push(new Card([
+                    new Title($$("@about/changelog/removed"), 3),
+                    new CardTextList(group.list.removed.map(r)),
+                ]))
+            }
+
+            if (group.list.other.length) {
+                output.push(new Card([
+                    new Title($$("@about/changelog/other"), 3),
+                    new CardTextList(group.list.other.map(r)),
+                ]))
+            }
+        })
+
+        return new DOM({
+            new: "div",
+            content: output,
+        })
     }
 
     static get fullName() {

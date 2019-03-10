@@ -45,7 +45,7 @@ function $(string, p) {
             const groups = string.substr(1).split("/")
             data = strings
             string = groups[groups.length - 1]
-            while (groups.length) {
+            while (groups.length && data !== undefined) {
                 data = data[groups.shift()]
             }
         }
