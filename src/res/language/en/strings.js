@@ -47,14 +47,14 @@ export default {
             title: "update settings",
             description: `choose preferred behaviour for "New update" notification, so it can distract you less if you wish.
             Press the pictures to see how it looks like`,
-            first_time_explanation_1: `looks like it's first time you recieve an update. Temply is a web-based
+            first_time_explanation_1: `looks like it's first time you receive an update. Temply is a web-based
             application. After first time you run it the app saves itself on your device so you don't have to
             spend your data by re-downloading it everytime you want to use Temply. In that time we are checking for new
             updates automatically and downloading them if we found such.`,
             first_time_explanation_2: `since it's web-based application we can do this only
-            while it's on your screen. When the update is ready it waits to be aplied right after the app is being re-opened.
-            We can inform you about this updates so you will know about changes and enchantments at first hand`,
-            change_notify_way: "show updates settings",
+            while it's on your screen. When the update is ready it waits to be applied right after the app is being re-opened.
+            We can inform you about this updates so you will know about changes and enhancements at first hand`,
+            change_notify_way: "show update settings",
             notify_later: "notify only after installing",
             ready: "new update is ready",
             types: {
