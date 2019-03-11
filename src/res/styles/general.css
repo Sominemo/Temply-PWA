@@ -239,6 +239,13 @@ main {
     overflow-y: scroll;
 }
 
+#s--wm-helpers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
 .flex-container {
     display: flex;
 }

@@ -10,6 +10,7 @@ import { $$ } from "../services/Language/handler"
 import RadioLabel from "../ui/DOM/Library/object/input/radioLabel"
 import { Card } from "../ui/DOM/Library/object/card"
 import SettingsStorage from "../services/Settings/SettingsStorage"
+import App from "./app"
 
 export default class TestField {
     static async Init() {
@@ -31,7 +32,7 @@ export default class TestField {
         const o = WindowManager.newOverlay()
         o.append(new Popup([
             new Algin(new Title($$("@settings/updates/ready"), 2), ["center", "row"]),
-            ...await updatePopup({ update: true }),
+            ...await updatePopup({ update: true, online: await App.lastChangelog() }),
         ], { pop: o.pop, fullWidth: true }))
     }
 }

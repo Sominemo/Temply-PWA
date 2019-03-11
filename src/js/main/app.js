@@ -34,6 +34,13 @@ export default class App {
         return __PACKAGE_CHANGELOG
     }
 
+    static async lastChangelog() {
+        const data = await fetch("https://temply.procsec.top/prop/changelog/")
+        const json = await data.json()
+
+        return json
+    }
+
     static changelogFormated(cl) {
         cl = cl || this.changelog
         const output = []

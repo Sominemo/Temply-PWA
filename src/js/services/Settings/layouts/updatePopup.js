@@ -11,7 +11,7 @@ import SettingsStorage from "../SettingsStorage"
 import DOMObjectWrapper from "../../../ui/DOM/Helpers/domObjectWrapper"
 import App from "../../../main/app"
 
-export default async function updatePopup({ wait = false, update = false } = {}) {
+export default async function updatePopup({ wait = false, update = false, online = false } = {}) {
     let firstTime
     async function getCard() {
         const videos = [
@@ -159,8 +159,17 @@ export default async function updatePopup({ wait = false, update = false } = {})
 
     const output = []
     if (firstTime === undefined) firstTime = ((await SettingsStorage.get("user_update_prompt")) === undefined)
+    let cl
+
+    let versionTitle
+    if (online !== false) {
+        cl = online
+        versionTitle = new Title(`${cl.version} | ${cl.date}`, 3)
+    }
 
     if (firstTime) {
+        output.push(versionTitle)
+
         output.push(new CardContent(
             $$("@settings/updates/first_time_explanation_1"),
         ))
@@ -175,11 +184,14 @@ export default async function updatePopup({ wait = false, update = false } = {})
                 new DOM({
                     new: "div",
                     class: ["inline-title-clickable"],
-                    content: new Padding(new Title($$("@settings/updates/change_notify_way"), 3, {}, new Icon("arrow_forward",
-                        {
-                            marginRight: ".2em",
-                            fontSize: "1.5em",
-                        })), "0 10px"),
+                    content: new Padding([
+                        ...(online !== false ? [versionTitle] : []),
+                        new Title($$("@settings/updates/change_notify_way"), 3, {}, new Icon("arrow_forward",
+                            {
+                                marginRight: ".2em",
+                                fontSize: "1.5em",
+                            })),
+                    ], "0 10px"),
                     events: [
                         {
                             event: "click",
@@ -196,14 +208,16 @@ export default async function updatePopup({ wait = false, update = false } = {})
             ], ["center", "row"],
         ))
     }
+
     output.push(new Title($$("@about/changelog"), 2))
+
     output.push(new CardContent(new DOM({
         new: "div",
         style: {
             maxWidth: "100%",
             overflowX: "auto",
         },
-        content: App.changelogFormated(),
+        content: (online !== false ? App.changelogFormated(cl.changelog) : App.changelogFormated()),
     })))
 
     return output

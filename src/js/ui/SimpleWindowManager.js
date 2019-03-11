@@ -11,11 +11,15 @@ export default class WindowManager {
 
     static overlays = []
 
+    static helpers = []
+
     static scaffoldBuild = false
 
     static controlWin = false
 
     static controlOver = false
+
+    static controlHelp = false
 
     static get fullscreen() { return document.webkitFullscreenElement !== null }
 
@@ -95,6 +99,44 @@ export default class WindowManager {
         return this.currentOverlay
     }
 
+    static newHelper() {
+        const w = new DOM({
+            new: "div",
+            class: "s--wm-ahi",
+            id: `s--wm-helper-${this.helpers.length}`,
+
+        })
+
+        const generated = w
+
+        this.helpers.push(generated)
+        this.controlHelp.render(generated)
+
+        return this.currentHelper
+    }
+
+    static generateHelper(e) {
+        e = e || undefined
+        return ({
+            element: e,
+            append: p => e.render(p),
+            clear: () => { e.clear() },
+            replace: (p) => { e.clear(p) },
+            pop: () => {
+                const i = this.helpers.indexOf(e)
+                if (i === -1) return false
+                this.helpers.splice(i, 1)
+                this.controlHelp.elementParse.native.removeChild(e.elementParse.native)
+                return true
+            },
+        })
+    }
+
+    static get currentHelper() {
+        const e = this.helpers[this.helpers.length - 1]
+        return this.generateHelper(e)
+    }
+
     static get currentOverlay() {
         const e = this.overlays[this.overlays.length - 1]
         return this.generateOverlay(e)
@@ -152,14 +194,21 @@ export default class WindowManager {
             content: oversLimit,
         })
 
+        const helpers = new DOM({
+            new: "div",
+            id: "s--wm-helpers",
+        })
+
         const sc = [
             wins,
             overs,
+            helpers,
         ]
 
         this.controlWin = wins
         this.controlOver = oversLimit
         this.generalOver = overs
+        this.controlHelp = helpers
         this.scaffoldBuild = sc
 
         return sc
