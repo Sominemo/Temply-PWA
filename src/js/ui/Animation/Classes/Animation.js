@@ -1,8 +1,9 @@
 import FieldsContainer from "../../../tools/validation/fieldsContainer"
 import FieldChecker from "../../../tools/validation/fieldChecker"
+import Linear from "../Library/Timing/linear"
 
 export default class Animation {
-    constructor({ duration, painter, timingFunc }) {
+    constructor({ duration, painter, timingFunc = Linear }) {
         new FieldsContainer([
             ["duration", "painter", "timingFunc"],
             {

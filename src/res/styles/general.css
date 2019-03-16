@@ -109,6 +109,7 @@ nav {
     z-index: 1;
     overflow-x: hidden;
     overflow-y: auto;
+    position: relative;
 }
 
 nav .nav-item {
@@ -165,15 +166,15 @@ nav .nav-item.active {
     color: var(--color-nav-active);
 }
 
-nav .nav-item.active:before {
-    content: "";
+nav .mobile-gestue {
     position: absolute;
-    left: 0;
+    left: -100%;
     top: 0;
-    height: 100%;
+    height: calc(var(--size-nav-width) * 0.75);
     width: 3px;
     background: var(--color-nav-active);
     border-radius: 0 2em 2em 0;
+    transition: top .1s ease-in-out, left .1s ease-in-out;
 }
 
 nav .menu-pc-bottom {

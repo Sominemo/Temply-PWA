@@ -49,6 +49,8 @@
         margin: 2.5px;
         border-radius: 2em;
         margin: auto;
+        position: static;
+        left: -100% !important;
     }
     nav md-icon {
         font-size: calc(var(--size-nav-width) * 0.45);

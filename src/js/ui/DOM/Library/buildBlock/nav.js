@@ -10,6 +10,8 @@ export default class Nav {
 
     static html = null
 
+    static mobileGestue = null
+
     static navItemIdPrefix = "nav-item-"
 
     static activeClassName = "active"
@@ -105,7 +107,21 @@ export default class Nav {
     static highlight(e) {
         document.querySelectorAll("nav .menu-buttons>.nav-item").forEach(a => a.classList.remove(this.activeClassName))
         const el = document.getElementById(`${this.navItemIdPrefix}${e.id}`)
-        if (el !== null) el.classList.add(this.activeClassName)
+        if (el !== null) {
+            el.classList.add(this.activeClassName)
+            this.currentActive = el
+        }
+        this.updateGestuePosition()
+    }
+
+    static updateGestuePosition(el = false) {
+        if (el === false) el = this.currentActive
+        if (el !== null) {
+            this.mobileGestue.elementParse.native.style.top = `${el.offsetTop}px`
+            this.mobileGestue.elementParse.native.style.left = "0"
+        } else {
+            this.mobileGestue.elementParse.native.style.left = "-100%"
+        }
     }
 
     constructor() {
@@ -116,14 +132,16 @@ export default class Nav {
             content: genDom,
         })
 
+        this.constructor.mobileGestue = new DOM({
+            new: "div",
+            class: "mobile-gestue",
+        })
+
         return new DOM({
             new: "nav",
             class: "main-nav",
             content: [
-                new DOM({
-                    new: "div",
-                    class: "mobile-gestue",
-                }),
+                this.constructor.mobileGestue,
                 new DOM({
                     new: "div",
                     class: "nav-content",
