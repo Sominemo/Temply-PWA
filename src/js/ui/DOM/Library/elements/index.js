@@ -1,9 +1,9 @@
 import ContextMenu from "./contextMenu"
 import Popup from "./popup"
-import Toast from "./toast"
+import ToastElement from "./toastElement"
 
 export {
     ContextMenu,
     Popup,
-    Toast,
+    ToastElement,
 }

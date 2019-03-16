@@ -47,7 +47,7 @@ export default class DOM {
 
         this.events[event].forEach((e) => {
             try {
-                if (typeof e === "function") e(data)
+                if (typeof e === "function") e(data, this)
             } catch (r) {
                 // Ignore bad listeners
             }

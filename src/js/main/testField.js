@@ -4,13 +4,13 @@ import WindowManager from "../ui/SimpleWindowManager"
 import { WindowContainer } from "../ui/DOM/Library/buildBlock"
 import Popup from "../ui/DOM/Library/elements/popup"
 import { Algin } from "../ui/DOM/Library/style"
-import DOM from "../ui/DOM/Classes/dom"
-import { MDRadio } from "../ui/DOM/Library/object/input"
 import { $$ } from "../services/Language/handler"
 import RadioLabel from "../ui/DOM/Library/object/input/radioLabel"
 import { Card } from "../ui/DOM/Library/object/card"
 import SettingsStorage from "../services/Settings/SettingsStorage"
 import App from "./app"
+import DOM from "../ui/DOM/Classes/dom"
+import Animation from "../ui/Animation/Classes/Animation"
 
 export default class TestField {
     static async Init() {
@@ -20,7 +20,20 @@ export default class TestField {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
-        w.render(new Title("Test Field"))
+        w.render(new DOM({
+            new: "div",
+            onRender: (p, e) => {
+                const a = new Animation({
+                    duration: 2000,
+                    painter(time) {
+                        this.elementParse.native.style.opacity = time
+                    },
+                    timingFunc: t => t,
+                })
+                a.apply(e)
+            },
+            content: new Title("Test Field"),
+        }))
 
         w.render(new Card(new RadioLabel([
             { handler: console.log, selected: true, content: "lol" },
