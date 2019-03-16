@@ -110,7 +110,7 @@ export default class Nav {
         if (el !== null) {
             el.classList.add(this.activeClassName)
             this.currentActive = el
-        }
+        } else this.currentActive = null
         this.updateGestuePosition()
     }
 

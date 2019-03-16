@@ -33,7 +33,7 @@ export default (() => {
 
         data.event.on("render", () => {
             data.value.forEach((e) => {
-                e.emitEvent("render", { asContent: true })
+                if (typeof e.emitEvent === "function") { e.emitEvent("render", { asContent: true }) }
             })
         })
 
