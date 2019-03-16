@@ -11,6 +11,9 @@ import SettingsStorage from "../services/Settings/SettingsStorage"
 import App from "./app"
 import DOM from "../ui/DOM/Classes/dom"
 import Animation from "../ui/Animation/Classes/Animation"
+import FadeIn from "../ui/Animation/Library/Effects/fadeIn"
+import { Button } from "../ui/DOM/Library/object/input"
+import FadeOut from "../ui/Animation/Library/Effects/fadeOut"
 
 export default class TestField {
     static async Init() {
@@ -20,20 +23,15 @@ export default class TestField {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
-        w.render(new DOM({
+        const animational = new DOM({
             new: "div",
             onRender: (p, e) => {
-                const a = new Animation({
-                    duration: 2000,
-                    painter(time) {
-                        this.elementParse.native.style.opacity = time
-                    },
-                    timingFunc: t => t,
-                })
-                a.apply(e)
+                new FadeIn().apply(e)
             },
             content: new Title("Test Field"),
-        }))
+        })
+
+        w.render(animational)
 
         w.render(new Card(new RadioLabel([
             { handler: console.log, selected: true, content: "lol" },
@@ -41,11 +39,23 @@ export default class TestField {
             { handler: console.log, content: "lol2" },
         ])))
 
+        let state = true
+
+        w.render(new Button({
+            content: "Animate title",
+            handler() {
+                if (state) {
+                    new FadeOut().apply(animational)
+                } else new FadeIn().apply(animational)
+                state = !state
+            },
+        }))
+
 
         const o = WindowManager.newOverlay()
         o.append(new Popup([
             new Algin(new Title($$("@settings/updates/ready"), 2), ["center", "row"]),
             ...await updatePopup({ update: true, online: await App.lastChangelog() }),
-        ], { pop: o.pop, fullWidth: true }))
+        ], { control: o, fullWidth: true }))
     }
 }

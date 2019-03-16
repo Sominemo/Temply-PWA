@@ -3,6 +3,8 @@
 import DOM from "./DOM/Classes/dom"
 import Navigation from "../main/navigation"
 import SettingsStorage from "../services/Settings/SettingsStorage"
+import FadeOut from "./Animation/Library/Effects/fadeOut"
+import FadeIn from "./Animation/Library/Effects/fadeIn"
 
 export default class WindowManager {
     static windows = []
@@ -37,7 +39,10 @@ export default class WindowManager {
 
         const generated = w
         this.windows.push(generated)
-        this.controlWin.clear(generated)
+        new FadeOut({ duration: 200 }).apply(this.controlWin, () => {
+            this.controlWin.clear(generated)
+            new FadeIn({ duration: 200 }).apply(this.controlWin)
+        })
 
         if (typeof h === "function") h(w)
         return this.currentWindow

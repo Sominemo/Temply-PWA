@@ -1,8 +1,13 @@
 import DOM from "../../Classes/dom"
 import { Card } from "../object/card"
+import FadeIn from "../../../Animation/Library/Effects/fadeIn"
+import FadeOut from "../../../Animation/Library/Effects/fadeOut"
 
 export default class Popup {
-    constructor(content, { pop = () => { }, fullWidth = false } = {}) {
+    constructor(content, { control = {}, fullWidth = false } = {}) {
+        const pop = () => {
+            new FadeOut({ duration: 200 }).apply(control.element, () => control.pop())
+        }
         const pe = new Card(new DOM({
             new: "div",
             class: ["card-scroll-container"],
@@ -15,6 +20,7 @@ export default class Popup {
 
         return new DOM({
             new: "div",
+            onRender(p, e) { new FadeIn({ duration: 200 }).apply(e) },
             class: ["popup-main-scaffold"],
             content: [
                 new DOM({
