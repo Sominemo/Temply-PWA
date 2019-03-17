@@ -64,6 +64,10 @@ body {
     border-radius: 2em 0 0 2em;
 }
 
+*::-webkit-scrollbar-track {
+    display: none;
+}
+
 md-icon {
     font-family: 'Material Icons Round';
     font-weight: normal;
@@ -175,6 +179,7 @@ nav .mobile-gestue {
     background: var(--color-nav-active);
     border-radius: 0 2em 2em 0;
     transition: top .1s ease-in-out, left .1s ease-in-out;
+    pointer-events: none;
 }
 
 nav .menu-pc-bottom {

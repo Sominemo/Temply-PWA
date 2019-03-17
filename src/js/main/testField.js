@@ -12,7 +12,9 @@ import App from "./app"
 import DOM from "../ui/DOM/Classes/dom"
 import FadeIn from "../ui/Animation/Library/Effects/fadeIn"
 import { Button } from "../ui/DOM/Library/object/input"
-import FadeOut from "../ui/Animation/Library/Effects/fadeOut"
+import FlyIn from "../ui/Animation/Library/Effects/flyIn"
+import FlyOut from "../ui/Animation/Library/Effects/flyOut"
+import EaseOutQuad from "../ui/Animation/Library/Timing/easeOutQuad"
 
 export default class TestField {
     static async Init() {
@@ -32,29 +34,38 @@ export default class TestField {
 
         w.render(animational)
 
-        w.render(new Card(new RadioLabel([
-            { handler: console.log, selected: true, content: "lol" },
-            { handler: console.log, content: "lol1" },
-            { handler: console.log, content: "lol2" },
-        ])))
-
+        let animDirection = "bottom"
         let state = true
 
-        w.render(new Button({
-            content: "Animate title",
-            handler() {
-                if (state) {
-                    new FadeOut().apply(animational)
-                } else new FadeIn().apply(animational)
-                state = !state
-            },
-        }))
+        w.render(new Card([
+            ...new RadioLabel([
+                { handler: (s) => { if (s) animDirection = "bottom" }, selected: true, content: "Bottom" },
+                { handler: (s) => { if (s) animDirection = "top" }, content: "Top" },
+                { handler: (s) => { if (s) animDirection = "right" }, content: "Right" },
+                { handler: (s) => { if (s) animDirection = "left" }, content: "Left" },
+            ]),
+            new Algin(new Button({
+                content: "Animate title",
+                handler() {
+                    console.log(animDirection)
+                    if (state) {
+                        new FlyOut({ direction: animDirection, timing: EaseOutQuad })
+                            .apply(animational)
+                    } else {
+                        new FlyIn({ direction: animDirection, timing: EaseOutQuad })
+                            .apply(animational)
+                    }
+                    state = !state
+                },
+            }), ["center", "row"]),
+        ]))
 
 
-        const o = WindowManager.newOverlay()
+        /* const o = WindowManager.newOverlay()
         o.append(new Popup([
             new Algin(new Title($$("@settings/updates/ready"), 2), ["center", "row"]),
             ...await updatePopup({ update: true, online: await App.lastChangelog() }),
         ], { control: o, fullWidth: true }))
+        */
     }
 }

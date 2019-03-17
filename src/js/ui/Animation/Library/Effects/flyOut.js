@@ -1,11 +1,11 @@
 import Linear from "../Timing/linear"
 import reversedEase from "../Timing/Transformations/reverseEase"
 import reversedTiming from "../Timing/Transformations/reverse"
-import FadeIn from "./fadeIn"
+import FlyIn from "./flyIn"
 
-export default class FadeOut {
+export default class FlyOut {
     constructor({ timing = Linear, ...params } = {}) {
-        return new FadeIn({
+        return new FlyIn({
             ...params,
             timing: reversedTiming(reversedEase(timing)),
         })
