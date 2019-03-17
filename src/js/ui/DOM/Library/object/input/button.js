@@ -26,12 +26,18 @@ export default class Button {
                 handler(ev) {
                     const biggerSide = (this.clientHeight > this.clientWidth
                         ? this.clientHeight : this.clientWidth)
+                    const self = this
 
                     const ripple = new DOM({
                         new: "md-ripple-effect",
                         onRender(p, e) {
                             e.elementParse.native.style.top = `${ev.layerY}px`
                             e.elementParse.native.style.left = `${ev.layerX}px`
+                            console.log(ev)
+                            if (!ev.isTrusted) {
+                                e.elementParse.native.style.top = `${self.clientHeight / 2}px`
+                                e.elementParse.native.style.left = `${self.clientWidth / 2}px`
+                            }
 
                             new Animation({
                                 duration: 100,
