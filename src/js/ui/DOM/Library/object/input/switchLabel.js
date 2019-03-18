@@ -18,7 +18,7 @@ export default class SwitchLabel {
             events: [
                 {
                     event: "click",
-                    handler: () => s[1](),
+                    handler() { return s[1]() },
                 },
             ],
         })

@@ -38,7 +38,7 @@ export default class RadioLabel {
             events: [
                 {
                     event: "click",
-                    handler: () => m[1](),
+                    handler() { return m[1]() },
                 },
             ],
         }))

@@ -68,7 +68,7 @@ export default class DOM {
                 }
 
                 try {
-                    r = p.handler({
+                    r = p.handler.bind(this)({
                         element: el,
                         value: o[p.name],
                         all: o,
@@ -82,7 +82,7 @@ export default class DOM {
                     })
                 } catch (e) {
                     Report.write("DOM Property error", e)
-                    r = p.error({
+                    r = p.error.bind(this)({
                         element: el,
                         value: o[p.name],
                         all: o,
@@ -119,7 +119,7 @@ export default class DOM {
             }
 
             try {
-                r = p.handler({
+                r = p.handler.bind(this)({
                     element: el,
                     value: o[p.name],
                     all: o,

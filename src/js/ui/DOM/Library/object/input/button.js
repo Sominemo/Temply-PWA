@@ -1,14 +1,13 @@
 import DOM from "../../../Classes/dom"
 import Animation from "../../../../Animation/Classes/Animation"
 import DOMObjectWrapper from "../../../Helpers/domObjectWrapper"
-import PointerInfo from "../../../../../services/PointerInfo"
 
 export default class Button {
     constructor({ content, handler, type = "bright" }) {
         type = (Array.isArray(type) ? type : [type])
         function rippleOut(ripple) {
             new Animation({
-                duration: 100,
+                duration: 200,
                 painter(t) {
                     ripple.style.opacity = 1 - t
                 },
@@ -33,7 +32,6 @@ export default class Button {
                         onRender(p, e) {
                             e.elementParse.native.style.top = `${ev.layerY}px`
                             e.elementParse.native.style.left = `${ev.layerX}px`
-                            console.log(ev)
                             if (!ev.isTrusted) {
                                 e.elementParse.native.style.top = `${self.clientHeight / 2}px`
                                 e.elementParse.native.style.left = `${self.clientWidth / 2}px`
@@ -51,7 +49,7 @@ export default class Button {
 
                     DOMObjectWrapper(this).render(ripple)
 
-                    handler()
+                    handler(ev)
                 },
             },
             {

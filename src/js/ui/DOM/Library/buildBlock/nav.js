@@ -115,6 +115,7 @@ export default class Nav {
     }
 
     static updateGestuePosition(el = false) {
+        if (!this.mobileGestue) return
         if (el === false) el = this.currentActive
         if (el !== null) {
             this.mobileGestue.elementParse.native.style.top = `${el.offsetTop}px`
@@ -157,7 +158,7 @@ export default class Nav {
                             events: [
                                 {
                                     event: "click",
-                                    handler: () => Nav.Toggle(),
+                                    handler() { Nav.Toggle() },
                                 },
                             ],
                         }),

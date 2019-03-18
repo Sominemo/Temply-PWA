@@ -27,11 +27,10 @@
 }
 
 .inline-title-clickable .inline-title-level-3 {
-cursor: pointer;
+    cursor: pointer;
 }
 
-.inline-title-clickable:focus .inline-title-level-3,
-.inline-title-clickable:active .inline-title-level-3 {
+.inline-title-clickable:focus .inline-title-level-3, .inline-title-clickable:active .inline-title-level-3 {
     background: var(--color-card-item-highlight-focus);
 }
 
@@ -162,7 +161,6 @@ md-button {
     font-family: var(--font-accent);
 }
 
-
 md-button:active {
     box-shadow: 0 4px 9px var(--color-button-shadow-hover);
 }
@@ -194,7 +192,7 @@ md-button.accent.light {
     }
 }
 
-md-button > md-ripple-effect {
+md-button>md-ripple-effect {
     background: var(--color-button-ripple);
     border-radius: 50%;
     display: block;
@@ -446,4 +444,69 @@ radio-handler.column-radio-chooser[selected-radio] {
     margin: 10px;
     display: flex;
     align-items: center;
+}
+
+.md-toast-container {
+    width: calc(100% - var(--size-nav-width));
+    right: 0;
+    display: flex;
+    position: fixed;
+    pointer-events: none;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.md-toast-container.transanim {
+    transition: bottom .2s, opacity .2s;
+}
+
+md-toast {
+    display: block;
+    pointer-events: all;
+    max-width: 500px;
+    background: var(--color-toast-bg);
+    color: var(--color-toast-text);
+    border-radius: 5px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.md-toast-inner, .md-toast-buttons, .md-toast-close-button-holder {
+    display: flex;
+    align-items: center;
+}
+
+.md-toast-main-content {
+    flex: 1;
+}
+
+.md-toast-close-button-holder {
+    padding: 15px;
+}
+
+md-button.transparentMDButton {
+    background: transparent;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    box-shadow: none !important;
+}
+
+md-button.transparentMDButton.color-main {
+    color: var(--color-main);
+}
+
+md-toast md-button.transparentMDButton {
+    color: var(--color-toast-accent)
+}
+
+md-toast md-button.transparentMDButton::before {
+    opacity: .2;
+}
+
+md-toast md-button.transparentMDButton:hover::before, md-toast md-button.transparentMDButton:active::before, md-toast md-button.transparentMDButton:focus::before {
+    background: var(--color-toast-ripple);
+}
+
+md-toast md-button.transparentMDButton>md-ripple-effect {
+    background: var(--color-toast-ripple-mono);
 }

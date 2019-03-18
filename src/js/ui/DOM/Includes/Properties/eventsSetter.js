@@ -9,7 +9,7 @@ export default (() => {
         if (!DOMController.errorIgnore(unique)) throw new Error("Events set failed")
     }
 
-    const handler = (data) => {
+    function handler(data) {
         if (typeof data.value !== "object") {
             if (!DOMController.errorIgnore(unique)) throw new Error("Events must be object")
             return
@@ -36,7 +36,13 @@ export default (() => {
 
         w.forEach((e) => {
             try {
-                data.element.native.addEventListener(e.event, e.handler)
+                const self = this
+
+                data.element.native.addEventListener(e.event,
+                    // eslint-disable-next-line prefer-arrow-callback, func-names
+                    function (...ep) {
+                        return e.handler.bind(this)(...ep, self)
+                    })
                 try {
                     if (data.config.eventsOnClickAutoTabIndex === true
                         && ["click"]
