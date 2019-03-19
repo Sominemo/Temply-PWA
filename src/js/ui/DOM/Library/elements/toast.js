@@ -4,7 +4,7 @@ import ToastElement from "./toastElement"
 export default class Toast {
     static buffer = []
 
-    static add(content, duration, { buttons = [], click = () => { } } = {}) {
+    static add(content, duration = 3000, { buttons = [], click = false } = {}) {
         this.buffer.push([content, { buttons, click, duration }])
         if (this.buffer.length === 1) this.next()
     }

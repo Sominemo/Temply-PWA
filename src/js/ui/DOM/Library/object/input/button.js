@@ -3,7 +3,9 @@ import Animation from "../../../../Animation/Classes/Animation"
 import DOMObjectWrapper from "../../../Helpers/domObjectWrapper"
 
 export default class Button {
-    constructor({ content, handler, type = "bright" }) {
+    constructor({
+        content, handler, type = "bright", style = {},
+    }) {
         type = (Array.isArray(type) ? type : [type])
         function rippleOut(ripple) {
             new Animation({
@@ -20,6 +22,7 @@ export default class Button {
             new: "md-button",
             class: [...type],
             content,
+            style,
             events: [{
                 event: "click",
                 handler(ev) {

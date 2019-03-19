@@ -46,17 +46,25 @@ export default {
             __index: "updates",
             title: "update settings",
             description: `choose preferred behaviour for "New update" notification, so it can distract you less if you wish.
-            Press the pictures to see how it looks like`,
-            first_time_explanation_1: `looks like it's first time you receive an update. Temply is a web-based
+            Press the pictures to see how it acts`,
+            first_time_explanation_1: `Temply is a web-based
             application. After first time you run it the app saves itself on your device so you don't have to
             spend your data by re-downloading it everytime you want to use Temply. In that time we are checking for new
             updates automatically and downloading them if we found such.`,
-            first_time_explanation_2: `since it's web-based application we can do this only
-            while it's on your screen. When the update is ready it waits to be applied right after the app is being re-opened.
+            first_time_explanation_2: `since it's the app runs in your browser we can do this only
+            while Temply is on your screen. When the update is ready it waits to be applied right after the app restart.
             We can inform you about this updates so you will know about changes and enhancements at first hand`,
             change_notify_way: "show update settings",
             notify_later: "notify only after installing",
             ready: "new update is ready",
+            installed: "new update just installed",
+            tell_more: "tell more",
+            later: "later",
+            got_it: "got it",
+            restart_now: "restart_now",
+            pending: "new update is pending",
+            click_to_restart: "click the button to restart",
+            restart: "restart",
             types: {
                 silently: {
                     __index: "silently",
@@ -84,7 +92,7 @@ export default {
         branch: "branch",
         debug: "debug",
         changelog: {
-            __index: "changelog",
+            __index: "changes",
             added: "added",
             changed: "changed",
             removed: "removed",

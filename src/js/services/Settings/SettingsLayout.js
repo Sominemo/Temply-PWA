@@ -3,11 +3,16 @@ import SettingsStorage from "./SettingsStorage"
 import {
     SettingsActContainer, SettingsSectionElement, SettingsGroupContainer, SettingsActLink,
 } from "../../ui/DOM/Library/settings"
-import { CardList } from "../../ui/DOM/Library/object/card"
+import { CardList, CardTextList, CardContent } from "../../ui/DOM/Library/object/card"
 import SettingsLayout from "./user/layout"
 import SettingsLayoutManager from "./user/manager"
 import { $$ } from "../Language/handler"
 import updatePopup from "./layouts/updatePopup"
+import SW from "../../main/SW"
+import { Icon, Title, TwoSidesMobileFlick } from "../../ui/DOM/Library/object"
+import AlignedContent from "../../ui/DOM/Library/object/AlignedContent"
+import Design from "../../main/design"
+import { Button } from "../../ui/DOM/Library/object/input"
 
 const a = new SettingsLayout()
     .createAct({
@@ -52,6 +57,49 @@ a.getAct("updates")
         options: {},
     })
     .getSection("updates-main")
+    .createGroup({
+        id: "updates-pending-alert", dom: SettingsGroupContainer, options: { type: ["warn-highlight"] }, display: () => SW.updatePending,
+    })
+    .createGroup({ id: "updates-notify-explanations", dom: SettingsGroupContainer, options: {} })
     .createGroup({ id: "updates-notify-settings", dom: updatePopup, options: { wait: true } })
+
+a.getAct("updates").getSection("updates-main").getGroup("updates-notify-explanations")
+    .createItem({
+        id: "updates-notify-explanation",
+        dom: CardTextList,
+        options: [
+            $$("@settings/updates/first_time_explanation_1"),
+            $$("@settings/updates/first_time_explanation_2"),
+        ],
+    })
+
+a.getAct("updates").getSection("updates-main").getGroup("updates-pending-alert")
+    .createItem({
+        id: "update-pending-text",
+        dom: CardContent,
+        options: [
+            new TwoSidesMobileFlick(
+                new AlignedContent([
+                    new Icon("warning", {
+                        margin: "5px",
+                        marginRight: "15px",
+                        fontSize: "32px",
+                        color: Design.getVar("color-warning-info"),
+                    }),
+                    [
+                        new Title($$("@settings/updates/pending"), 2, { marginLeft: 0, marginTop: 0 }),
+                        $$("@settings/updates/click_to_restart"),
+                    ],
+                ]),
+                new Button({
+                    content: $$("@settings/updates/restart"),
+                    type: ["alert"],
+                    handler() {
+                        window.location.reload()
+                    },
+                }),
+            ),
+        ],
+    })
 
 SettingsLayoutManager.applyLayout(a)

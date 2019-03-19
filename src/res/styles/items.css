@@ -79,6 +79,11 @@
     background: var(--color-card-item-highlight-focus);
 }
 
+.card.warn-highlight {
+    border-color: var(--color-card-warning-border-color);
+    box-shadow: var(--color-card-warning-shadow);
+}
+
 .two-sides-content-wrapper {
     display: flex;
     justify-content: space-between;
@@ -178,6 +183,10 @@ md-button.accent {
 md-button.accent.light {
     background: var(--color-button-background-accent-light);
     color: var(--color-button-text-accent-light);
+}
+
+md-button.alert {
+    background: var(--color-warning-info);
 }
 
 @keyframes ripple {
@@ -509,4 +518,11 @@ md-toast md-button.transparentMDButton:hover::before, md-toast md-button.transpa
 
 md-toast md-button.transparentMDButton>md-ripple-effect {
     background: var(--color-toast-ripple-mono);
+}
+
+.bottom-buttons {
+    position: sticky;
+    bottom: 0px;
+    background: white;
+    border-top: solid 1.5px var(--color-card-border);
 }

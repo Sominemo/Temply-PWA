@@ -11,7 +11,7 @@ export default class SettingsGroupContainer {
 
         return new DOM({
             new: "div",
-            class: ["card", "settings-group-chunk"],
+            class: ["card", "settings-group-chunk", ...("type" in options ? options.type : [])],
             content: [
                 ...("name" in options ? [new Title(options.name, 3)] : []),
             ],

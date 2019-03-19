@@ -12,6 +12,7 @@ import { $$ } from "../services/Language/handler"
 import DOM from "../ui/DOM/Classes/dom"
 import Link from "../ui/DOM/Library/basic/link"
 import { CardContent, CardTextList } from "../ui/DOM/Library/object/card"
+import { SettingsActLink } from "../ui/DOM/Library/settings"
 
 export default class App {
     static get version() {
@@ -110,6 +111,11 @@ export default class App {
     }
 
     static InitAboutScreen() {
+        if (Navigation.parse().params[0] === "changelog") {
+            this.InitChangelog()
+            return
+        }
+
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
 
@@ -131,5 +137,17 @@ export default class App {
             ],
             {}, true,
         )))
+        w.render(new Card(new SettingsActLink([
+            () => { Navigation.hash = { module: "about", params: ["changelog"] } },
+            $$("@about/changelog"),
+        ])))
+    }
+
+    static InitChangelog() {
+        const w = new WindowContainer()
+        WindowManager.newWindow().append(w)
+
+        w.render(new Title($$("@about/changelog")))
+        w.render(this.changelogFormated())
     }
 }

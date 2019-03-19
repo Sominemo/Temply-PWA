@@ -6,12 +6,12 @@ import FlyOut from "../../../Animation/Library/Effects/flyOut"
 import { Padding } from "../style"
 
 export default class ToastElement {
-    constructor(content, { buttons = [], click = () => { }, duration } = {}, control) {
+    constructor(content, { buttons = [], click = false, duration } = {}, control) {
         let mouseOn = false
         const toast = new DOM({
             new: "md-toast",
             style: {
-                transform: "translate(100vh)",
+                transform: "translateY(100vh)",
             },
             onRender(p, e) {
                 new FlyIn({ direction: "top", duration: 500, timing: EaseOutQuad }).apply(e, () => {
@@ -29,6 +29,7 @@ export default class ToastElement {
                 {
                     event: "click",
                     handler(me, el) {
+                        if (typeof click !== "function") return
                         new FlyOut({ direction: "top", duration: 500, timing: EaseOutQuad })
                             .apply(el, control.pop)
                         click()
@@ -108,8 +109,10 @@ export default class ToastElement {
                     handler(me, el) {
                         const maxHeight = me.targetTouches[0].clientY
                         let opacity = 1
+                        mouseOn = true
                         this.addEventListener("touchmove", (me2) => {
                             me.preventDefault()
+                            mouseOn = true
                             const bottom = document.documentElement.clientHeight
                                 - me2.targetTouches[0].clientY
                                 - this.clientHeight / 2
@@ -123,6 +126,7 @@ export default class ToastElement {
                         })
 
                         this.addEventListener("touchend", () => {
+                            mouseOn = false
                             if (opacity < 0.6) {
                                 this.classList.add("transanim")
                                 this.style.opacity = 0

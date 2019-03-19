@@ -17,6 +17,14 @@ import Language from "./services/Language/instance"
 import { $ } from "./services/Language/handler"
 import App from "./main/app"
 
+function compare(a, b, path = "/") {
+    const keys = Object.keys(a)
+    keys.forEach((e) => {
+        if (b[e] === undefined) console.log(path + e)
+        if (typeof b[e] === "object") compare(a[e], b[e], `${path + e}/`)
+    })
+}
+
 const DevUtils = {
     app: App,
     dom: DOM,
@@ -36,6 +44,7 @@ const DevUtils = {
     langCore: LanguageCore,
     langInstance: Language,
     $,
+    compare,
 }
 
 global.idb = idb

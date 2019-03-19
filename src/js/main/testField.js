@@ -1,21 +1,16 @@
-import updatePopup from "../services/Settings/layouts/updatePopup"
 import { Title } from "../ui/DOM/Library/object"
 import WindowManager from "../ui/SimpleWindowManager"
 import { WindowContainer } from "../ui/DOM/Library/buildBlock"
-import Popup from "../ui/DOM/Library/elements/popup"
-import { Algin, Padding } from "../ui/DOM/Library/style"
-import { $$ } from "../services/Language/handler"
+import { Algin } from "../ui/DOM/Library/style"
 import RadioLabel from "../ui/DOM/Library/object/input/radioLabel"
 import { Card } from "../ui/DOM/Library/object/card"
 import SettingsStorage from "../services/Settings/SettingsStorage"
-import App from "./app"
 import DOM from "../ui/DOM/Classes/dom"
 import FadeIn from "../ui/Animation/Library/Effects/fadeIn"
 import { Button } from "../ui/DOM/Library/object/input"
 import FlyIn from "../ui/Animation/Library/Effects/flyIn"
 import FlyOut from "../ui/Animation/Library/Effects/flyOut"
 import EaseOutQuad from "../ui/Animation/Library/Timing/easeOutQuad"
-import { ToastElement } from "../ui/DOM/Library/elements"
 import Toast from "../ui/DOM/Library/elements/toast"
 
 export default class TestField {
@@ -62,27 +57,7 @@ export default class TestField {
             }), ["center", "row"]),
         ]))
 
-
-        Toast.add(new Padding("New update", 15), 5000, {
-            buttons: [
-                {
-                    async handler() {
-                        const o = WindowManager.newOverlay()
-                        o.append(new Popup([
-                            new Algin(new Title($$("@settings/updates/ready"), 2), ["center", "row"]),
-                            ...await updatePopup(
-                                {
-                                    update: true,
-                                    online: await App.lastChangelog(),
-                                },
-                            ),
-                        ], { control: o, fullWidth: true }))
-                    },
-                    content: "Tell more",
-                },
-            ],
-        })
-
-        Toast.add("Lol", 500)
+        Toast.add("Just a test", 5000)
+        Toast.add("I'm kinda fast!", 500)
     }
 }

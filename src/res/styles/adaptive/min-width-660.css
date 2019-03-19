@@ -14,4 +14,7 @@
         flex-direction: column;
         justify-content: center;
     }
+    .two-sides-content-wrapper.mobile-flick {
+        flex-direction: column;
+    }
 }

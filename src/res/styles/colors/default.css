@@ -39,8 +39,11 @@
 	--color-card-shadow: rgba(0, 0, 0, 0.06);
 	--color-card-item-highlight: #f9f9f9;
 	--color-card-item-highlight-focus: #f3f3f3;
+	--color-card-warning-shadow: 0px 5px 13px rgba(165, 133, 31, 0.2);
+	--color-card-warning-border-color: rgba(251, 191, 0, .3);
 
 	--color-attention: #ca1414;
+	--color-warning-info: #fbbf00;
 
 	--color-switch-shadow: rgba(0, 0, 0, .3);
 	--color-switch-ripple: rgba(0,0,0,.2);

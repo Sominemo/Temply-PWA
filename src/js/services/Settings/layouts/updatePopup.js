@@ -2,7 +2,7 @@ import {
     Title, Columns, Preloader, Icon,
 } from "../../../ui/DOM/Library/object"
 import { VideoBlock } from "../../../ui/DOM/Library/basic"
-import { SwitchLabel, Radio } from "../../../ui/DOM/Library/object/input"
+import { SwitchLabel, Radio, Button } from "../../../ui/DOM/Library/object/input"
 import { Card, CardContent } from "../../../ui/DOM/Library/object/card"
 import { $$ } from "../../Language/handler"
 import { Algin, Padding } from "../../../ui/DOM/Library/style"
@@ -10,6 +10,8 @@ import DOM from "../../../ui/DOM/Classes/dom"
 import SettingsStorage from "../SettingsStorage"
 import DOMObjectWrapper from "../../../ui/DOM/Helpers/domObjectWrapper"
 import App from "../../../main/app"
+import WindowManager from "../../../ui/SimpleWindowManager"
+import FadeOut from "../../../ui/Animation/Library/Effects/fadeOut"
 
 export default async function updatePopup({ wait = false, update = false, online = false } = {}) {
     let firstTime
@@ -54,7 +56,6 @@ export default async function updatePopup({ wait = false, update = false, online
         let updateType = await SettingsStorage.get("user_update_prompt")
         if (!(["silent", "toast", "popup"].includes(updateType))) updateType = "toast"
         firstTime = updateType === undefined
-        if (update) SettingsStorage.set("user_update_prompt", updateType)
 
         const radios = new Radio([
             {
@@ -110,6 +111,8 @@ export default async function updatePopup({ wait = false, update = false, online
             },
         ], "column-radio-chooser")
 
+        let viewed = false
+
         return new Card([
             new Title($$("@settings/updates/title"), 3),
             new CardContent($$("@settings/updates/description")),
@@ -126,7 +129,8 @@ export default async function updatePopup({ wait = false, update = false, online
                     first: files[2],
                     last: radios[2],
                 },
-            ], {
+            ],
+            {
                 classFirst: ["column-video"],
                 styleLast: { flex: "1", display: "flex" },
             }),
@@ -139,6 +143,17 @@ export default async function updatePopup({ wait = false, update = false, online
                 ],
                 $$("@settings/updates/notify_later"),
             ),
+            new DOM({
+                new: "div",
+                style: {
+                    display: "none",
+                },
+                onRender(p) {
+                    if (viewed || (update && !p.asContent)) return
+                    viewed = true
+                    SettingsStorage.set("user_update_prompt", updateType)
+                },
+            }),
         ])
     }
 
@@ -161,21 +176,19 @@ export default async function updatePopup({ wait = false, update = false, online
     if (firstTime === undefined) firstTime = ((await SettingsStorage.get("user_update_prompt")) === undefined)
     let cl
 
-    let versionTitle
     if (online !== false) {
         cl = online
-        versionTitle = new Title(`${cl.version} | ${cl.date}`, 3)
+    } else {
+        cl = {
+            version: App.version,
+            date: App.buildDate,
+        }
     }
+
+    const versionTitle = new Title(`${cl.version} | ${cl.date}`, 3)
 
     if (firstTime) {
         output.push(versionTitle)
-
-        output.push(new CardContent(
-            $$("@settings/updates/first_time_explanation_1"),
-        ))
-        output.push(new CardContent(
-            $$("@settings/updates/first_time_explanation_2"),
-        ))
         output.push(await getCard())
     } else {
         const settingsWrap = new DOM({ new: "div" })
@@ -185,7 +198,7 @@ export default async function updatePopup({ wait = false, update = false, online
                     new: "div",
                     class: ["inline-title-clickable"],
                     content: new Padding([
-                        ...(online !== false ? [versionTitle] : []),
+                        versionTitle,
                         new Title($$("@settings/updates/change_notify_way"), 3, {}, new Icon("arrow_forward",
                             {
                                 marginRight: ".2em",
@@ -213,12 +226,27 @@ export default async function updatePopup({ wait = false, update = false, online
 
     output.push(new CardContent(new DOM({
         new: "div",
-        style: {
-            maxWidth: "100%",
-            overflowX: "auto",
-        },
         content: (online !== false ? App.changelogFormated(cl.changelog) : App.changelogFormated()),
     })))
+
+    output.push(new DOM({
+        new: "div",
+        class: "bottom-buttons",
+        content: new Algin([
+            new Button({
+                content: (online ? $$("@settings/updates/later") : $$("@settings/updates/got_it")),
+                handler() {
+                    new FadeOut({ duration: 200 })
+                        .apply(
+                            WindowManager.currentOverlay.element,
+                            WindowManager.currentOverlay.pop,
+                        )
+                },
+                ...(online ? { type: ["light"] } : {}),
+            }),
+            ...(online ? [new Button({ content: $$("@settings/updates/restart_now"), handler() { window.location.reload() } })] : []),
+        ], ["center", "row"]),
+    }))
 
     return output
 }
