@@ -8,6 +8,15 @@ import { Padding } from "../style"
 export default class ToastElement {
     constructor(content, { buttons = [], click = false, duration } = {}, control) {
         let mouseOn = false
+        let popCalled = false
+        let swipeMode = false
+        const oFunc = control.pop
+        control.pop = (...p) => {
+            if (popCalled) return
+            popCalled = true
+            oFunc(...p)
+        }
+
         const toast = new DOM({
             new: "md-toast",
             style: {
@@ -38,6 +47,7 @@ export default class ToastElement {
                 {
                     event: "contextmenu",
                     handler(me, el) {
+                        if (swipeMode) return
                         new FlyOut({ direction: "top", duration: 500, timing: EaseOutQuad })
                             .apply(el, control.pop)
                         me.preventDefault()
@@ -110,6 +120,7 @@ export default class ToastElement {
                         const maxHeight = me.targetTouches[0].clientY
                         let opacity = 1
                         mouseOn = true
+                        swipeMode = true
                         this.addEventListener("touchmove", (me2) => {
                             me.preventDefault()
                             mouseOn = true
@@ -127,6 +138,7 @@ export default class ToastElement {
 
                         this.addEventListener("touchend", () => {
                             mouseOn = false
+                            swipeMode = false
                             if (opacity < 0.6) {
                                 this.classList.add("transanim")
                                 this.style.opacity = 0

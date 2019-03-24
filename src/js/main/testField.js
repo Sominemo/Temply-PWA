@@ -12,6 +12,7 @@ import FlyIn from "../ui/Animation/Library/Effects/flyIn"
 import FlyOut from "../ui/Animation/Library/Effects/flyOut"
 import EaseOutQuad from "../ui/Animation/Library/Timing/easeOutQuad"
 import Toast from "../ui/DOM/Library/elements/toast"
+import IconSide from "../ui/DOM/Library/object/iconSide"
 
 export default class TestField {
     static async Init() {
@@ -44,7 +45,6 @@ export default class TestField {
             new Algin(new Button({
                 content: "Animate title",
                 handler() {
-                    console.log(animDirection)
                     if (state) {
                         new FlyOut({ direction: animDirection, timing: EaseOutQuad })
                             .apply(animational)
@@ -56,6 +56,12 @@ export default class TestField {
                 },
             }), ["center", "row"]),
         ]))
+
+        w.render(new Button({
+            content: new IconSide("help", "I need help"),
+            type: ["small", "light"],
+            handler() { Toast.add("There's no help") },
+        }))
 
         Toast.add("Just a test", 5000)
         Toast.add("I'm kinda fast!", 500)

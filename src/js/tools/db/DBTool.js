@@ -1,4 +1,4 @@
-// IDEA: https://gist.github.com/tralves/9e5de2bd9f582007a52708d7d4209865
+// SOURCE: https://gist.github.com/tralves/9e5de2bd9f582007a52708d7d4209865
 
 import { openDb, deleteDb } from "idb"
 

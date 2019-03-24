@@ -18,59 +18,73 @@ export default class Button {
                 if (pn) pn.removeChild(ripple)
             })
         }
+
+        function startRipple(ev) {
+            const biggerSide = (this.clientHeight > this.clientWidth
+                ? this.clientHeight : this.clientWidth)
+            const self = this
+
+            const ripple = new DOM({
+                new: "md-ripple-effect",
+                onRender(p, e) {
+                    e.elementParse.native.style.top = `${ev.layerY}px`
+                    e.elementParse.native.style.left = `${ev.layerX}px`
+                    if (!ev.isTrusted) {
+                        e.elementParse.native.style.top = `${self.clientHeight / 2}px`
+                        e.elementParse.native.style.left = `${self.clientWidth / 2}px`
+                    }
+
+                    new Animation({
+                        duration: 100,
+                        painter(t) {
+                            e.elementParse.native.style.width = `${t * biggerSide * 2}px`
+                            e.elementParse.native.style.height = `${t * biggerSide * 2}px`
+                        },
+                    }).apply(e)
+                },
+            })
+
+            DOMObjectWrapper(this).render(ripple)
+        }
+
+        function endRippleUniversal(ev) {
+            this.querySelectorAll("md-ripple-effect").forEach((r) => {
+                rippleOut(r)
+            })
+        }
+
         return new DOM({
             new: "md-button",
             class: [...type],
             content,
             style,
-            events: [{
-                event: "click",
-                handler(ev) {
-                    const biggerSide = (this.clientHeight > this.clientWidth
-                        ? this.clientHeight : this.clientWidth)
-                    const self = this
-
-                    const ripple = new DOM({
-                        new: "md-ripple-effect",
-                        onRender(p, e) {
-                            e.elementParse.native.style.top = `${ev.layerY}px`
-                            e.elementParse.native.style.left = `${ev.layerX}px`
-                            if (!ev.isTrusted) {
-                                e.elementParse.native.style.top = `${self.clientHeight / 2}px`
-                                e.elementParse.native.style.left = `${self.clientWidth / 2}px`
-                            }
-
-                            new Animation({
-                                duration: 100,
-                                painter(t) {
-                                    e.elementParse.native.style.width = `${t * biggerSide * 2}px`
-                                    e.elementParse.native.style.height = `${t * biggerSide * 2}px`
-                                },
-                            }).apply(e, () => rippleOut(e.elementParse.native))
-                        },
-                    })
-
-                    DOMObjectWrapper(this).render(ripple)
-
-                    handler(ev)
+            events: [
+                {
+                    event: "mousedown",
+                    handler: startRipple,
                 },
-            },
-            {
-                event: "mouseout",
-                handler() {
-                    this.querySelectorAll("md-ripple-effect").forEach((r) => {
-                        rippleOut(r)
-                    })
+                {
+                    event: "click",
+                    handler(ev) {
+                        handler.bind(this)(ev)
+                    },
                 },
-            },
-            {
-                event: "blur",
-                handler() {
-                    this.querySelectorAll("md-ripple-effect").forEach((r) => {
-                        rippleOut(r)
-                    })
+                {
+                    event: "mouseleave",
+                    handler: endRippleUniversal,
                 },
-            },
+                {
+                    event: "mouseup",
+                    handler: endRippleUniversal,
+                },
+                {
+                    event: "touchend",
+                    handler: endRippleUniversal,
+                },
+                {
+                    event: "blur",
+                    handler: endRippleUniversal,
+                },
             ],
         })
     }

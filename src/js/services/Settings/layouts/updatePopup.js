@@ -1,5 +1,5 @@
 import {
-    Title, Columns, Preloader, Icon,
+    Title, Columns, Preloader,
 } from "../../../ui/DOM/Library/object"
 import { VideoBlock } from "../../../ui/DOM/Library/basic"
 import { SwitchLabel, Radio, Button } from "../../../ui/DOM/Library/object/input"
@@ -12,19 +12,19 @@ import DOMObjectWrapper from "../../../ui/DOM/Helpers/domObjectWrapper"
 import App from "../../../main/app"
 import WindowManager from "../../../ui/SimpleWindowManager"
 import FadeOut from "../../../ui/Animation/Library/Effects/fadeOut"
+import IconSide from "../../../ui/DOM/Library/object/iconSide"
+import Toast from "../../../ui/DOM/Library/elements/toast"
 
 export default async function updatePopup({ wait = false, update = false, online = false } = {}) {
     let firstTime
-    async function getCard() {
+    async function getCard({ noAsets = false } = {}) {
         const videos = [
             ["assets/animations/update-silently.webm", 4, "#e23163"],
             ["assets/animations/update-on-toast.webm", 2, "#4875d1"],
             ["assets/animations/update-on-popup.webm", 2.5, "#fbbf00"],
         ]
 
-        const files = []
-
-        async function getVid(url, time, color, i) {
+        async function getVid(url, time, color) {
             const video = await new VideoBlock(url, {
                 onclick(v) {
                     if (v.paused) {
@@ -48,10 +48,10 @@ export default async function updatePopup({ wait = false, update = false, online
                 },
                 defaultTime: time,
             })
-            files[i] = video
+            return video
         }
 
-        await Promise.all(videos.map((a, i) => getVid(...a, i)))
+        const files = await Promise.all(videos.map(a => getVid(...a)))
 
         let updateType = await SettingsStorage.get("user_update_prompt")
         if (!(["silent", "toast", "popup"].includes(updateType))) updateType = "toast"
@@ -158,11 +158,27 @@ export default async function updatePopup({ wait = false, update = false, online
     }
 
     if (wait) {
-        const crd = new Card(new Algin(new Preloader(), ["center", "row"]));
+        let rendered = false
+        const crd = new Card(new Algin(
+            new DOM({
+                new: "div",
+                content: [
+                    new Preloader(),
+                ],
+                onRender(p, e) {
+                    setTimeout(() => {
+                        if (!p.asContent && !rendered) e.render(new Title("Skip assets loading", 3))
+                    }, 3000)
+                },
+            }),
+            ["center", "row"],
+        ));
+
         (async () => {
             const cnt = await getCard()
             crd.clear()
             crd.render(...cnt.object.content)
+            rendered = true
         })()
         return crd
     }
@@ -185,39 +201,36 @@ export default async function updatePopup({ wait = false, update = false, online
         }
     }
 
-    const versionTitle = new Title(`${cl.version} | ${cl.date}`, 3)
+    const versionTitle = new Button({
+        content: new IconSide("info", cl.version),
+        type: ["small", "light", "generic"],
+        handler() {
+            Toast.add(cl.date)
+        },
+    })
 
     if (firstTime) {
-        output.push(versionTitle)
+        output.push(new Algin(versionTitle, ["center", "row"]))
+
         output.push(await getCard())
     } else {
-        const settingsWrap = new DOM({ new: "div" })
         output.push(new Algin(
             [
-                new DOM({
-                    new: "div",
-                    class: ["inline-title-clickable"],
-                    content: new Padding([
-                        versionTitle,
-                        new Title($$("@settings/updates/change_notify_way"), 3, {}, new Icon("arrow_forward",
-                            {
-                                marginRight: ".2em",
-                                fontSize: "1.5em",
-                            })),
-                    ], "0 10px"),
-                    events: [
-                        {
-                            event: "click",
-                            async handler() {
-                                const e = settingsWrap
-                                DOMObjectWrapper(this).clear()
-                                const a = await updatePopup({ wait: true })
-                                e.render(a)
-                            },
+                new Padding([
+                    versionTitle,
+                    new Button({
+                        content: new IconSide("arrow_forward", $$("@settings/updates/change_notify_way")),
+                        type: ["small", "light"],
+                        async handler() {
+                            console.log(this)
+                            const e = DOMObjectWrapper(this.parentElement)
+                            e.clear(await updatePopup({ wait: true }))
                         },
-                    ],
-                }),
-                settingsWrap,
+                        style: {
+                            marginLeft: "10px",
+                        },
+                    }),
+                ], "0 10px"),
             ], ["center", "row"],
         ))
     }

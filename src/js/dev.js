@@ -16,6 +16,7 @@ import LanguageCore from "./services/Language/core"
 import Language from "./services/Language/instance"
 import { $ } from "./services/Language/handler"
 import App from "./main/app"
+import Toast from "./ui/DOM/Library/elements/toast"
 
 function compare(a, b, path = "/") {
     const keys = Object.keys(a)
@@ -45,6 +46,7 @@ const DevUtils = {
     langInstance: Language,
     $,
     compare,
+    Toast,
 }
 
 global.idb = idb

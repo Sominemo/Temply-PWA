@@ -20,43 +20,44 @@ const DOMObjectWrapper = (DOMObjectWrapper) => {
         return o
     }
 
-    const wrapper = Object.create(DOMObjectWrapper,
-        {
-            render: {
-                value: (e) => {
-                    if (!(e instanceof DOM)) throw new TypeError("Can't render not-DOM element, use native methods")
-                    e.emitEvent("render", {})
-                    DOMObjectWrapper.appendChild(Object.getPrototypeOf(e.elementParse))
-                },
-                writable: false,
+    const methods = {
+        render: {
+            value: (e) => {
+                if (!(e instanceof DOM)) throw new TypeError("Can't render not-DOM element, use native methods")
+                e.emitEvent("render", {})
+                DOMObjectWrapper.appendChild(Object.getPrototypeOf(e.elementParse))
             },
-            clear: {
-                value: (e) => {
-                    DOMObjectWrapper.innerHTML = ""
-                    if (e) this.render(e)
-                },
-                writable: false,
+            writable: false,
+        },
+        clear: {
+            value: (e) => {
+                DOMObjectWrapper.innerHTML = ""
+                if (e) methods.render.value(e)
             },
-            name: {
-                value: "DOMObjectWrapper",
-                writable: false,
+            writable: false,
+        },
+        name: {
+            value: "DOMObjectWrapper",
+            writable: false,
+        },
+        native: {
+            get() { return Object.getPrototypeOf(this) },
+        },
+        set: {
+            value: (e, p) => {
+                const g = toTheBottom(DOMObjectWrapper, e, 1)
+                g[e[e.length - 1]] = p
+                return g[e[e.length - 1]]
             },
-            native: {
-                get() { return Object.getPrototypeOf(this) },
-            },
-            set: {
-                value: (e, p) => {
-                    const g = toTheBottom(DOMObjectWrapper, e, 1)
-                    g[e[e.length - 1]] = p
-                    return g[e[e.length - 1]]
-                },
-                writable: false,
-            },
-            get: {
-                value: e => toTheBottom(DOMObjectWrapper, e),
-                writable: false,
-            },
-        })
+            writable: false,
+        },
+        get: {
+            value: e => toTheBottom(DOMObjectWrapper, e),
+            writable: false,
+        },
+    }
+
+    const wrapper = Object.create(DOMObjectWrapper, methods)
 
     return wrapper
 }

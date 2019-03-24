@@ -170,6 +170,15 @@ md-button:active {
     box-shadow: 0 4px 9px var(--color-button-shadow-hover);
 }
 
+md-button.small {
+    font-weight: 500;
+    font-size: 13px;
+    margin: 10px auto;
+    border: solid 1.5px var(--color-card-border);
+    padding: 5px 15px;
+    border-radius: 2em;
+}
+
 md-button.light {
     color: var(--color-button-text-light);
     background: var(--color-button-background-light);
@@ -185,8 +194,17 @@ md-button.accent.light {
     color: var(--color-button-text-accent-light);
 }
 
+md-button.generic.light {
+    background: var(--color-main-bg);
+    color: var(--color-generic);
+}
+
 md-button.alert {
     background: var(--color-warning-info);
+}
+
+md-button.small.light {
+    box-shadow: none;
 }
 
 @keyframes ripple {

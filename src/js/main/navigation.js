@@ -134,7 +134,7 @@ export default class Navigation {
     }
 
     static get whatHappened() {
-        // IDEA: https://gist.github.com/sstephenson/739659
+        // SOURCE: https://gist.github.com/sstephenson/739659
 
         if (this.history.length === 0) this.history.push(this.hash)
 

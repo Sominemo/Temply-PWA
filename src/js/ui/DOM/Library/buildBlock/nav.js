@@ -153,7 +153,7 @@ export default class Nav {
                             content: new DOM({
                                 new: "div",
                                 class: "nav-item",
-                                content: new Icon("menu"),
+                                content: new Icon("more_vert"),
                             }),
                             events: [
                                 {

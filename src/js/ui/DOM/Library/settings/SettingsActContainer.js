@@ -2,7 +2,8 @@ import FieldsContainer from "../../../../tools/validation/fieldsContainer"
 import FieldChecker from "../../../../tools/validation/fieldChecker"
 import DOM from "../../Classes/dom"
 import Title from "../object/title"
-import Card from "../object/card/card"
+import Toast from "../elements/toast"
+import { $$ } from "../../../../services/Language/handler"
 
 export default class SettingsActContainer {
     constructor(data, object) {
@@ -17,14 +18,17 @@ export default class SettingsActContainer {
             new: "div",
             class: ["settings-act-container"],
             content: [
-                ...(data.lock ? [new Card("Info: You can't commit changes there")] : []),
                 // TODO: Make a toast onRender
                 new Title(data.name),
             ],
             ...(data.lock ? {
-                style: { pointerEvents: "none", opacity: 0.5 },
-                attributes: [{ value: true }],
+                style: { pointerEvents: "none", opacity: 0.7 },
             } : {}),
+            onRender(p, e) {
+                if (data.lock) {
+                    Toast.add($$("@settings/locked_item"))
+                }
+            },
         })
     }
 }

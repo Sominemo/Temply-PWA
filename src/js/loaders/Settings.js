@@ -1,6 +1,7 @@
 import SettingsCheckProvider from "../services/Settings/SettingsCheckProvider"
 import FieldChecker from "../tools/validation/fieldChecker"
 import App from "../main/app"
+import Report from "../main/report"
 
 SettingsCheckProvider.setRules([
     {
@@ -9,7 +10,7 @@ SettingsCheckProvider.setRules([
             default: "lorem",
             checker: new FieldChecker({ type: "string" }),
             onfail: async (a, b, c) => { await c(a.toString()); return true },
-            onupdate: (...a) => console.log("Test setting updated", ...a),
+            onupdate: (...a) => Report.write("Test setting updated", ...a),
         },
     },
 ])

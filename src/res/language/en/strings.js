@@ -29,9 +29,10 @@ export default {
     },
     settings: {
         __index: "settings",
+        locked_item: "Info: You can't commit changes there",
         errors: {
             no_page: "there's no such settings page",
-            layout_failed: "looks like we failed to load settings layout",
+            layout_failed: "It seems like we failed to load Settings",
         },
         actions: {
             open_about: "open About screen",
@@ -61,7 +62,7 @@ export default {
             tell_more: "tell more",
             later: "later",
             got_it: "got it",
-            restart_now: "restart_now",
+            restart_now: "restart now",
             pending: "new update is pending",
             click_to_restart: "click the button to restart",
             restart: "restart",

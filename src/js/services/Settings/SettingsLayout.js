@@ -19,7 +19,9 @@ const a = new SettingsLayout()
         id: "settings", dom: SettingsActContainer, options: { name: $$("settings") },
     })
     .createAct({
-        id: "updates", dom: SettingsActContainer, options: { name: $$("@settings/updates") },
+        id: "updates",
+        dom: SettingsActContainer,
+        options: { name: $$("@settings/updates") },
     })
 
 

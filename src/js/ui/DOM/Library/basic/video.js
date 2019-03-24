@@ -32,6 +32,9 @@ export default class VideoBlock {
                                 ],
                             })
                         })
+                        .catch((e) => {
+                            reject(e)
+                        })
                 })
                 .catch((e) => {
                     reject(e)
