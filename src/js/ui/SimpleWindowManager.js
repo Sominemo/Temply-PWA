@@ -39,10 +39,11 @@ export default class WindowManager {
 
         const generated = w
         this.windows.push(generated)
-        new FadeOut({ duration: 200 }).apply(this.controlWin, () => {
-            this.controlWin.clear(generated)
-            new FadeIn({ duration: 200 }).apply(this.controlWin)
-        })
+        new FadeOut({ duration: 200 }).apply(this.controlWin)
+            .then(() => {
+                this.controlWin.clear(generated)
+                new FadeIn({ duration: 200 }).apply(this.controlWin)
+            })
 
         if (typeof h === "function") h(w)
         return this.currentWindow

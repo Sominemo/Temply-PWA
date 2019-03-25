@@ -23,16 +23,17 @@ export default class ToastElement {
                 transform: "translateY(100vh)",
             },
             onRender(p, e) {
-                new FlyIn({ direction: "top", duration: 500, timing: EaseOutQuad }).apply(e, () => {
-                    if (duration <= 0) return
-                    const check = () => {
-                        if (!mouseOn) {
-                            new FlyOut({ direction: "top", duration: 500, timing: EaseOutQuad })
-                                .apply(e, control.pop)
-                        } else setTimeout(check, duration)
-                    }
-                    setTimeout(check, duration)
-                })
+                new FlyIn({ direction: "top", duration: 500, timing: EaseOutQuad }).apply(e)
+                    .then(() => {
+                        if (duration <= 0) return
+                        const check = () => {
+                            if (!mouseOn) {
+                                new FlyOut({ direction: "top", duration: 500, timing: EaseOutQuad })
+                                    .apply(e).then(control.pop)
+                            } else setTimeout(check, duration)
+                        }
+                        setTimeout(check, duration)
+                    })
             },
             events: [
                 {
@@ -40,7 +41,7 @@ export default class ToastElement {
                     handler(me, el) {
                         if (typeof click !== "function") return
                         new FlyOut({ direction: "top", duration: 500, timing: EaseOutQuad })
-                            .apply(el, control.pop)
+                            .apply(el).then(control.pop)
                         click()
                     },
                 },
@@ -49,7 +50,7 @@ export default class ToastElement {
                     handler(me, el) {
                         if (swipeMode) return
                         new FlyOut({ direction: "top", duration: 500, timing: EaseOutQuad })
-                            .apply(el, control.pop)
+                            .apply(el).then(control.pop)
                         me.preventDefault()
                     },
                 },
@@ -83,7 +84,7 @@ export default class ToastElement {
                                 handler(m) {
                                     m.stopPropagation()
                                     new FlyOut({ direction: "top", duration: 500, timing: EaseOutQuad })
-                                        .apply(toast, control.pop)
+                                        .apply(toast).then(control.pop)
                                     return b.handler.bind(this)()
                                 },
                                 content: b.content,
@@ -143,7 +144,7 @@ export default class ToastElement {
                                 this.classList.add("transanim")
                                 this.style.opacity = 0
                                 new FlyOut({ direction: "top", duration: 200, timing: EaseOutQuad })
-                                    .apply(el, control.pop)
+                                    .apply(el).then(control.pop)
                             } else {
                                 opacity = 1
                                 this.style.opacity = ""

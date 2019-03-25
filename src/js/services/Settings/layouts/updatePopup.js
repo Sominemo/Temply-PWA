@@ -252,8 +252,7 @@ export default async function updatePopup({ wait = false, update = false, online
                     new FadeOut({ duration: 200 })
                         .apply(
                             WindowManager.currentOverlay.element,
-                            WindowManager.currentOverlay.pop,
-                        )
+                        ).then(WindowManager.currentOverlay.pop)
                 },
                 ...(online ? { type: ["light"] } : {}),
             }),

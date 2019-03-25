@@ -13,10 +13,11 @@ export default class Button {
                 painter(t) {
                     ripple.style.opacity = 1 - t
                 },
-            }).apply(this, () => {
-                const pn = ripple.parentNode
-                if (pn) pn.removeChild(ripple)
-            })
+            }).apply(this)
+                .then(() => {
+                    const pn = ripple.parentNode
+                    if (pn) pn.removeChild(ripple)
+                })
         }
 
         function startRipple(ev) {

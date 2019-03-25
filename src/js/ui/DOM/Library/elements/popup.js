@@ -6,7 +6,7 @@ import FadeOut from "../../../Animation/Library/Effects/fadeOut"
 export default class Popup {
     constructor(content, { control = {}, fullWidth = false } = {}) {
         const pop = () => {
-            new FadeOut({ duration: 200 }).apply(control.element, () => control.pop())
+            new FadeOut({ duration: 200 }).apply(control.element).then(() => control.pop())
         }
         const pe = new Card(new DOM({
             new: "div",

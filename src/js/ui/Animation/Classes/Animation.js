@@ -18,23 +18,34 @@ export default class Animation {
         this.timingFunc = timingFunc
     }
 
-    apply(element, callback = () => { }) {
-        const start = performance.now()
+    animate(element) {
+        return new Promise((resolve, reject) => {
+            const start = performance.now()
 
-        let animate = (time) => {
-            let timeProgress = (time - start) / this.duration
-            if (timeProgress > 1) timeProgress = 1
+            let animate = (time) => {
+                let timeProgress = (time - start) / this.duration
+                if (timeProgress > 1) timeProgress = 1
 
-            const effectProgress = this.timingFunc(timeProgress)
-            this.painter.bind(element)(effectProgress)
+                const effectProgress = this.timingFunc(timeProgress)
+                this.painter.bind(element)(effectProgress)
 
-            if (timeProgress < 1) {
-                requestAnimationFrame(animate)
-            } else callback(element)
-        }
+                if (timeProgress < 1) {
+                    requestAnimationFrame(animate)
+                } else resolve(element)
+            }
 
-        animate = animate.bind(this)
+            animate = animate.bind(this)
 
-        requestAnimationFrame(animate)
+            requestAnimationFrame(animate)
+        })
+    }
+
+    apply(...data) {
+        return this.animate(...data)
+    }
+
+    applyCallback({ data = [], callback = () => {} }) {
+        this.animate(...data)
+            .then(e => callback(e))
     }
 }

@@ -224,7 +224,8 @@ md-button>md-ripple-effect {
     border-radius: 50%;
     display: block;
     position: absolute;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
 
 md-button::before {
