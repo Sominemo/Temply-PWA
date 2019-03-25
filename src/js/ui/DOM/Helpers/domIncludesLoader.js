@@ -22,8 +22,6 @@ export default async function domIncludesLoader() {
 
             contentStringAsTextNode: true,
 
-            allowNodeAttributeDefinition: false,
-
             eventsOnClickAutoTabIndex: !!await SettingsStorage.getFlag("enable_tab_navigation"),
         })
     }

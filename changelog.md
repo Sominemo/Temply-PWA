@@ -1,3 +1,23 @@
+# 0.4.2 25.03.2019
+## Look and feel
++ Columns
++ Animations core
+* App screen change transition
+* Promise-based animation callback
+
+## Core
++ Languages (+ Russian)
++ Changelog in About screen
+* Updated dependencies (idb v4, etc.)
++ New modificators
+
+## Elements
++ Radios
++ SVG Preloader
++ Button ripples
++ Toasts
+
+
 # 0.4.1 19.03.2019
 ## General
 + Update notifications

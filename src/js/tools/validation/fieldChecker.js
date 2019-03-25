@@ -34,7 +34,7 @@ export default class FieldChecker {
     strCheck(q) {
         const or = q
         if (q === undefined) q = ""
-        q = q.toString()
+        q = String(q)
         const o = this.rules
         if (!typeof o === "object" || typeof q !== "string") {
             return false

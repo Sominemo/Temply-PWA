@@ -21,8 +21,7 @@ export default class Button {
         }
 
         function startRipple(ev) {
-            const biggerSide = (this.clientHeight > this.clientWidth
-                ? this.clientHeight : this.clientWidth)
+            const biggerSide = Math.max(this.clientHeight, this.clientWidth)
             const self = this
 
             const ripple = new DOM({

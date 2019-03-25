@@ -129,9 +129,11 @@ export default class DOMController {
         return true
     }
 
-    static registerModificator({ name, handler }) {
+    static registerModificator({
+        name, handler, get, set,
+    }) {
         new FieldsContainer([
-            ["name", "handler"],
+            ["name"],
             {
                 name: new FieldChecker({
                     type: "string",
@@ -139,17 +141,19 @@ export default class DOMController {
                     min: 3,
                     max: 20,
                 }),
-                handler: new FieldChecker({ type: "function" }),
             },
-        ]).set({ name, handler })
+        ]).set({
+            name,
+        })
 
         if (this._settings.modificators[name] !== undefined
             || name in DOM.prototype) throw new Error(`Method ${name} is already declared`)
 
         Object.defineProperty(DOM.prototype, name,
             {
-                value: handler,
-                writable: false,
+                ...(handler ? { value: handler, writable: false } : {}),
+                ...(get ? { get } : {}),
+                ...(set ? { set } : {}),
             })
 
         this._settings.modificators[name] = handler
