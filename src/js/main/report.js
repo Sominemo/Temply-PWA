@@ -3,9 +3,9 @@ import errorToObject from "../tools/transformation/object/errorToObject"
 import DBTool from "../tools/db/DBTool"
 
 export default class Report {
-    static DBConnection = new DBTool("LogData", 1, (upgradeDB) => {
-        if (upgradeDB.oldVersion === 0) {
-            upgradeDB.createObjectStore(this.StorageName, {
+    static DBConnection = new DBTool("LogData", 1, (db, oldVersion, newVersion, transaction) => {
+        if (oldVersion === 0) {
+            transaction.createObjectStore(this.StorageName, {
                 keyPath: "key",
                 autoIncrement: true,
             })

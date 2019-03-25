@@ -1,4 +1,4 @@
-import idb from "idb"
+import * as idb from "idb"
 import DOM from "./ui/DOM/Classes/dom"
 import Nav from "./ui/DOM/Library/buildBlock/nav"
 import Navigation from "./main/navigation"

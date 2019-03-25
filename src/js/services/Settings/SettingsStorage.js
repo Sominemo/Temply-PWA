@@ -12,12 +12,12 @@ export default class SettingsStorage {
     }
 
     static _getDBConnection() {
-        this._dbConnection = new DBTool("SettingsStorage", 1, (upgrade) => {
-            if (upgrade.oldVersion === 0) {
-                upgrade.createObjectStore(this.ObjectStoreNames[0], {
+        this._dbConnection = new DBTool("SettingsStorage", 1, (db, oldVersion, newVersion, transaction) => {
+            if (oldVersion === 0) {
+                transaction.createObjectStore(this.ObjectStoreNames[0], {
                     keyPath: "key",
                 })
-                upgrade.createObjectStore(this.ObjectStoreNames[1], {
+                transaction.createObjectStore(this.ObjectStoreNames[1], {
                     keyPath: "key",
                 })
             }

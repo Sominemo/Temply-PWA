@@ -1,6 +1,3 @@
-import "core-js/modules/es6.promise"
-import "core-js/modules/es6.array.iterator"
-
 import "Resources/styles/fonts.css"
 import "Resources/styles/constructor.css"
 

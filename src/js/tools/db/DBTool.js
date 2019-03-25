@@ -1,6 +1,6 @@
 // SOURCE: https://gist.github.com/tralves/9e5de2bd9f582007a52708d7d4209865
 
-import { openDb, deleteDb } from "idb"
+import { openDB, deleteDB } from "idb"
 
 export default class DBTool {
     DBName = null
@@ -24,7 +24,7 @@ export default class DBTool {
     }
 
     delete() {
-        deleteDb(this.DBName)
+        deleteDB(this.DBName)
     }
 
     getTableSize(name) {
@@ -86,7 +86,7 @@ export default class DBTool {
 
     openDB() {
         return new Promise((resolve, reject) => {
-            openDb(this.DBName, this.version, this.upgradeAgent)
+            openDB(this.DBName, this.version, { upgrade: this.upgradeAgent })
                 .then((res) => {
                     this.DBConnection = res
                     resolve(res)

@@ -125,9 +125,7 @@ module.exports = (env = {}) => ({
     },
     plugins: [
         new BitBarWebpackProgressPlugin(),
-        new CleanWebpackPlugin([PATHS.build], {
-            root: __root,
-        }),
+        new CleanWebpackPlugin(),
         new CopyWebpackPlugin([
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
