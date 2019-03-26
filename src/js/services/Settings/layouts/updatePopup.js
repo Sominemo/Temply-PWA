@@ -19,7 +19,7 @@ import SlideOut from "../../../ui/Animation/Library/Effects/slideOut"
 
 export default async function updatePopup({ wait = false, update = false, online = false } = {}) {
     let firstTime
-    async function getCard({ noAsets = false } = {}) {
+    async function getCard({ noAssets = false } = {}) {
         const videos = [
             ["assets/animations/update-silently.webm", 4, "#e23163"],
             ["assets/animations/update-on-toast.webm", 2, "#4875d1"],
@@ -54,7 +54,7 @@ export default async function updatePopup({ wait = false, update = false, online
         }
 
         let files
-        if (!noAsets) {
+        if (!noAssets) {
             files = await Promise.all(videos.map(a => getVid(...a)))
         } else {
             files = Array(videos.length).fill().map(() => new DOM({ new: "div" }))
@@ -138,7 +138,7 @@ export default async function updatePopup({ wait = false, update = false, online
                 },
             ],
             {
-                classFirst: ["column-video", ...(noAsets ? ["no-assets"] : [])],
+                classFirst: ["column-video", ...(noAssets ? ["no-assets"] : [])],
                 styleLast: { flex: "1", display: "flex" },
             }),
             new SwitchLabel(
@@ -181,7 +181,7 @@ export default async function updatePopup({ wait = false, update = false, online
                                     content: $$("@settings/skip_assets_loading"),
                                     type: ["small", "light", "generic"],
                                     async handler() {
-                                        const cnt = await getCard({ noAsets: true })
+                                        const cnt = await getCard({ noAssets: true })
                                         crd.clear()
                                         crd.render(...cnt.object.content)
                                         rendered = true
