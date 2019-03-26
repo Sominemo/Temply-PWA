@@ -26,6 +26,7 @@ const DOMObjectWrapper = (DOMObjectWrapper) => {
                 if (!(e instanceof DOM)) throw new TypeError("Can't render not-DOM element, use native methods")
                 e.emitEvent("render", {})
                 DOMObjectWrapper.appendChild(Object.getPrototypeOf(e.elementParse))
+                e.emitEvent("rendered", {})
             },
             writable: false,
         },

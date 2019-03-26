@@ -6,13 +6,14 @@ import {
 import { CardList, CardTextList, CardContent } from "../../ui/DOM/Library/object/card"
 import SettingsLayout from "./user/layout"
 import SettingsLayoutManager from "./user/manager"
-import { $$ } from "../Language/handler"
+import { $$, generateLanguageList } from "../Language/handler"
 import updatePopup from "./layouts/updatePopup"
 import SW from "../../main/SW"
 import { Icon, Title, TwoSidesMobileFlick } from "../../ui/DOM/Library/object"
 import AlignedContent from "../../ui/DOM/Library/object/AlignedContent"
 import Design from "../../main/design"
 import { Button } from "../../ui/DOM/Library/object/input"
+import DBUserPresence from "../DBUserPresence"
 
 const a = new SettingsLayout()
     .createAct({
@@ -22,6 +23,16 @@ const a = new SettingsLayout()
         id: "updates",
         dom: SettingsActContainer,
         options: { name: $$("@settings/updates") },
+    })
+    .createAct({
+        id: "storage",
+        dom: SettingsActContainer,
+        options: { name: $$("@settings/storage") },
+    })
+    .createAct({
+        id: "language",
+        dom: SettingsActContainer,
+        options: { name: $$("@settings/language") },
     })
 
 
@@ -33,6 +44,8 @@ a.getAct("settings")
     .createItem({ dom: CardList, options: [{ content: $$("@settings/general/welcome_alpha") }], id: "welcome-alpha-text" })
     .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "about" } }, $$("@about/app")], id: "about-screen-link" })
     .createItem({ dom: SettingsActLink, options: ["updates", $$("@settings/updates")], id: "updates-link" })
+    .createItem({ dom: SettingsActLink, options: ["storage", $$("@settings/storage")], id: "storage-link" })
+    .createItem({ dom: SettingsActLink, options: ["language", $$("@settings/language")], id: "language-link" })
 
 a.getAct("settings")
     .createSection({
@@ -103,5 +116,9 @@ a.getAct("updates").getSection("updates-main").getGroup("updates-pending-alert")
             ),
         ],
     })
+
+DBUserPresence.generateSettingsLayout(a.getAct("storage"))
+
+generateLanguageList(a.getAct("language"))
 
 SettingsLayoutManager.applyLayout(a)

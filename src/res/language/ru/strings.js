@@ -30,6 +30,9 @@ export default {
     settings: {
         __index: "настройки",
         locked_item: "Подсказка: Вы не можете вносить здесь изменения",
+        skip_assets_loading: "пропустить загрузку ресурсов",
+        restart_to_apply: "перегрузите для применения изменений",
+        language: "язык",
         errors: {
             no_page: "такой страницы настроек нет",
             layout_failed: "похоже, у нас не вышло загрузить Настройки",
@@ -37,11 +40,28 @@ export default {
         actions: {
             open_about: "о приложении",
             go_main: "на главную",
+            restart: "перегрузить",
         },
         general: {
             __index: "общие",
             information: "информация",
             welcome_alpha: "добро пожаловать в предварительное тестирование Temply PWA",
+        },
+        storage: {
+            __index: "хранилище",
+            used: "использовано",
+            of: "из",
+            calculating: "расчет",
+            dbs: {
+                logs: {
+                    __index: "отчеты",
+                    description: "содержит основную информацию о работе приложения для отладки",
+                },
+            },
+            actions: {
+                clear: "очистить",
+                export: "экспорт",
+            },
         },
         updates: {
             __index: "обновления",

@@ -30,6 +30,9 @@ export default {
     settings: {
         __index: "settings",
         locked_item: "Info: You can't commit changes there",
+        skip_assets_loading: "skip assets loading",
+        restart_to_apply: "restart to apply changes",
+        language: "language",
         errors: {
             no_page: "there's no such settings page",
             layout_failed: "It seems like we failed to load Settings",
@@ -37,11 +40,28 @@ export default {
         actions: {
             open_about: "open About screen",
             go_main: "go to main",
+            restart: "restart",
         },
         general: {
             __index: "general",
             information: "information",
             welcome_alpha: "welcome to alpha-testing of Temply PWA",
+        },
+        storage: {
+            __index: "storage",
+            used: "used",
+            of: "of",
+            calculating: "calculating",
+            dbs: {
+                logs: {
+                    __index: "logs",
+                    description: "keeps general data about app functionality for debug if something wents wrong",
+                },
+            },
+            actions: {
+                clear: "clear",
+                export: "export",
+            },
         },
         updates: {
             __index: "updates",

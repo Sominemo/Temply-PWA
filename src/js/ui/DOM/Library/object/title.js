@@ -15,7 +15,7 @@ export default class Title {
                     new DOM({
                         new: "span",
                         class: ["title-text-content"],
-                        content: content.toString(),
+                        content,
                     }),
                 ],
             }),

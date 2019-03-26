@@ -3,6 +3,12 @@ import FieldsContainer from "../../tools/validation/fieldsContainer"
 import FieldChecker from "../../tools/validation/fieldChecker"
 import Report from "../../main/report"
 import ucFirst from "../../tools/transformation/text/ucFirst"
+import DOM from "../../ui/DOM/Classes/dom"
+import Design from "../../main/design"
+import SettingsStorage from "../Settings/SettingsStorage"
+import { SettingsGroupContainer, SettingsSectionElement } from "../../ui/DOM/Library/settings"
+import RadioLabel from "../../ui/DOM/Library/object/input/radioLabel"
+import Toast from "../../ui/DOM/Library/elements/toast"
 
 const languagePack = LanguageCore.language
 
@@ -12,7 +18,7 @@ function fallback(string) {
     try {
         string = string.toString()
         if ("fallbackString" in library
-        && typeof library.fallbackString === "function") return library.fallbackString(string)
+            && typeof library.fallbackString === "function") return library.fallbackString(string)
     } catch (e) {
         // Fallback to recovery
     }
@@ -98,7 +104,44 @@ function $$(...a) {
     return ucFirst($(...a))
 }
 
+function generateLanguageList(act) {
+    const langs = LanguageCore.languageList
+    const current = LanguageCore.language.info.code
+
+    const list = langs.map(lang => ({
+        content: new DOM({
+            new: "div",
+            content: [
+                new DOM({ new: "div", content: lang.name }),
+                new DOM({ new: "div", content: lang.author, style: { color: Design.getVar("color-generic-light-b"), fontSize: "12px" } }),
+            ],
+        }),
+        handler(s) {
+            if (!s) return
+            SettingsStorage.set("user_ui_language", lang.code)
+            Toast.add($$("@settings/restart_to_apply"), 0, {
+                buttons: [
+                    {
+                        content: $$("@settings/actions/restart"),
+                        handler() {
+                            window.location.reload()
+                        },
+                    },
+                ],
+            })
+        },
+        selected: (lang.code === current),
+    }))
+
+    act.createSection({ id: "language-selection-section", dom: SettingsSectionElement, options: {} })
+        .getSection("language-selection-section")
+        .createGroup({ id: "language-selection-group", dom: SettingsGroupContainer, options: {} })
+        .getGroup("language-selection-group")
+        .createItem({ id: "language-selection-chooser-radios", dom: ({ items }) => new DOM({ new: "div", content: new RadioLabel(items) }), options: { items: list } })
+}
+
 export {
     $,
     $$,
+    generateLanguageList,
 }

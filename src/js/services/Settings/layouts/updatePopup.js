@@ -14,6 +14,8 @@ import WindowManager from "../../../ui/SimpleWindowManager"
 import FadeOut from "../../../ui/Animation/Library/Effects/fadeOut"
 import IconSide from "../../../ui/DOM/Library/object/iconSide"
 import Toast from "../../../ui/DOM/Library/elements/toast"
+import SlideIn from "../../../ui/Animation/Library/Effects/slideIn"
+import SlideOut from "../../../ui/Animation/Library/Effects/slideOut"
 
 export default async function updatePopup({ wait = false, update = false, online = false } = {}) {
     let firstTime
@@ -51,7 +53,12 @@ export default async function updatePopup({ wait = false, update = false, online
             return video
         }
 
-        const files = await Promise.all(videos.map(a => getVid(...a)))
+        let files
+        if (!noAsets) {
+            files = await Promise.all(videos.map(a => getVid(...a)))
+        } else {
+            files = Array(videos.length).fill().map(() => new DOM({ new: "div" }))
+        }
 
         let updateType = await SettingsStorage.get("user_update_prompt")
         if (!(["silent", "toast", "popup"].includes(updateType))) updateType = "toast"
@@ -131,7 +138,7 @@ export default async function updatePopup({ wait = false, update = false, online
                 },
             ],
             {
-                classFirst: ["column-video"],
+                classFirst: ["column-video", ...(noAsets ? ["no-assets"] : [])],
                 styleLast: { flex: "1", display: "flex" },
             }),
             new SwitchLabel(
@@ -167,7 +174,24 @@ export default async function updatePopup({ wait = false, update = false, online
                 ],
                 onRender(p, e) {
                     setTimeout(() => {
-                        if (!p.asContent && !rendered) e.render(new Title("Skip assets loading", 3))
+                        if (!p.asContent && !rendered) {
+                            e.render(new DOM({
+                                new: "div",
+                                content: new Button({
+                                    content: $$("@settings/skip_assets_loading"),
+                                    type: ["small", "light", "generic"],
+                                    async handler() {
+                                        const cnt = await getCard({ noAsets: true })
+                                        crd.clear()
+                                        crd.render(...cnt.object.content)
+                                        rendered = true
+                                    },
+                                }),
+                                onRender(pr, el) {
+                                    new SlideIn({ duration: 100 }).apply(el)
+                                },
+                            }))
+                        }
                     }, 3000)
                 },
             }),
@@ -230,7 +254,7 @@ export default async function updatePopup({ wait = false, update = false, online
                             marginLeft: "10px",
                         },
                     }),
-                ], "0 10px"),
+                ], "0 10px", { width: "100%" }),
             ], ["center", "row"],
         ))
     }

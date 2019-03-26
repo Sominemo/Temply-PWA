@@ -1,3 +1,17 @@
+# 0.4.2 26.03.2019
+## Look and feel
+* Skip assets loading if update settings fail
++ New SlideIn/Out effect
+
+## Core
+* MS Edge DB-related fixes
++ OnRendered listener
++ Add listeners by modificators
+
+## Settings
++ Language settings
++ Storage settings
+
 # 0.4.2 25.03.2019
 ## Look and feel
 + Columns

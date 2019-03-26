@@ -12,15 +12,19 @@ export default class SettingsStorage {
     }
 
     static _getDBConnection() {
-        this._dbConnection = new DBTool("SettingsStorage", 1, (db, oldVersion, newVersion, transaction) => {
-            if (oldVersion === 0) {
-                transaction.createObjectStore(this.ObjectStoreNames[0], {
-                    keyPath: "key",
-                })
-                transaction.createObjectStore(this.ObjectStoreNames[1], {
-                    keyPath: "key",
-                })
-            }
+        const self = this
+        this._dbConnection = new DBTool("SettingsStorage", 1, {
+            upgrade(db, oldVersion, newVersion, transaction) {
+                console.log(db)
+                if (oldVersion === 0) {
+                    db.createObjectStore(self.ObjectStoreNames[0], {
+                        keyPath: "key",
+                    })
+                    db.createObjectStore(self.ObjectStoreNames[1], {
+                        keyPath: "key",
+                    })
+                }
+            },
         })
 
         return this._dbConnection
@@ -136,7 +140,7 @@ export default class SettingsStorage {
 
     static async reset(type) {
         if (typeof type !== "string"
-            || !this.ObjectStoreNames.includes(type)) throw new TypeError("Undefined section name")
+        || !this.ObjectStoreNames.includes(type)) throw new TypeError("Undefined section name")
 
         const o = await this.db.getObjectStore(type, true)
         const r = await o.clear()

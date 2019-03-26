@@ -18,6 +18,7 @@ export default class LanguageCore {
         return {
             strings: this._language.strings,
             library: this._language.library,
+            info: this._language.info,
         }
     }
 

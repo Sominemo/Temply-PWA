@@ -13,14 +13,19 @@ export default class DBTool {
 
     size = Object.create(null)
 
-    constructor(db, version, upgradeAgent = () => { }) {
+    constructor(db, version,
+        { upgrade = () => { }, blocked = () => { }, blocking = () => { } } = {}) {
         if (typeof db !== "string"
             || typeof version !== "number"
-            || typeof upgradeAgent !== "function") throw new Error("Incorrect DB params")
+            || typeof upgrade !== "function"
+            || typeof blocked !== "function"
+            || typeof blocking !== "function") throw new Error("Incorrect DB params")
 
         this.DBName = db
         this.DBVersion = version
-        this.upgradeAgent = upgradeAgent
+        this.upgradeAgent = upgrade
+        this.blockedAgent = blocked
+        this.blockingAgent = blocking
     }
 
     delete() {
@@ -79,14 +84,19 @@ export default class DBTool {
     }
 
     getConnection() {
-        if (this.DBConnection !== null) return new Promise(resolve => resolve(this.DBConnection))
+        if (this.DBConnection !== null) return Promise.resolve(this.DBConnection)
 
         return this.openDB()
     }
 
     openDB() {
         return new Promise((resolve, reject) => {
-            openDB(this.DBName, this.version, { upgrade: this.upgradeAgent })
+            openDB(this.DBName, this.DBVersion,
+                {
+                    upgrade: this.upgradeAgent,
+                    blocked: this.blockedAgent,
+                    blocking: this.blockingAgent,
+                })
                 .then((res) => {
                     this.DBConnection = res
                     resolve(res)

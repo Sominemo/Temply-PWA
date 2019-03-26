@@ -3,6 +3,7 @@ import Report from "../main/report"
 import Navigation from "../main/navigation"
 import DOMObjectWrapper from "./DOM/Helpers/domObjectWrapper"
 
+require("../loaders/DBControllers")
 require("../services/Settings/SettingsLayout")
 
 document.body.innerHTML = ""

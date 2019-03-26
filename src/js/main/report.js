@@ -3,16 +3,29 @@ import errorToObject from "../tools/transformation/object/errorToObject"
 import DBTool from "../tools/db/DBTool"
 
 export default class Report {
-    static DBConnection = new DBTool("LogData", 1, (db, oldVersion, newVersion, transaction) => {
-        if (oldVersion === 0) {
-            transaction.createObjectStore(this.StorageName, {
-                keyPath: "key",
-                autoIncrement: true,
+    static StorageName = "console-output"
+
+    static _dbConnectionInstance = null
+
+    static get DBConnection() {
+        const self = this
+
+        if (!this._dbConnectionInstance) {
+            this._dbConnectionInstance = new DBTool("LogData", 1, {
+                upgrade(db, oldVersion, newVersion, transaction) {
+                    if (oldVersion === 0) {
+                        db.createObjectStore(self.StorageName, {
+                            keyPath: "key",
+                            autoIncrement: true,
+                        })
+                    }
+                },
             })
         }
-    })
 
-    static StorageName = "console-output"
+        return this._dbConnectionInstance
+    }
+
 
     static trace() {
         let stack = new Error().stack || ""

@@ -2,7 +2,9 @@ import DOM from "../../Classes/dom"
 import { Icon } from "."
 
 export default class IconSide {
-    constructor(icon, content, { style = {}, after = false, contentStyle = {} } = {}) {
+    constructor(icon, content, {
+        style = {}, after = false, contentStyle = {}, normalIcon = false,
+    } = {}) {
         const cnt = [new DOM({
             new: "div",
             class: "near-icon-position-block",
@@ -10,7 +12,11 @@ export default class IconSide {
             style: contentStyle,
         })]
 
-        const iconEl = new Icon(icon, { margin: (after ? "0 0 0 0.2em" : "0 0.2em 0 0"), fontSize: "1.5em", ...style })
+        const iconEl = new Icon(icon, {
+            margin: (after ? "0 0 0 0.2em" : "0 0.2em 0 0"),
+            ...(normalIcon ? {} : { fontSize: "1.5em" }),
+            ...style,
+        })
         if (after) {
             cnt.push(iconEl)
         } else {
