@@ -2,7 +2,7 @@
 import App from "./app"
 import Report from "./report"
 import Toast from "../ui/DOM/Library/elements/toast"
-import { Padding, Algin } from "../ui/DOM/Library/style"
+import { Padding, Align } from "../ui/DOM/Library/style"
 import WindowManager from "../ui/SimpleWindowManager"
 import { Popup } from "../ui/DOM/Library/elements"
 import { Title } from "../ui/DOM/Library/object"
@@ -113,7 +113,7 @@ export default class SW {
         async function displayPopup(p) {
             const o = WindowManager.newOverlay()
             o.append(new Popup([
-                new Algin(new Title((after ? $$("@settings/updates/installed") : $$("@settings/updates/ready")), 2), ["center", "row"]),
+                new Align(new Title((after ? $$("@settings/updates/installed") : $$("@settings/updates/ready")), 2), ["center", "row"]),
                 ...p,
             ], { control: o, fullWidth: true }))
         }

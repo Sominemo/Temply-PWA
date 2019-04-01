@@ -1,11 +1,11 @@
 import DOM from "../../Classes/dom"
 
-export default class Algin {
+export default class Align {
     constructor(content, type = ["center"], style = {}) {
         return new DOM({
             new: "div",
             content,
-            class: ["ready-flex-algin", ...type],
+            class: ["ready-flex-align", ...type],
             style,
         })
     }

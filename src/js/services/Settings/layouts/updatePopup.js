@@ -5,7 +5,7 @@ import { VideoBlock } from "../../../ui/DOM/Library/basic"
 import { SwitchLabel, Radio, Button } from "../../../ui/DOM/Library/object/input"
 import { Card, CardContent } from "../../../ui/DOM/Library/object/card"
 import { $$ } from "../../Language/handler"
-import { Algin, Padding } from "../../../ui/DOM/Library/style"
+import { Align, Padding } from "../../../ui/DOM/Library/style"
 import DOM from "../../../ui/DOM/Classes/dom"
 import SettingsStorage from "../SettingsStorage"
 import DOMObjectWrapper from "../../../ui/DOM/Helpers/domObjectWrapper"
@@ -15,7 +15,6 @@ import FadeOut from "../../../ui/Animation/Library/Effects/fadeOut"
 import IconSide from "../../../ui/DOM/Library/object/iconSide"
 import Toast from "../../../ui/DOM/Library/elements/toast"
 import SlideIn from "../../../ui/Animation/Library/Effects/slideIn"
-import SlideOut from "../../../ui/Animation/Library/Effects/slideOut"
 
 export default async function updatePopup({ wait = false, update = false, online = false } = {}) {
     let firstTime
@@ -166,7 +165,7 @@ export default async function updatePopup({ wait = false, update = false, online
 
     if (wait) {
         let rendered = false
-        const crd = new Card(new Algin(
+        const crd = new Card(new Align(
             new DOM({
                 new: "div",
                 content: [
@@ -234,11 +233,11 @@ export default async function updatePopup({ wait = false, update = false, online
     })
 
     if (firstTime) {
-        output.push(new Algin(versionTitle, ["center", "row"]))
+        output.push(new Align(versionTitle, ["center", "row"]))
 
         output.push(await getCard())
     } else {
-        output.push(new Algin(
+        output.push(new Align(
             [
                 new Padding([
                     versionTitle,
@@ -269,7 +268,7 @@ export default async function updatePopup({ wait = false, update = false, online
     output.push(new DOM({
         new: "div",
         class: "bottom-buttons",
-        content: new Algin([
+        content: new Align([
             new Button({
                 content: (online ? $$("@settings/updates/later") : $$("@settings/updates/got_it")),
                 handler() {

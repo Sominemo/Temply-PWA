@@ -1,7 +1,7 @@
 import { Title } from "../ui/DOM/Library/object"
 import WindowManager from "../ui/SimpleWindowManager"
 import { WindowContainer } from "../ui/DOM/Library/buildBlock"
-import { Algin } from "../ui/DOM/Library/style"
+import { Align } from "../ui/DOM/Library/style"
 import RadioLabel from "../ui/DOM/Library/object/input/radioLabel"
 import { Card } from "../ui/DOM/Library/object/card"
 import SettingsStorage from "../services/Settings/SettingsStorage"
@@ -42,7 +42,7 @@ export default class TestField {
                 { handler: (s) => { if (s) animDirection = "right" }, content: "Right" },
                 { handler: (s) => { if (s) animDirection = "left" }, content: "Left" },
             ]),
-            new Algin(new Button({
+            new Align(new Button({
                 content: "Animate title",
                 handler() {
                     if (state) {

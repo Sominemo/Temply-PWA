@@ -83,5 +83,13 @@ module.exports = function getChangelog(isProd, version, date, repository) {
             },
         })
     }
+
+    try {
+        const postChangelog = require("./config/postChangelog")
+        postChangelog({ changelog: md, date, version })
+    } catch (e) {
+        console.log("No post access")
+    }
+
     return md
 }

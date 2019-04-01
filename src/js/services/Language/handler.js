@@ -137,7 +137,7 @@ function generateLanguageList(act) {
         .getSection("language-selection-section")
         .createGroup({ id: "language-selection-group", dom: SettingsGroupContainer, options: {} })
         .getGroup("language-selection-group")
-        .createItem({ id: "language-selection-chooser-radios", dom: ({ items }) => new DOM({ new: "div", content: new RadioLabel(items) }), options: { items: list } })
+        .createItem({ id: "language-selection-chooser-radios", dom: ({ items }) => new DOM({ new: "div", content: new RadioLabel(items, [], true) }), options: { items: list } })
 }
 
 export {

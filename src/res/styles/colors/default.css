@@ -62,6 +62,8 @@
 	--color-button-text-accent: var(--color-generic-inverted);
 	--color-button-text-accent-light: var(--color-accent);
 	--color-button-background-accent-light: var(--color-generic-inverted);
+	
+	--color-bottom-buttons-bg: var(--color-card-background);
 
 	--color-overlay-darkout: rgba(0, 0, 0, .4);
 

@@ -1,7 +1,15 @@
+# 0.4.2 01.04.2019
+## Inputs
++ Content editables
++ File inputs
++ Option selectors
+* Preloader color replacement
+
 # 0.4.2 26.03.2019
 ## Look and feel
 * Skip assets loading if update settings fail
 + New SlideIn/Out effect
+* Smoother animations
 
 ## Core
 * MS Edge DB-related fixes

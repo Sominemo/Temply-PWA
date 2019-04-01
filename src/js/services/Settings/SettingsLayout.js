@@ -83,8 +83,18 @@ a.getAct("updates").getSection("updates-main").getGroup("updates-notify-explanat
         id: "updates-notify-explanation",
         dom: CardTextList,
         options: [
-            $$("@settings/updates/first_time_explanation_1"),
-            $$("@settings/updates/first_time_explanation_2"),
+            `${$$("@settings/updates/first_time_explanation")}`,
+        ],
+    })
+    .createItem({
+        id: "updates-notify-info-link",
+        dom: SettingsActLink,
+        options: [
+            () => {
+                window.open($$("@settings/updates/pwa_support_link"), "_blank")
+            },
+            $$("@settings/updates/learn_more_about_pwa"),
+            "open_in_new",
         ],
     })
 

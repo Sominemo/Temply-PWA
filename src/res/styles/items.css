@@ -324,22 +324,22 @@ md-button:active:before, md-button:focus:before {
     justify-content: center;
 }
 
-.ready-flex-algin {
+.ready-flex-align {
     display: flex;
     flex-direction: column;
 }
 
-.ready-flex-algin.row {
+.ready-flex-align.row {
     flex-direction: row;
 }
 
-.ready-flex-algin.center {
+.ready-flex-align.center {
     align-content: center;
     justify-content: center;
     text-align: center;
 }
 
-.ready-flex-algin.right {
+.ready-flex-align.right {
     justify-content: flex-end;
 }
 
@@ -474,6 +474,14 @@ radio-handler.column-radio-chooser[selected-radio] {
     align-items: center;
 }
 
+.md-radio-label.big-card>*:nth-child(1) {
+    margin-left: 20px;
+}
+
+.md-radio-label:not(.big-card) .md-radio-label-content {
+    margin-left: 0;
+}
+
 .md-toast-container {
     width: calc(100% - var(--size-nav-width));
     right: 0;
@@ -542,6 +550,85 @@ md-toast md-button.transparentMDButton>md-ripple-effect {
 .bottom-buttons {
     position: sticky;
     bottom: 0px;
-    background: white;
+    background: var(--color-bottom-buttons-bg);
     border-top: solid 1.5px var(--color-card-border);
+}
+
+md-input:focus, md-input:focus-within {
+    --color-input-local: var(--color-main);
+}
+
+md-input {
+    position: relative;
+    display: block;
+    --color-input-local: #878787;
+    box-shadow: 0px 2.5px 0px 0px var(--color-input-local);
+    margin: 5px;
+    transition: all .2s;
+}
+
+md-input>md-input-content {
+    padding: 20px 3px 10px 3px;
+    display: block;
+    min-height: 50px;
+}
+
+md-input>md-input-content+md-input-placeholder {
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--color-input-local);
+    transition: all .2s;
+    pointer-events: none;
+}
+
+md-input:not(:focus-within)>md-input-content:empty+md-input-placeholder {
+    top: 20px;
+    color: #b1b1b1;
+    font-weight: normal;
+    font-size: initial;
+}
+
+md-select>md-input>md-input-content {
+    width: 95%;
+}
+
+md-select {
+    cursor: pointer;
+    position: relative;
+    display: block;
+}
+
+md-select>.md-select-hint>md-icon {
+    position: absolute;
+    right: 1%;
+    top: 50%;
+    transform: translateY(-25%);
+    display: block;
+}
+
+md-file-wrapper>label {
+    display: block;
+    padding: 10px 15px;
+    background: var(--color-main);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px 0 var(--color-button-shadow);
+    cursor: pointer;
+    margin: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: all .2s;
+    text-align: center;
+}
+
+md-file-wrapper>label:focus, md-file-wrapper>label:active {
+    background: var(--color-main-light-a)
+}
+
+md-file-wrapper>input[type="file"] {
+    display: none;
 }

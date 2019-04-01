@@ -4,7 +4,7 @@ import MDRadio from "./md-radio"
 import DOM from "../../../Classes/dom"
 
 export default class RadioLabel {
-    constructor(data, style = []) {
+    constructor(data, style = [], bigCard = false) {
         new FieldsContainer(["array",
             new FieldsContainer([
                 ["handler", "content"],
@@ -25,7 +25,7 @@ export default class RadioLabel {
             class: ["card-list-item", "card-list-item-clickable"],
             content: new DOM({
                 new: "div",
-                class: ["flex-container", "md-radio-label"],
+                class: ["flex-container", "md-radio-label", ...(bigCard ? ["big-card"] : [])],
                 content: [
                     m[0],
                     new DOM({
