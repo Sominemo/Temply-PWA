@@ -5,7 +5,7 @@ const workboxPlugin = require("workbox-webpack-plugin")
 const BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const WebpackAutoInject = require("webpack-auto-inject-version")
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
 const ResourceHintWebpackPlugin = require("resource-hints-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const webpack = require("webpack")
@@ -58,13 +58,10 @@ module.exports = (env = {}) => ({
         },
         ...(PROD ? {
             minimizer: [
-                new UglifyJSPlugin({
-                    sourceMap: !!env.makeMaps,
-                    uglifyOptions: {
-                        compress: {
-                            inline: true,
-                        },
-                    },
+                new TerserPlugin({
+                    parallel: true,
+                    sourceMap: true,
+                    cache: true,
                 }),
             ],
         } : {}),

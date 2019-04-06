@@ -5,6 +5,9 @@
 + Option selectors
 * Preloader color replacement
 
+## Core
+* Fixed various typos
+
 # 0.4.2 26.03.2019
 ## Look and feel
 * Skip assets loading if update settings fail
