@@ -17,6 +17,7 @@ import Language from "./services/Language/instance"
 import { $ } from "./services/Language/handler"
 import App from "./main/app"
 import Toast from "./ui/DOM/Library/elements/toast"
+import PointerInfo from "./services/PointerInfo"
 
 function compare(a, b, path = "/") {
     const keys = Object.keys(a)
@@ -47,6 +48,7 @@ const DevUtils = {
     $,
     compare,
     Toast,
+    Pointer: PointerInfo,
 }
 
 global.idb = idb

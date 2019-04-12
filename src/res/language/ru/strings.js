@@ -116,7 +116,7 @@ export default {
             other: "прочее",
         },
     },
-    expiriments: {
+    experiments: {
         __index: "эксперименты",
         miscellaneous: "разное",
         warning: "предупреждение",

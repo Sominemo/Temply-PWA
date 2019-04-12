@@ -13,11 +13,25 @@ import FlyOut from "../ui/Animation/Library/Effects/flyOut"
 import EaseOutQuad from "../ui/Animation/Library/Timing/easeOutQuad"
 import Toast from "../ui/DOM/Library/elements/toast"
 import IconSide from "../ui/DOM/Library/object/iconSide"
+import { ContextMenu } from "../ui/DOM/Library/elements"
+import Navigation from "./navigation"
 
 export default class TestField {
     static async Init() {
         const testEnabled = !!await SettingsStorage.getFlag("test_field_enabled")
         if (!testEnabled) throw new Error("Test Field is disabled")
+
+        Navigation.Current = {
+            navMenu: [
+                {
+                    icon: "outlined_flag",
+                    title: "Experiments",
+                    handler() {
+                        Navigation.hash = { module: "flags" }
+                    },
+                },
+            ],
+        }
 
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
@@ -60,10 +74,51 @@ export default class TestField {
         w.render(new Button({
             content: new IconSide("help", "I need help"),
             type: ["small", "light"],
-            handler() { Toast.add("There's no help") },
+            handler() {
+                Toast.add("There's no help")
+            },
         }))
 
-        Toast.add("Just a test", 5000)
-        Toast.add("I'm kinda fast!", 500)
+        w.render(new Button({
+            content: new IconSide("more", "Additional options"),
+            type: ["small", "light", "accent"],
+            style: {
+                marginLeft: "10px",
+            },
+            eventType: "contextmenu",
+            handler(e) {
+                ContextMenu({
+                    event: e,
+                    content: [
+                        {
+                            icon: "schedule",
+                            title: "Schedule",
+                        },
+                        {
+                            type: "delimeter",
+                        },
+                        {
+                            title: "Inspect",
+                            handler() {
+                                Toast.add("Nothing to inspect :P")
+                            },
+                        },
+                        {
+                            type: "delimeter",
+                        },
+                        {
+                            icon: "more",
+                            title: "Other stuff",
+                        },
+                        {
+                            icon: "settings",
+                            title: "Settings",
+                        },
+                    ],
+                })
+            },
+        }))
+        // Toast.add("Just a test", 5000)
+        // Toast.add("I'm kinda fast!", 500)
     }
 }

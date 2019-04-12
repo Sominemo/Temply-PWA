@@ -26,6 +26,7 @@ export default (() => {
                     {
                         event: new FieldChecker({ type: "string" }),
                         handler: new FieldChecker({ type: "function" }),
+                        params: new FieldChecker({ type: "object" }),
                     },
                 ]),
             ]).set(w)
@@ -42,7 +43,7 @@ export default (() => {
                     // eslint-disable-next-line prefer-arrow-callback, func-names
                     function (...ep) {
                         return e.handler.bind(this)(...ep, self)
-                    })
+                    }, (w.params ? w.params : {}))
                 try {
                     if (data.config.eventsOnClickAutoTabIndex === true
                         && ["click"]

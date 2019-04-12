@@ -135,21 +135,22 @@ export default class Navigation {
 
     static get whatHappened() {
         // SOURCE: https://gist.github.com/sstephenson/739659
+        // TODO: Better strategy
 
         if (this.history.length === 0) this.history.push(this.hash)
 
-        const history = window.history.length
-        const { hash } = this
+        // const history = window.history.length
+        // const { hash } = this
 
-        if (this.historyLength !== history) {
-            return "change"
-        }
+        // if (this.historyLength !== history) {
+        return "change"
+        // }
 
-        if (this.history[this.history.length - 2] === hash) {
-            return "forward"
-        }
+        // if (this.history[this.history.length - 2] === hash) {
+        //    return "forward"
+        // }
 
-        return "back"
+        // return "back"
     }
 
     static listener(manual) {

@@ -76,5 +76,10 @@
 	--color-toast-accent: var(--color-accent-light);
 	--color-toast-ripple: var(--color-accent);
 	--color-toast-ripple-mono: rgba(255, 255, 255, .2);
+	
+	--color-popup-bg: var(--color-main-bg);
+	--color-popup-delimeter: var(--color-card-border);
+	--color-popup-hover: var(--color-card-item-highlight);
+	--color-popup-focus: var(--color-card-item-highlight-focus);
 
 }

@@ -14,24 +14,24 @@ export default class FlagsUI {
     static async Init() {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
-        w.render(new Title($$("expiriments")))
+        w.render(new Title($$("experiments")))
         w.render(new Card([
-            new Title($$("@expiriments/warning"), 3, {}, new Icon("warning",
+            new Title($$("@experiments/warning"), 3, {}, new Icon("warning",
                 {
                     marginRight: ".2em",
                     fontSize: "1.5em",
                     color: Design.getVar("color-attention"),
                 })),
-            new CardContent($$("@expiriments/harmful_actions")),
+            new CardContent($$("@experiments/harmful_actions")),
             new CardContent([
                 new Button({
-                    content: $$("@expiriments/reload_page"),
+                    content: $$("@experiments/reload_page"),
                     handler() {
                         window.location.reload()
                     },
                 }),
                 new Button({
-                    content: $$("@expiriments/reset_flags"),
+                    content: $$("@experiments/reset_flags"),
                     type: ["light"],
                     handler() {
                         SettingsStorage.reset("flags")
@@ -71,7 +71,7 @@ export default class FlagsUI {
             })
         }
 
-        w.render(new Title($$("@expiriments/list"), 2))
+        w.render(new Title($$("@experiments/list"), 2))
         exps.forEach(async (e) => {
             const re = await this.renderSwitch(e.title, e.about, e.id)
             return w.render(re)
@@ -101,7 +101,7 @@ export default class FlagsUI {
                         fontFamily: Design.getVar("font-accent"),
                         fontSize: "20px",
                     },
-                    content: $$("@expiriments/no_exps_placeholder"),
+                    content: $$("@experiments/no_exps_placeholder"),
                 }),
             ],
         }))

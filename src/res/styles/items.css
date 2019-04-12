@@ -632,3 +632,61 @@ md-file-wrapper>label:focus, md-file-wrapper>label:active {
 md-file-wrapper>input[type="file"] {
     display: none;
 }
+
+context-menu {
+    position: fixed;
+    display: block;
+    background: var(--color-popup-bg);
+    min-width: 150px;
+    max-width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,.15);
+    margin: 5px;
+    border-radius: 5px;
+}
+
+context-menu-item {
+    white-space: nowrap;
+    padding: 5px 10px 5px 0;
+    display: block;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+context-menu-item:hover {
+    background: var(--color-popup-hover)
+}
+
+context-menu-item:focus, context-menu-item:active {
+    background: var(--color-popup-focus)
+}
+
+context-menu-item:nth-child(1) {
+    margin-top: 5px;
+}
+
+context-menu-item:last-child {
+    margin-bottom: 5px;
+}
+
+context-menu-item-holder {
+    display: flex;
+    align-items: center;
+}
+
+context-menu-item-holder>md-icon {
+    font-size: 1.5em;
+    margin: 0 10px 0 10px;
+}
+
+context-menu-item-title {
+    display: block;
+}
+
+context-menu-delimeter {
+    display: block;
+    border-top: 1.5px solid var(--color-popup-delimeter);
+    margin: 5px 0;
+}

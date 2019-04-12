@@ -116,8 +116,8 @@ export default {
             other: "other",
         },
     },
-    expiriments: {
-        __index: "expiriments",
+    experiments: {
+        __index: "experiments",
         miscellaneous: "miscellaneous",
         warning: "warning",
         harmful_actions: `this features are experimental and some of them may cause problems, make the app unstable or break it at all.

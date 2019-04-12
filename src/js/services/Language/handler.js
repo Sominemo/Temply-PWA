@@ -58,7 +58,7 @@ function $(string, p) {
 
         if (typeof data === "string") return data
 
-        if (data === undefined) throw new Error("Such string does not exist")
+        if (data === undefined) throw new Error(`Such string (${string}) does not exist`)
 
         if (typeof data !== "object") throw new Error("Incorrect string")
         if ("__index" in data && typeof data.__index === "string") return data.__index

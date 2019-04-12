@@ -1,4 +1,5 @@
 import DOM from "../../../Classes/dom"
+import { HTML } from "../../basic"
 
 export default class ContentEditable {
     constructor({
@@ -9,7 +10,7 @@ export default class ContentEditable {
 
         const ip = new DOM({
             new: "md-input-content",
-            content: String(content),
+            content: (content === "" ? "" : new HTML(`<span>${String(content).replace(/\n/g, "<br>")}</span>`)),
             set: {
                 ...(editable ? { contentEditable: "true" } : {}),
             },

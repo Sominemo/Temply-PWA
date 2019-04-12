@@ -2,6 +2,9 @@ import DOM from "../../Classes/dom"
 import Icon from "../object/icon"
 import FieldsContainer from "../../../../tools/validation/fieldsContainer"
 import FieldChecker from "../../../../tools/validation/fieldChecker"
+import { ContextMenu } from "../elements"
+import Navigation from "../../../../main/navigation"
+import { $$ } from "../../../../services/Language/handler"
 
 export default class Nav {
     static config = []
@@ -17,11 +20,29 @@ export default class Nav {
     static activeClassName = "active"
 
     static Toggle(e) {
-        const item = "active"
-        const n = document.querySelector("nav.main-nav")
-        if (e === undefined) n.classList.toggle(item)
-        else if (e) n.classList.add(item)
-        else n.classList.remove(item)
+        const current = Navigation.Current
+        const custom = current.navMenu || []
+        const size = e.sizes
+        ContextMenu({
+            coords: size,
+            content: [
+                ...(Object.keys(custom).length > 0 ? [...custom, { type: "delimeter" }] : []),
+                {
+                    icon: "settings",
+                    title: $$("settings"),
+                    handler() {
+                        Navigation.hash = { module: "settings" }
+                    },
+                },
+                {
+                    icon: "info",
+                    title: $$("@about/app"),
+                    handler() {
+                        Navigation.hash = { module: "about" }
+                    },
+                },
+            ],
+        })
     }
 
     get menuItems() {
@@ -158,7 +179,7 @@ export default class Nav {
                             events: [
                                 {
                                     event: "click",
-                                    handler() { Nav.Toggle() },
+                                    handler(ev, el) { Nav.Toggle(el) },
                                 },
                             ],
                         }),

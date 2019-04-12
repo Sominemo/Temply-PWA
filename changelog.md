@@ -1,3 +1,23 @@
+# 0.4.2 12.04.2019
+## Items
+* Fixed linebreaks in inputs
++ Context menu
+
+## UI
++ Now menu button works
++ Empty Icon on null
++ Change event type trigger for buttons
+
+## Core
++ PointerInfo contextmenu listening
+- Disabled back/forward rendering optimisation since it made more bugs rather profits
++ Contains DOM modifier
++ DestructSelf modifier
++ Catching support in EventSetter
+
+## Animations
++ Added cubicBeier timing
+
 # 0.4.2 01.04.2019
 ## Inputs
 + Content editables
