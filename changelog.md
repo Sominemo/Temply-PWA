@@ -1,4 +1,13 @@
 # 0.4.2 12.04.2019
+## UI
+- Removed card border
++ Added additional shadow
+This is in order to fix Chrome's weird rendering bug
+
+## Building
+* Fixed bugs in changelog generation
+
+# 0.4.2 12.04.2019
 ## Items
 * Fixed linebreaks in inputs
 + Context menu

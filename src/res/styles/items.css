@@ -19,11 +19,15 @@
 .inline-title-level-3 {
     font-weight: 500;
     font-size: 13px;
-    margin: 10px auto;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.inline-title-level-3>.title-decoration-container{
     border: solid 1.5px var(--color-card-border);
     padding: 5px 15px;
     border-radius: 2em;
-    display: table;
 }
 
 .inline-title-clickable .inline-title-level-3 {
@@ -43,9 +47,8 @@
 }
 
 .card {
-    border: solid var(--color-card-border) 1px;
     border-radius: .8em;
-    box-shadow: 0 5px 20px var(--color-card-shadow);
+    box-shadow: 0 5px 20px var(--color-card-shadow), 0 0 0 1px var(--color-card-border);
     overflow: hidden;
     background: var(--color-card-background);
 }

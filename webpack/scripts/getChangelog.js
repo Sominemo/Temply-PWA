@@ -28,11 +28,10 @@ function parseMDFile(version, date) {
         group = group.substring(group.indexOf("\n") + 1)
 
         const changes = group.split("\n").map((change) => {
-            const chMatch = change.match(/(.) (.+)/)
+            let chMatch = change.match(/^(.) (.+)/)
             if (!chMatch) {
                 if (change.length === 0) return undefined
-                chMatch[1] = "other"
-                chMatch[2] = change
+                chMatch = [change, "other", change]
             }
             return { type: chMatch[1], value: chMatch[2] }
         }).filter(e => e !== undefined)
@@ -49,6 +48,7 @@ function parseMDFile(version, date) {
             else if (change.type === "-") arr = removed
             else if (change.type === "*") arr = changed
             else arr = other
+
 
             arr.push(change.value)
         })
@@ -78,7 +78,7 @@ module.exports = function getChangelog(isProd, version, date, repository) {
                 removed: [],
                 changed: [],
                 other: [
-                    `Generate changelog by visiting [this link]("${repository.slice(4, -4)}/compare/${getLastCommit()}...master")`,
+                    `Generate changelog by visiting [this link](${repository.slice(4, -4)}/compare/${getLastCommit()}...master)`,
                 ],
             },
         })

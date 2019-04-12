@@ -9,15 +9,19 @@ export default class Title {
             class: ["inline-title-block", `inline-title-level-${parseInt(level.toString(), 10)}`],
             content: new DOM({
                 new: "div",
-                class: ["flex-container"],
-                content: [
-                    ...(icon ? [icon] : []),
-                    new DOM({
-                        new: "span",
-                        class: ["title-text-content"],
-                        content,
-                    }),
-                ],
+                class: ["title-decoration-container"],
+                content: new DOM({
+                    new: "div",
+                    class: ["flex-container"],
+                    content: [
+                        ...(icon ? [icon] : []),
+                        new DOM({
+                            new: "span",
+                            class: ["title-text-content"],
+                            content,
+                        }),
+                    ],
+                }),
             }),
         })
     }
