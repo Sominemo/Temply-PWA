@@ -54,21 +54,6 @@ body {
     user-select: text;
 }
 
-*::-webkit-scrollbar-thumb, *::-webkit-scrollbar {
-    background: transparent;
-    width: 5px;
-    padding: 3px;
-}
-
-*::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
-    background: var(--color-scrollbar-fill);
-    border-radius: 2em 0 0 2em;
-}
-
-*::-webkit-scrollbar-track {
-    display: none;
-}
-
 md-icon {
     font-family: 'Material Icons Round';
     font-weight: normal;

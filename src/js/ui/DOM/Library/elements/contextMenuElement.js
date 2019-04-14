@@ -36,6 +36,10 @@ export default class ContextMenuElement {
             this.constructor.closeAll()
         }
 
+        if (control) {
+            control.element.classList.add("context-menu-handler-isolate")
+        }
+
         if (coords === null) {
             const pi = event || (mode === "context" ? PointerInfo.lastContextEvent : PointerInfo.lastClickEvent)
             x = pi.clientX

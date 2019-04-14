@@ -81,5 +81,7 @@
 	--color-popup-delimeter: var(--color-card-border);
 	--color-popup-hover: var(--color-card-item-highlight);
 	--color-popup-focus: var(--color-card-item-highlight-focus);
+	
+	--color-context-menu-backdrop: rgba(0, 0, 0, .3);
 
 }
