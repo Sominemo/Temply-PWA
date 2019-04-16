@@ -9,11 +9,27 @@ import { Title, Icon } from "../ui/DOM/Library/object"
 import { Button, SwitchLabel } from "../ui/DOM/Library/object/input"
 import { SVG } from "../ui/DOM/Library/basic"
 import { $$ } from "../services/Language/handler"
+import Navigation from "./navigation"
 
 export default class FlagsUI {
     static async Init() {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
+        const testEnabled = !!await SettingsStorage.getFlag("test_field_enabled")
+        Navigation.Current = {
+            navMenu: [
+                ...(testEnabled
+                    ? [
+                        {
+                            icon: "markunread_mailbox",
+                            title: "Test Field",
+                            handler() {
+                                Navigation.hash = { module: "test" }
+                            },
+                        },
+                    ] : []),
+            ],
+        }
         w.render(new Title($$("experiments")))
         w.render(new Card([
             new Title($$("@experiments/warning"), 3, {}, new Icon("warning",

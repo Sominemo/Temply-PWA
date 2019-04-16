@@ -34,7 +34,7 @@ export default class DOM {
         this.events[event].push(handler.bind(this))
     }
 
-    emitEvent(event, data) {
+    emitEvent(event, data = {}) {
         new FieldsContainer([
             ["event", "data"],
             {

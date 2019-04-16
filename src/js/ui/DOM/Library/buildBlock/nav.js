@@ -5,6 +5,9 @@ import FieldChecker from "../../../../tools/validation/fieldChecker"
 import { ContextMenu } from "../elements"
 import Navigation from "../../../../main/navigation"
 import { $$ } from "../../../../services/Language/handler"
+import Design from "../../../../main/design"
+import Animation from "../../../Animation/Classes/Animation"
+import EaseInOutQuad from "../../../Animation/Library/Timing/easeInOutQuad"
 
 export default class Nav {
     static config = []
@@ -13,36 +16,146 @@ export default class Nav {
 
     static html = null
 
-    static mobileGestue = null
+    static mobileGesture = null
 
     static navItemIdPrefix = "nav-item-"
 
     static activeClassName = "active"
 
-    static Toggle(e) {
+    static triggeredSwipe = false
+
+    static get navigationList() {
         const current = Navigation.Current
         const custom = current.navMenu || []
+
+        return [
+            ...(Object.keys(custom).length > 0 ? [...custom, { type: "delimeter" }] : []),
+            {
+                icon: "settings",
+                title: $$("settings"),
+                handler() {
+                    Navigation.hash = { module: "settings" }
+                },
+            },
+            {
+                icon: "info",
+                title: $$("@about/app"),
+                handler() {
+                    Navigation.hash = { module: "about" }
+                },
+            },
+        ]
+    }
+
+    static Toggle(e) {
         const size = e.sizes
         ContextMenu({
             coords: size,
-            content: [
-                ...(Object.keys(custom).length > 0 ? [...custom, { type: "delimeter" }] : []),
-                {
-                    icon: "settings",
-                    title: $$("settings"),
-                    handler() {
-                        Navigation.hash = { module: "settings" }
-                    },
-                },
-                {
-                    icon: "info",
-                    title: $$("@about/app"),
-                    handler() {
-                        Navigation.hash = { module: "about" }
-                    },
-                },
-            ],
+            content: this.navigationList,
         })
+    }
+
+    static NavSwipeToggle(e) {
+        const self = this
+        const minTop = e.touches[0].clientY
+        const minLeft = e.touches[0].clientX
+        if (Design.getVar("nav-bottom") !== "1") return
+        let cardStuff
+        let touchYLast = "0"
+
+        let handlerLvl2
+        let handlerLvl3
+        let handlerLvl2triggered = false
+        const windowHeight = document.body.clientHeight
+
+
+        const handlerLvl1 = (ev) => {
+            if (
+                minTop - ev.touches[0].clientY < Design.getVar("size-nav-width", true) / 2
+                || Math.abs(ev.touches[0].clientX - minLeft) > Design.getVar("size-nav-width", true) / 2
+            ) {
+                this.mobileGesture.classList.add("animated")
+                setTimeout(() => {
+                    this.mobileGesture.classList.remove("animated")
+                }, 200)
+                return
+            }
+
+            self.triggeredSwipe = true
+
+            cardStuff = ContextMenu({
+                coords: { x: 0, y: 0 },
+                content: [
+                    {
+                        type: "element",
+                        title: new DOM({
+                            new: "div",
+                            class: "mobile-gesture",
+                        }),
+                    },
+                    ...self.navigationList,
+                ],
+                noSelfControl: true,
+                renderClasses: ["swiper", "start", "hide"],
+                onClose() {
+                    self.triggeredSwipe = false
+                },
+                async onClosing() {
+                    await new Animation({
+                        duration: 200,
+                        timingFunc: EaseInOutQuad,
+                        painter(t) {
+                            this.style({
+                                transform: `translateY(${t * 100 * 2}%) !important`,
+                            })
+                        },
+                    }).apply(cardStuff[0])
+                },
+                onRendered(evn, el) {
+                    document.removeEventListener("touchmove", handlerLvl1)
+                    document.addEventListener("touchmove", handlerLvl2)
+                    document.addEventListener("touchend", handlerLvl3)
+                },
+            })
+            setTimeout(() => {
+                if (!handlerLvl2triggered) handlerLvl2(ev)
+            }, 100)
+        }
+
+        handlerLvl2 = (ev) => {
+            handlerLvl2triggered = true
+            touchYLast = ev.touches[0].clientY
+            cardStuff[0].style({
+                maxHeight: `${windowHeight - touchYLast}px`,
+                transform: "none !important",
+            })
+            cardStuff[0].classList.remove("hide")
+        }
+
+
+        handlerLvl3 = (ev) => {
+            document.removeEventListener("touchmove", handlerLvl2)
+            if (Design.getVar("size-nav-width", true) > windowHeight - ev.changedTouches[0].clientY) {
+                cardStuff[0].classList.add("start")
+                cardStuff[0].emitEvent("contextMenuClose")
+            } else {
+                cardStuff[0].style({
+                    maxHeight: "",
+                    transform: "none !important",
+                    transition: "all .2s",
+                })
+            }
+            document.removeEventListener("touchend", handlerLvl3)
+        }
+
+        document.addEventListener("touchmove", handlerLvl1)
+
+        const end = () => {
+            document.removeEventListener("touchmove", handlerLvl1)
+            document.removeEventListener("touchend", end)
+        }
+
+        document.addEventListener("touchend", end)
     }
 
     get menuItems() {
@@ -132,21 +245,22 @@ export default class Nav {
             el.classList.add(this.activeClassName)
             this.currentActive = el
         } else this.currentActive = null
-        this.updateGestuePosition()
+        this.updateGesturePosition()
     }
 
-    static updateGestuePosition(el = false) {
-        if (!this.mobileGestue) return
+    static updateGesturePosition(el = false) {
+        if (!this.mobileGesture) return
         if (el === false) el = this.currentActive
         if (el !== null) {
-            this.mobileGestue.elementParse.native.style.top = `${el.offsetTop}px`
-            this.mobileGestue.elementParse.native.style.left = "0"
+            this.mobileGesture.elementParse.native.style.top = `${el.offsetTop}px`
+            this.mobileGesture.elementParse.native.style.left = "0"
         } else {
-            this.mobileGestue.elementParse.native.style.left = "-100%"
+            this.mobileGesture.elementParse.native.style.left = "-100%"
         }
     }
 
     constructor() {
+        const self = this
         const genDom = this.constructor.generateElementList
         this.constructor.html = new DOM({
             new: "div",
@@ -154,16 +268,33 @@ export default class Nav {
             content: genDom,
         })
 
-        this.constructor.mobileGestue = new DOM({
+        this.constructor.mobileGesture = new DOM({
             new: "div",
-            class: "mobile-gestue",
+            class: "mobile-gesture",
         })
 
         return new DOM({
             new: "nav",
             class: "main-nav",
+            events: [
+                {
+                    event: "touchstart",
+                    handler(e) { self.constructor.NavSwipeToggle(e) },
+                },
+                {
+                    event: "mouseup",
+                    handler(e) {
+                        if (Design.getVar("nav-bottom") !== "1" || e.button !== 2) return
+
+                        ContextMenu({
+                            content: self.constructor.navigationList,
+                            event: e,
+                        })
+                    },
+                },
+            ],
             content: [
-                this.constructor.mobileGestue,
+                this.constructor.mobileGesture,
                 new DOM({
                     new: "div",
                     class: "nav-content",

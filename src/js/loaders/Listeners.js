@@ -14,6 +14,6 @@ SettingsStorage.getFlag("enable_tab_navigation").then((r) => {
     document.addEventListener("keypress", (a) => { if (a.code === "Enter") { document.activeElement.click() } })
 })
 
-window.addEventListener("resize", () => Nav.updateGestuePosition())
+window.addEventListener("resize", () => Nav.updateGesturePosition())
 
 WindowManager.EnableFullScreenExperience()

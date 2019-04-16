@@ -12,7 +12,10 @@ const webpack = require("webpack")
 const fecha = require("fecha")
 
 const __root = process.cwd()
-const pack = require(path.join(__root, "package.json"))
+const builder = {
+    pack: require(path.join(__root, "package.json")),
+}
+
 const PROD = process.env.NODE_ENV === "production"
 
 const PATHS = {
@@ -138,7 +141,7 @@ module.exports = (env = {}) => ({
             components: {
                 InjectAsComment: false,
                 InjectByTag: false,
-                AutoIncreaseVersion: !PROD,
+                AutoIncreaseVersion: true,
             },
             componentsOptions: {
                 AutoIncreaseVersion: {
@@ -207,11 +210,11 @@ module.exports = (env = {}) => ({
             ],
         }),
         new webpack.DefinePlugin({
-            __PACKAGE_APP_NAME: JSON.stringify(pack.description),
-            __PACKAGE_VERSION_NUMBER: JSON.stringify(pack.version),
-            __PACKAGE_BRANCH: JSON.stringify(pack.config.branch),
+            __PACKAGE_APP_NAME: JSON.stringify(builder.pack.description),
+            __PACKAGE_VERSION_NUMBER: JSON.stringify(builder.pack.version),
+            __PACKAGE_BRANCH: JSON.stringify(builder.pack.config.branch),
             __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(fecha.format(new Date(), "DD.MM.YYYY HH:mm:ss")), true),
-            __PACKAGE_CHANGELOG: JSON.stringify(getChangelog(PROD, pack.version, fecha.format(new Date(), "DD.MM.YYYY"), pack.repository)),
+            __PACKAGE_CHANGELOG: JSON.stringify(getChangelog(PROD, builder.pack.version, fecha.format(new Date(), "DD.MM.YYYY"), builder.pack.repository)),
         }),
     ],
 })

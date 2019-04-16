@@ -1,3 +1,27 @@
+# 0.5.0 16.04.2019
+## UI
++ Generic context menus
++ Empty icon on null
++ Mobile swipe-up main menu
++ Right-click main menu in compact layout
+
+## General
+* Typo fixes
+
+## Core
++ Get float automatically from CSS vars
++ Get distance between elements (unused)
+* CamelCase reversion
++ RegExp escaper
++ Rgba alpha modifier (unused)
+
+## DOM
+* "Params" in DOM's emitEvent method now defaults to {}
++ Set DOM Events listeners
+* Changed the way style applicators work
++ Important tag support in style applicators
++ Set events modificator
+
 # 0.4.2 12.04.2019
 ## UI
 - Removed card border

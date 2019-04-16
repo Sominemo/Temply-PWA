@@ -156,7 +156,7 @@ nav .nav-item.active {
     color: var(--color-nav-active);
 }
 
-nav .mobile-gestue {
+nav .mobile-gesture {
     position: absolute;
     left: -100%;
     top: 0;
@@ -240,4 +240,16 @@ main {
 
 .flex-container {
     display: flex;
+}
+
+@keyframes gesture-jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }

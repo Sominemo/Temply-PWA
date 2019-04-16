@@ -1,4 +1,5 @@
 import DOMController from "../../Helpers/domController"
+import camelCaseConverter from "../../../../tools/transformation/text/camelCaseConverter"
 
 export default (() => {
     const unique = "styleApplicator"
@@ -15,7 +16,9 @@ export default (() => {
             try {
                 if (!(e in data.element.native.style)) return
 
-                data.element.native.style[e] = data.value[e]
+                const value = data.value[e].toString()
+                const r = value.match(/^(.+) !important$/)
+                data.element.native.style.setProperty(camelCaseConverter(e, "-", true), (r ? r[1] : value), (r ? "important" : ""))
             } catch (er) {
                 // Ignore invalid styles
             }
