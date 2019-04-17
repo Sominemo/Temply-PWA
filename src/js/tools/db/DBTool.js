@@ -164,8 +164,34 @@ export default class DBTool {
     }
 
     async createCursor(store, range, direction) {
-        const r = await (await this.connection.getObjectStore(store))
+        const r = await (await this.getObjectStore(store))
             .openCursor(this.constructor.generateIDBRange(range), direction)
+        return r
+    }
+
+    async getItemsByCount(store, count = 1, direction = "next", range = null) {
+        let cursor = await this.createCursor(
+            store,
+            range,
+            direction,
+        )
+
+        let i = 0
+        const r = []
+
+        while (cursor && i < count) {
+            i++
+            r.push(cursor.value)
+            // eslint-disable-next-line no-await-in-loop
+            cursor = await cursor.continue()
+        }
+
+        return r
+    }
+
+    async getItemByKey(store, key) {
+        const r = await (await this.getObjectStore(store)).get(key)
+
         return r
     }
 }

@@ -1,3 +1,4 @@
+# 0.5.1 17.04.2019
 ## Core
 + IDB Range generator
 + IDB Cursor creator
