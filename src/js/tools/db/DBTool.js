@@ -121,4 +121,51 @@ export default class DBTool {
             })
         })
     }
+
+    static generateIDBRange(params) {
+        try {
+            if (params instanceof IDBKeyRange) return params
+            if (Array.isArray(params)) {
+                if (params.length === 0) return null
+                if (params.length === 1) {
+                    if (Array.isArray(params[0])) return IDBKeyRange.lowerBound(params[0][0], true)
+                    return IDBKeyRange.lowerBound(params[0])
+                }
+                if (params.length === 2) {
+                    if (params[0] === null) {
+                        if (Array.isArray(params[1])) {
+                            return IDBKeyRange.upperBound(params[1][0], true)
+                        }
+                        return IDBKeyRange.upperBound(params[0])
+                    }
+                    let first = params[0]
+                    let second = params[1]
+                    let firstStrict = false
+                    let secondStrict = false
+
+                    if (Array.isArray(first)) {
+                        [first] = first
+                        firstStrict = true
+                    }
+
+                    if (Array.isArray(second)) {
+                        [second] = second
+                        secondStrict = true
+                    }
+
+                    return IDBKeyRange.bound(first, second, firstStrict, secondStrict)
+                }
+            }
+        } catch (e) {
+            return null
+        }
+
+        return null
+    }
+
+    async createCursor(store, range, direction) {
+        const r = await (await this.connection.getObjectStore(store))
+            .openCursor(this.constructor.generateIDBRange(range), direction)
+        return r
+    }
 }

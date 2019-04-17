@@ -6,6 +6,7 @@ import WindowManager from "../ui/SimpleWindowManager"
 import { Title, Icon } from "../ui/DOM/Library/object"
 import { Card, CardTextList } from "../ui/DOM/Library/object/card"
 import { $$ } from "../services/Language/handler"
+import TimeManagementStorage from "./storage/TimeManagementStorage"
 
 Nav.newItem({
     name() { return $$("tasks") },
@@ -23,6 +24,7 @@ export default class Tasks {
     static Init() {
         const w = new WindowContainer()
         WindowManager.newWindow().append(w)
+        console.log(TimeManagementStorage)
 
         w.render(new Title($$("tasks")))
 

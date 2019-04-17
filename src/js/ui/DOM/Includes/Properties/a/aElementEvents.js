@@ -42,7 +42,7 @@ export default (() => {
                     // eslint-disable-next-line prefer-arrow-callback, func-names
                     function (...ep) {
                         return e.handler.bind(this)(...ep, self)
-                    }, (w.params ? w.params : {}))
+                    })
             } catch (e2) {
                 if (!DOMController.errorIgnore(unique)) throw new Error("Failed to set an event listener")
             }

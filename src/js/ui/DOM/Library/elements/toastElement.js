@@ -117,7 +117,9 @@ export default class ToastElement {
             events: [
                 {
                     event: "touchstart",
+                    params: { passive: true },
                     handler(me, el) {
+                        me.preventDefault()
                         const maxHeight = me.targetTouches[0].clientY
                         let opacity = 1
                         mouseOn = true

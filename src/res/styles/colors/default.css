@@ -84,5 +84,6 @@
 	
 	--color-context-menu-backdrop-hidden: rgba(0, 0, 0, 0);
 	--color-context-menu-backdrop: rgba(0, 0, 0, .3);
+	--color-context-menu-icon: var(--color-nav-icon);
 
 }

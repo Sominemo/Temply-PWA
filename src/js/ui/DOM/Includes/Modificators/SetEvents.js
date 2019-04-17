@@ -31,7 +31,7 @@ DOMController.registerModificator({
                     // eslint-disable-next-line prefer-arrow-callback, func-names
                     function (...ep) {
                         return e.handler.bind(this)(...ep, self)
-                    }, (w.params ? w.params : {}))
+                    }, (e.params ? e.params : {}))
             } catch (e2) {
                 throw new Error("Failed to set a property")
             }

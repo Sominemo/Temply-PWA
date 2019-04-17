@@ -1,3 +1,12 @@
+## Core
++ IDB Range generator
++ IDB Cursor creator
+* Event params weren't applied
+* Rewritten navigation
+
+## UI
+* Now toasts and swipe-up menus feel smoother
+
 # 0.5.0 16.04.2019
 ## UI
 + Generic context menus

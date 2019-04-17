@@ -43,7 +43,7 @@ export default (() => {
                     // eslint-disable-next-line prefer-arrow-callback, func-names
                     function (...ep) {
                         return e.handler.bind(this)(...ep, self)
-                    }, (w.params ? w.params : {}))
+                    }, (e.params ? e.params : {}))
                 try {
                     if (data.config.eventsOnClickAutoTabIndex === true
                         && ["click"]

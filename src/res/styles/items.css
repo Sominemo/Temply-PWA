@@ -686,6 +686,7 @@ context-menu-item-holder {
 context-menu-item-holder>md-icon {
     font-size: 1.5em;
     margin: 0 10px 0 10px;
+    color: var(--color-context-menu-icon);
 }
 
 context-menu-item-title {

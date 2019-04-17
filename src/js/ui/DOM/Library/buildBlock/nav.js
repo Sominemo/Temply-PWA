@@ -106,7 +106,7 @@ export default class Nav {
                         timingFunc: EaseInOutQuad,
                         painter(t) {
                             this.style({
-                                transform: `translateY(${t * 100 * 2}%) !important`,
+                                transform: "",
                             })
                         },
                     }).apply(cardStuff[0])
@@ -176,7 +176,14 @@ export default class Nav {
 
         this.config.push(a)
 
-        if (this.html !== null) this.html.elementView.appendChild(this.generateElement(a).element)
+        if (this.html !== null) {
+            const generated = this.generateElement(a)
+            this.dom.push({
+                id: a.id,
+                element: generated,
+            })
+            this.html.render(generated)
+        }
     }
 
     static getById(id, index = false) {
@@ -230,18 +237,25 @@ export default class Nav {
         ])]).set(this.config)
 
         this.dom = []
+        const curr = []
 
         this.config.forEach((i) => {
-            this.dom.push(this.generateElement(i))
+            const generated = this.generateElement(i)
+            this.dom.push({
+                id: i.id,
+                element: generated,
+            })
+            curr.push(generated)
         })
 
-        return this.dom
+        return curr
     }
 
     static highlight(e) {
-        document.querySelectorAll("nav .menu-buttons>.nav-item").forEach(a => a.classList.remove(this.activeClassName))
-        const el = document.getElementById(`${this.navItemIdPrefix}${e.id}`)
-        if (el !== null) {
+        this.dom.forEach(a => a.element.classList.remove(this.activeClassName))
+        const ele = this.dom.find(em => em.id === e.id)
+        if (ele !== undefined) {
+            const el = ele.element
             el.classList.add(this.activeClassName)
             this.currentActive = el
         } else this.currentActive = null
@@ -251,11 +265,10 @@ export default class Nav {
     static updateGesturePosition(el = false) {
         if (!this.mobileGesture) return
         if (el === false) el = this.currentActive
-        if (el !== null) {
-            this.mobileGesture.elementParse.native.style.top = `${el.offsetTop}px`
-            this.mobileGesture.elementParse.native.style.left = "0"
+        if (el) {
+            this.mobileGesture.style({ top: `${el.elementParse.native.offsetTop}px`, left: "0" })
         } else {
-            this.mobileGesture.elementParse.native.style.left = "-100%"
+            this.mobileGesture.style({ left: "-100%" })
         }
     }
 
@@ -279,7 +292,10 @@ export default class Nav {
             events: [
                 {
                     event: "touchstart",
-                    handler(e) { self.constructor.NavSwipeToggle(e) },
+                    handler(e) {
+                        self.constructor.NavSwipeToggle(e)
+                    },
+                    params: { passive: true },
                 },
                 {
                     event: "mouseup",
