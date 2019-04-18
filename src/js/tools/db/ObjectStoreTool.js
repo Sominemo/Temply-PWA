@@ -13,6 +13,18 @@ export default class ObjectStoreTool {
 
         this.connection = connection
         this.name = name
+
+        return new Proxy(this, {
+            get(target, propKey) {
+                if (!(propKey in target)) {
+                    return async () => {
+                        const os = await target.getOS()
+                        return os[propKey]()
+                    }
+                }
+                return target[propKey]
+            },
+        })
     }
 
     get parent() {
@@ -29,22 +41,92 @@ export default class ObjectStoreTool {
     }
 
     async getSize() {
-        const r = await this.connection.getTableSize(this.name)
+        const self = this
+        self.size = 0
+        return new Promise((resolve, reject) => {
+            this.getOS()
+                .then(os => os.openCursor())
+                .then(
+                    function iter(cursor) {
+                        if (!cursor) return resolve(self.size)
+                        self.size += JSON.stringify(cursor.value).length
+
+                        Object.keys(cursor.value).forEach((e) => {
+                            if (Object.prototype.hasOwnProperty.call(cursor.value, e)
+                                && cursor.value[e] instanceof Blob) {
+                                self.size += cursor.value[e]
+                            }
+                        })
+
+                        return cursor.continue().then(iter)
+                    },
+                )
+        })
+    }
+
+    static generateIDBRange(params) {
+        try {
+            if (params instanceof IDBKeyRange) return params
+            if (Array.isArray(params)) {
+                if (params.length === 0) return null
+                if (params.length === 1) {
+                    if (Array.isArray(params[0])) return IDBKeyRange.lowerBound(params[0][0], true)
+                    return IDBKeyRange.lowerBound(params[0])
+                }
+                if (params.length === 2) {
+                    if (params[0] === null) {
+                        if (Array.isArray(params[1])) {
+                            return IDBKeyRange.upperBound(params[1][0], true)
+                        }
+                        return IDBKeyRange.upperBound(params[0])
+                    }
+                    let first = params[0]
+                    let second = params[1]
+                    let firstStrict = false
+                    let secondStrict = false
+
+                    if (Array.isArray(first)) {
+                        [first] = first
+                        firstStrict = true
+                    }
+
+                    if (Array.isArray(second)) {
+                        [second] = second
+                        secondStrict = true
+                    }
+
+                    return IDBKeyRange.bound(first, second, firstStrict, secondStrict)
+                }
+            }
+        } catch (e) {
+            return null
+        }
+
+        return null
+    }
+
+    async createCursor(range, direction) {
+        const r = await (await this.getOS())
+            .openCursor(this.constructor.generateIDBRange(range), direction)
         return r
     }
 
-    async createCursor(...a) {
-        const r = await this.connection.createCursor(this.name, ...a)
-        return r
-    }
+    async getByCount(count = 1, direction = "next", range = null) {
+        let cursor = await this.createCursor(
+            range,
+            direction,
+        )
 
-    async getItemsByCount(...a) {
-        const r = await this.connection.getItemsByCount(this.name, ...a)
-        return r
-    }
+        let i = 0
+        const r = []
 
-    async getItemByKey(...a) {
-        const r = await this.connection.getItemByKey(this.name, ...a)
+        while (cursor && i < count) {
+            i++
+            r.push(cursor.value)
+            // eslint-disable-next-line no-await-in-loop
+            cursor = await cursor.continue()
+        }
+
         return r
     }
 }

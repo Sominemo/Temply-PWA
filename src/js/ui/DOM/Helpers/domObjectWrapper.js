@@ -1,5 +1,7 @@
 import DOM from "../Classes/dom"
 
+// TODO: use reflect
+
 // eslint-disable-next-line no-shadow
 const DOMObjectWrapper = (DOMObjectWrapper) => {
     const goDeeper = (o, e) => o[e]
