@@ -74,7 +74,7 @@ export default class FieldChecker {
             }
         }
         // IsInt
-        if (Object.prototype.hasOwnProperty.call(o, "isint")) {
+        if (Object.prototype.hasOwnProperty.call(o, "isInt")) {
             if (Number(q) !== parseInt(q, 10)) {
                 return false
             }

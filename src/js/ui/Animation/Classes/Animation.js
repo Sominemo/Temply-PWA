@@ -9,7 +9,7 @@ export default class Animation {
         new FieldsContainer([
             ["duration", "painter", "timingFunc"],
             {
-                duration: new FieldChecker({ type: "number", isint: "true" }),
+                duration: new FieldChecker({ type: "number", isInt: "true" }),
                 painter: new FieldChecker({ type: "function" }),
                 timingFunc: new FieldChecker({ type: "function" }),
                 init: new FieldChecker({ type: "function" }),

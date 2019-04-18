@@ -10,10 +10,12 @@ export default (() => {
     const handler = (data) => {
         let r
         if (data.value.length === 3) {
-            r = document.createElementNS(data.value[1], data.value[2])
-        } else { r = document.createElement("div") }
-
-        [r.innerHTML] = data.value
+            r = document.createElementNS(data.value[1], data.value[2]);
+            [r.innerHTML] = data.value
+        } else {
+            r = document.createElement("div")
+            r.innerHTML = data.value
+        }
 
         if (r.childNodes.length !== 1) {
             return r

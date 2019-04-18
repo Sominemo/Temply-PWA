@@ -6,6 +6,16 @@ export default {
     },
     timetable: {
         __index: "расписание",
+        defaults: "умолчания",
+        lesson_length: "длина занятия",
+        break_length: "длина перерыва",
+        lesson_start: "начало занятий",
+    },
+    recovery_mode: {
+        __index: "Аварийный режим",
+        enter: "перезапустите приложение для входа в Аварийный режим",
+        now: "Аварийный режим активен",
+        back_to_normal: "Перезапустите приложение без специального хеша, чтобы покинуть его",
     },
     dateformats: {
         week: {

@@ -55,7 +55,7 @@ export default class DOMController {
     }
 
     static getPropertyData(id) {
-        new FieldChecker({ isint: true }).set(id)
+        new FieldChecker({ isInt: true }).set(id)
 
         const g = this._settings.properties[id]
         if (typeof g === "object") return g
@@ -84,7 +84,7 @@ export default class DOMController {
     }
 
     static getModuleData(id) {
-        new FieldChecker({ isint: true }).set(id)
+        new FieldChecker({ isInt: true }).set(id)
 
         const g = this._settings.modules[id]
         if (typeof g === "object") return g

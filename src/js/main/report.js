@@ -1,6 +1,7 @@
 import App from "./app"
 import errorToObject from "../tools/transformation/object/errorToObject"
 import DBTool from "../tools/db/DBTool"
+import { OutputRecovery } from "../recovery"
 
 export default class Report {
     static StorageName = "console-output"
@@ -39,6 +40,7 @@ export default class Report {
             ...log.map(re => (re instanceof Error ? errorToObject(re) : re)),
             lines,
         )
+        OutputRecovery(...log, lines)
         if (App.debug) {
             console.log(...log)
             console.groupCollapsed("Trace")

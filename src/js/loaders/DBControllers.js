@@ -41,3 +41,5 @@ DBUserPresence.registerNewPresence({
         },
     ],
 })
+
+Report.write("DB Presence registered")

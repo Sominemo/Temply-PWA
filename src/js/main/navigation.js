@@ -3,6 +3,9 @@ import FieldChecker from "../tools/validation/fieldChecker"
 import Nav from "../ui/DOM/Library/buildBlock/nav"
 import WindowManager from "../ui/SimpleWindowManager"
 import Report from "./report"
+import { recoveryModeHash, isRecoveryMode, OutputRecovery } from "../recovery"
+import Toast from "../ui/DOM/Library/elements/toast"
+import { $$ } from "../services/Language/handler"
 
 export default class Navigation {
     static prefix = "/"
@@ -154,6 +157,12 @@ export default class Navigation {
     }
 
     static listener(manual) {
+        if (window.location.hash === recoveryModeHash) {
+            if (!isRecoveryMode()) Toast.add($$("@recovery_mode/enter"))
+            else OutputRecovery("Recovery Log called")
+            return true
+        }
+
         const event = manual || this.whatHappened
 
         const parsed = this.parse()

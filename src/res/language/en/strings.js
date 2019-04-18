@@ -6,6 +6,16 @@ export default {
     },
     timetable: {
         __index: "timetable",
+        defaults: "defaults",
+        lesson_length: "lesson length",
+        break_length: "break length",
+        lesson_start: "lesson start",
+    },
+    recovery_mode: {
+        __index: "Recovery Mode",
+        enter: "restart to enter Recovery Mode",
+        now: "Recovery Mode is activated",
+        back_to_normal: "Restart the app without the special hash to leave it",
     },
     dateformats: {
         week: {

@@ -1,7 +1,7 @@
 {
     "name": "temply-pwa",
     "version": "0.5.1",
-    "description": "Temply Progressive Web App client",
+    "description": "Temply PWA",
     "main": "index.html",
     "config": {
         "branch": "early-dev"

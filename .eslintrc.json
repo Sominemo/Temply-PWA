@@ -37,6 +37,7 @@
         "no-console": "off",
         "no-plusplus": "off",
         "no-param-reassign": "off",
+        "no-nested-ternary": "off",
         "no-underscore-dangle": "off",
         "import/no-dynamic-require": "off",
         "global-require": "off",

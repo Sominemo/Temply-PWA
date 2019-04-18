@@ -17,9 +17,9 @@ export default class ObjectStoreTool {
         return new Proxy(this, {
             get(target, propKey) {
                 if (!(propKey in target)) {
-                    return async () => {
-                        const os = await target.getOS()
-                        return os[propKey]()
+                    return async (...params) => {
+                        const os = await target.getOS(true)
+                        return os[propKey](...params)
                     }
                 }
                 return target[propKey]

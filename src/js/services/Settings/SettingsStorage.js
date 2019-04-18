@@ -67,7 +67,7 @@ export default class SettingsStorage {
         const ov = await this.get(setting)
         const db = await this.db.getObjectStore(this.ObjectStoreNames[0], true)
         if (!si[0]) {
-            const res = si[1](value, setting, async (v, ou = true) => {
+            const res = await si[1](value, setting, async (v, ou = true) => {
                 const ndb = await this.db.getObjectStore(this.ObjectStoreNames[0], true)
                 await ndb.put({ key: setting, value: v })
                 if (ou) si[3](v, ov, setting, si[2])
@@ -140,7 +140,7 @@ export default class SettingsStorage {
 
     static async reset(type) {
         if (typeof type !== "string"
-        || !this.ObjectStoreNames.includes(type)) throw new TypeError("Undefined section name")
+            || !this.ObjectStoreNames.includes(type)) throw new TypeError("Undefined section name")
 
         const o = await this.db.getObjectStore(type, true)
         const r = await o.clear()

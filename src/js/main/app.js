@@ -13,6 +13,8 @@ import DOM from "../ui/DOM/Classes/dom"
 import Link from "../ui/DOM/Library/basic/link"
 import { CardContent, CardTextList } from "../ui/DOM/Library/object/card"
 import { SettingsActLink } from "../ui/DOM/Library/settings"
+import AlignedContent from "../ui/DOM/Library/object/AlignedContent"
+import { SVG } from "../ui/DOM/Library/basic"
 
 export default class App {
     static get version() {
@@ -127,10 +129,29 @@ export default class App {
         }
 
         w.render(new Title($$("@about/app")))
+        w.render(new Card(
+            new AlignedContent([
+                new DOM({
+                    new: "div",
+                    content: new SVG(require("Resources/images/logo/vector.svg"), { height: "60px", margin: "20px", cursor: "pointer" }),
+                    events: [
+                        {
+                            event: "click",
+                            handler: openFlags,
+                        },
+                    ],
+                    style: {
+                        display: "flex",
+                    },
+                }),
+                [
+                    new Title(this.appName, 2, { marginLeft: 0, marginTop: 0 }),
+                    this.version,
+                ],
+            ]),
+        ))
         w.render(new Card(new CardList(
             [
-                { content: this.appName },
-                { content: new TwoSidesWrapper($$("@about/version"), this.version), handler: openFlags },
                 { content: new TwoSidesWrapper($$("@about/build_date"), this.buildDate) },
                 { content: new TwoSidesWrapper($$("@about/branch"), this.branch) },
                 ...(this.debug ? [{ content: new TwoSidesWrapper($$("@about/debug"), this.debug.toString()) }] : []),

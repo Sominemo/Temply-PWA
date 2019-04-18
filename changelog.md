@@ -1,3 +1,15 @@
+## Core
++ Detailed startup log
++ Recovery mode on #recoveryMode hash
+* ObjectStore params support in proxy
+* Async SettingsLayout loader
+
+## DOM
+* Fix generation from HTML code
+
+## UI
++ Experimental iOS splash screen support
+
 # 0.5.1 17.04.2019
 ## Core
 + IDB Range generator

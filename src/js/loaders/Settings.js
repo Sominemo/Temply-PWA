@@ -3,6 +3,12 @@ import FieldChecker from "../tools/validation/fieldChecker"
 import App from "../main/app"
 import Report from "../main/report"
 
+const timetableDefaults = {
+    lesson: 2700,
+    break: 600,
+    start: 28800,
+}
+
 SettingsCheckProvider.setRules([
     {
         name: "test",
@@ -25,3 +31,30 @@ SettingsCheckProvider.setRules([
         },
     },
 ], "flags")
+
+SettingsCheckProvider.setRules([
+    {
+        name: "timetable_lesson_default_length",
+        rule: {
+            default: timetableDefaults.lesson,
+            checker: new FieldChecker({ type: "number", isInt: true, range: [0, 86400] }),
+            async onfail(a, b, c) { await c(timetableDefaults.lesson) },
+        },
+    },
+    {
+        name: "timetable_break_default_length",
+        rule: {
+            default: timetableDefaults.break,
+            checker: new FieldChecker({ type: "number", isInt: true, range: [0, 86400] }),
+            async onfail(a, b, c) { await c(timetableDefaults.break) },
+        },
+    },
+    {
+        name: "timetable_lesson_default_start",
+        rule: {
+            default: timetableDefaults.start,
+            checker: new FieldChecker({ type: "number", isInt: true, range: [0, 86400] }),
+            async onfail(a, b, c) { await c(timetableDefaults.start) },
+        },
+    },
+], "user")
