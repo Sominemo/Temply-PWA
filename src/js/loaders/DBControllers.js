@@ -23,6 +23,16 @@ DBUserPresence.registerNewPresence({
     actions: [
         {
             name: $$("@settings/storage/actions/clear"),
+            handler: () => DBUserPresence.get("LogData").functions.find(e => e.name === "clear").handler(),
+        },
+        {
+            name: $$("@settings/storage/actions/export"),
+            handler: () => DBUserPresence.get("LogData").functions.find(e => e.name === "export").handler(),
+        },
+    ],
+    functions: [
+        {
+            name: "clear",
             handler: () => new Promise((resolve, reject) => {
                 const db = Report.DBConnection
                 db.getObjectStore("console-output", true)
@@ -32,11 +42,18 @@ DBUserPresence.registerNewPresence({
             }),
         },
         {
-            name: $$("@settings/storage/actions/export"),
+            name: "export",
             async handler() {
                 const db = JSON.stringify(await Report.allLog)
 
                 download([db], "text/plain", "app-log.json")
+            },
+        },
+        {
+            name: "auto-clean",
+            async handler() {
+                const db = Report.DBConnection.OSTool("console-output")
+                await db.clearPercent(0.5)
             },
         },
     ],

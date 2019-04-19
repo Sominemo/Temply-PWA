@@ -91,11 +91,16 @@ export default class DBTool {
     }
 
     getAllTablesSizes() {
-        return new Promise((resolve, reject) => {
-            this.getTablesList().then((tables) => {
-                Promise.all(tables.map(r => new ObjectStoreTool(this, r).getSize()))
-                    .then(r => resolve(r))
-            })
+        return new Promise(async (resolve, reject) => {
+            const tables = await this.getTablesList()
+            const sizes = await Promise.all(tables.map(r => new ObjectStoreTool(this, r).getSize()))
+
+            const r = {}
+            for (let i = 0; i < tables.length; i++) {
+                r[tables[i]] = sizes[i]
+            }
+
+            resolve(r)
         })
     }
 

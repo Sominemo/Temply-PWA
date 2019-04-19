@@ -13,7 +13,7 @@ export default class DBUserPresence {
 
     static registerNewPresence(data) {
         new FieldsContainer([
-            ["id", "name", "description", "config", "actions"],
+            ["id", "name", "description", "config", "actions", "functions"],
             {
                 id: new FieldChecker({ type: "string", symbols: "a-zA-Z_" }),
                 name: new FieldChecker({ tyle: "string" }),
@@ -40,6 +40,16 @@ export default class DBUserPresence {
                         },
                     ]),
                 ]),
+                functions: new FieldsContainer([
+                    "array",
+                    new FieldsContainer([
+                        ["name"],
+                        {
+                            name: new FieldChecker({ type: "string", symbols: "a-z0-9-" }),
+                            handler: new FieldChecker({ type: "function" }),
+                        },
+                    ]),
+                ]),
             },
         ]).set(data)
         if ("config" in data && data.config.changeable === true) {
@@ -48,7 +58,14 @@ export default class DBUserPresence {
                 || data.config.max < data.config.min) throw new Error("Incorrect statement")
         }
 
-        this._register.push(data)
+        this._register.push(data);
+
+        (async () => {
+            if (await data.size() > await data.quota()) {
+                const autoClean = data.functions.find(e => e.name === "auto-clean")
+                if (autoClean) autoClean.handler()
+            }
+        })()
     }
 
     static getAll() {
@@ -71,7 +88,7 @@ export default class DBUserPresence {
 
             async function calculateSize() {
                 const size = fileSizeForHuman(await e.size())
-                const quota = fileSizeForHuman(e.quota())
+                const quota = fileSizeForHuman(await e.quota())
                 sizeContainer.clear(new DOM({ type: "text", new: `${$$("@settings/storage/used")} ${size} ${$("@settings/storage/of")} ${quota}` }))
             }
 

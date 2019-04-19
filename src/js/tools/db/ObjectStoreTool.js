@@ -105,8 +105,8 @@ export default class ObjectStoreTool {
         return null
     }
 
-    async createCursor(range, direction) {
-        const r = await (await this.getOS())
+    async createCursor(range = null, direction = "next", type = false) {
+        const r = await (await this.getOS(type))
             .openCursor(this.constructor.generateIDBRange(range), direction)
         return r
     }
@@ -128,5 +128,34 @@ export default class ObjectStoreTool {
         }
 
         return r
+    }
+
+    async clearPercent(percent = 1, direction = "next", range = null) {
+        if (typeof percent !== "number" || percent > 1 || percent < 0) return false
+        let allSize = 0
+        const thisAllSize = await this.getSize()
+        return new Promise(async (resolve) => {
+            const os = this
+            const cur = await os.createCursor(range, direction, true)
+            function iter(cursor) {
+                let size = 0
+                if (!cursor || (allSize / thisAllSize) > percent) return resolve(allSize)
+                size += JSON.stringify(cursor.value).length
+
+                Object.keys(cursor.value).forEach((e) => {
+                    if (Object.prototype.hasOwnProperty.call(cursor.value, e)
+                        && cursor.value[e] instanceof Blob) {
+                        size += cursor.value[e]
+                    }
+                })
+
+                allSize += size
+
+                cursor.delete()
+
+                return cursor.continue().then(iter)
+            }
+            iter(cur)
+        })
     }
 }
