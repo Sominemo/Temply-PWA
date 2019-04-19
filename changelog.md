@@ -1,3 +1,4 @@
+# 0.5.1 19.04.2019
 ## Core
 + Detailed startup log
 + Recovery mode on #recoveryMode hash

@@ -54,7 +54,7 @@ export default class DBTool {
         return new Promise((resolve, reject) => {
             this.getAllTablesSizes()
                 .then(
-                    () => resolve(Object.values(this.size)
+                    res => resolve(Object.values(res)
                         .reduce((collector, i) => collector + i, 0)),
                 )
         })
@@ -94,7 +94,7 @@ export default class DBTool {
         return new Promise((resolve, reject) => {
             this.getTablesList().then((tables) => {
                 Promise.all(tables.map(r => new ObjectStoreTool(this, r).getSize()))
-                    .then(() => resolve(this.size))
+                    .then(r => resolve(r))
             })
         })
     }
