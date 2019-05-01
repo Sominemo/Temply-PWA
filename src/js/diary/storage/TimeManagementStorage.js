@@ -41,12 +41,12 @@ export default class TimeManagementStorage {
         return this.connection.OSTool("subjects").put(s)
     }
 
-    static async newSubject({ name, cab = null }) {
+    static async newSubject({ name, cab = null, key = null }) {
         name = String(name).substring(0, 30)
         const os = this.connection.OSTool("subjects")
         const dub = await os.getWhere(null, e => e.name === name)
-        if (dub.length !== 0) return false
-        const r = await os.add({ name, cab })
+        if (dub.length !== 0 && dub[0].key !== key) return false
+        const r = await os.put({ name, cab, ...(key ? { key } : {}) })
         return r
     }
 
@@ -54,6 +54,20 @@ export default class TimeManagementStorage {
         const os = this.connection.OSTool("subjects")
         const r = await os.get(key)
         return r
+    }
+
+    static async removeSubject(key) {
+        const os = this.connection.OSTool("subjects")
+        const r = await os.get(key)
+        if (!r) return
+
+        const t = (await this.getAllTimetable()).map((el) => {
+            if (el.subject === key) return this.removeTimetableItem(el.key)
+            return true
+        })
+        await Promise.all(t)
+
+        await os.delete(key)
     }
 
     static async getAllSubjects() {

@@ -3,7 +3,9 @@ import SettingsStorage from "./SettingsStorage"
 import {
     SettingsActContainer, SettingsSectionElement, SettingsGroupContainer, SettingsActLink,
 } from "../../ui/DOM/Library/settings"
-import { CardList, CardTextList, CardContent } from "../../ui/DOM/Library/object/card"
+import {
+    CardList, CardTextList, CardContent,
+} from "../../ui/DOM/Library/object/card"
 import SettingsLayout from "./user/layout"
 import SettingsLayoutManager from "./user/manager"
 import { $$, generateLanguageList, $ } from "../Language/handler"
@@ -12,7 +14,7 @@ import SW from "../../main/SW"
 import { Icon, Title, TwoSidesMobileFlick } from "../../ui/DOM/Library/object"
 import AlignedContent from "../../ui/DOM/Library/object/AlignedContent"
 import Design from "../../main/design"
-import { Button } from "../../ui/DOM/Library/object/input"
+import { Button, ContentEditable } from "../../ui/DOM/Library/object/input"
 import DBUserPresence from "../DBUserPresence"
 import { isRecoveryMode } from "../../recovery"
 import BigNumberInput from "../../ui/DOM/Library/object/input/contentEditableWidgets/bigNumberInput"
@@ -20,9 +22,17 @@ import TimeNumInput from "../../ui/DOM/Library/object/input/contentEditableWidge
 import SecondsToTime from "../../tools/transformation/text/SecondsToTime"
 import TimeToDigital from "../../tools/transformation/text/TimeToDigital"
 import timeToSeconds from "../../tools/transformation/text/timeToSeconds"
+import TimeManagementStorage from "../../diary/storage/TimeManagementStorage"
+import { ContextMenu } from "../../ui/DOM/Library/elements"
+import Prompt from "../../ui/DOM/Library/elements/prompt"
+import Toast from "../../ui/DOM/Library/elements/toast"
+import SlideOut from "../../ui/Animation/Library/Effects/slideOut"
+import IconSide from "../../ui/DOM/Library/object/iconSide"
+import DOM from "../../ui/DOM/Classes/dom"
+import LocationChooser from "../../diary/widgets/locationChooser"
 
 export default async function SettingsLayoutLoader() {
-    const a = new SettingsLayout()
+    const layout = new SettingsLayout()
         .createAct({
             id: "settings", dom: SettingsActContainer, options: { name: $$("settings") },
         })
@@ -47,9 +57,14 @@ export default async function SettingsLayoutLoader() {
             dom: SettingsActContainer,
             options: { name: $$("timetable") },
         })
+        .createAct({
+            id: "subjects",
+            dom: SettingsActContainer,
+            options: { name: $$("subjects") },
+        })
 
 
-    a.getAct("settings")
+    layout.getAct("settings")
         .createSection({
             id: "recovery-mode-section",
             display: isRecoveryMode,
@@ -57,19 +72,24 @@ export default async function SettingsLayoutLoader() {
             options: {},
         })
         .createSection({ id: "general", dom: SettingsSectionElement, options: { name: $$("@settings/general") } })
+        .createSection({ id: "time-management", dom: SettingsSectionElement, options: { name: $$("@timetable/time_management_settings") } })
         .getSection("general")
-        .createGroup({ id: "alpha-information", dom: SettingsGroupContainer, options: { name: $$("@settings/general/information") } })
-        .getGroup("alpha-information")
-        .createItem({ dom: CardList, options: [{ content: $$("@settings/general/welcome_alpha") }], id: "welcome-alpha-text" })
+        .createGroup({ id: "main-group", dom: SettingsGroupContainer, options: {} })
+        .getGroup("main-group")
         .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "about" } }, $$("@about/app")], id: "about-screen-link" })
         .createItem({
             dom: SettingsActLink, options: ["updates", $$("@settings/updates")], id: "updates-link", display: () => !(/Edge/.test(navigator.userAgent)),
         })
         .createItem({ dom: SettingsActLink, options: ["storage", $$("@settings/storage")], id: "storage-link" })
         .createItem({ dom: SettingsActLink, options: ["language", $$("@settings/language")], id: "language-link" })
-        .createItem({ dom: SettingsActLink, options: ["timetable", $$("timetable")], id: "timetable-link" })
 
-    a.getAct("settings").getSection("recovery-mode-section")
+    layout.getAct("settings").getSection("time-management")
+        .createGroup({ id: "time-management-group", dom: SettingsGroupContainer, options: {} })
+        .getGroup("time-management-group")
+        .createItem({ dom: SettingsActLink, options: ["timetable", $$("timetable")], id: "timetable-link" })
+        .createItem({ dom: SettingsActLink, options: ["subjects", $$("subjects")], id: "subjects-link" })
+
+    layout.getAct("settings").getSection("recovery-mode-section")
         .createGroup({
             id: "recovery-mode-alert", dom: SettingsGroupContainer, options: { type: ["warn-highlight"] },
         })
@@ -96,7 +116,7 @@ export default async function SettingsLayoutLoader() {
         })
 
 
-    a.getAct("settings")
+    layout.getAct("settings")
         .createSection({
             id: "miscellaneous",
             dom: SettingsSectionElement,
@@ -114,7 +134,7 @@ export default async function SettingsLayoutLoader() {
             display: async () => !!await SettingsStorage.getFlag("test_field_enabled"),
         })
 
-    a.getAct("updates")
+    layout.getAct("updates")
         .createSection({
             id: "updates-main",
             dom: SettingsSectionElement,
@@ -127,7 +147,7 @@ export default async function SettingsLayoutLoader() {
         .createGroup({ id: "updates-notify-explanations", dom: SettingsGroupContainer, options: {} })
         .createGroup({ id: "updates-notify-settings", dom: updatePopup, options: { wait: true } })
 
-    a.getAct("updates").getSection("updates-main").getGroup("updates-notify-explanations")
+    layout.getAct("updates").getSection("updates-main").getGroup("updates-notify-explanations")
         .createItem({
             id: "updates-notify-explanation",
             dom: CardTextList,
@@ -147,7 +167,7 @@ export default async function SettingsLayoutLoader() {
             ],
         })
 
-    a.getAct("updates").getSection("updates-main").getGroup("updates-pending-alert")
+    layout.getAct("updates").getSection("updates-main").getGroup("updates-pending-alert")
         .createItem({
             id: "update-pending-text",
             dom: CardContent,
@@ -180,7 +200,7 @@ export default async function SettingsLayoutLoader() {
     let breakLength = await SettingsStorage.get("timetable_break_default_length")
     let lessonStart = await SettingsStorage.get("timetable_lesson_default_start")
 
-    a.getAct("timetable")
+    layout.getAct("timetable")
         .createSection({
             id: "timetable-defaults",
             dom: SettingsSectionElement,
@@ -250,9 +270,159 @@ export default async function SettingsLayoutLoader() {
             },
         })
 
-    DBUserPresence.generateSettingsLayout(a.getAct("storage"))
 
-    generateLanguageList(a.getAct("language"))
+    layout.getAct("subjects")
+        .createSection({
+            id: "subjects-list",
+            dom: SettingsSectionElement,
+            options: { name: $$("@subjects/list") },
+        })
+        .getSection("subjects-list")
+        .createGroup({
+            id: "subjects-list-group",
+            dom: SettingsGroupContainer,
+            options: {},
+        })
+        .getGroup("subjects-list-group")
+        .createItem({
+            id: "subjects-list-dom",
+            dom: async () => {
+                const list = (await TimeManagementStorage.getAllSubjects()).sort((a, b) => {
+                    if (a.name < b.name) { return -1 }
+                    if (a.name > b.name) { return 1 }
+                    return 0
+                })
+                return new CardList(
+                    [
+                        ...list.map(sub => ({
+                            content: sub.name,
+                            handler(ev, el) {
+                                ContextMenu({
+                                    event: ev,
+                                    content: [
+                                        {
+                                            icon: "edit",
+                                            title: $$("@timetable/edit/edit_item"),
+                                            handler() {
+                                                let { name } = sub
+                                                let location = sub.cab
+                                                let p
 
-    SettingsLayoutManager.applyLayout(a)
+                                                async function saver() {
+                                                    if (name === "") return
+
+                                                    const s = (await TimeManagementStorage
+                                                        .getAllSubjects())
+                                                        .filter(e => name === e.name)
+                                                    if (s.length > 0 && s[0].key !== sub.key) {
+                                                        Toast.add($$("@timetable/edit/subject_exists"))
+                                                        return
+                                                    }
+
+                                                    sub.cab = location
+                                                    sub.name = name
+                                                    await TimeManagementStorage.newSubject(sub)
+                                                    el.clear(new CardContent(name))
+                                                    p.close()
+                                                }
+
+                                                const locationSignElement = new DOM({ new: "div", content: (location || $$("location")) })
+
+                                                const edits = new DOM({ new: "div" })
+
+                                                const nameInput = new ContentEditable({
+                                                    placeholder: $$("@subjects/name"),
+                                                    change(n) {
+                                                        name = String(n).trim().substring(0, 30)
+                                                    },
+                                                    content: name,
+                                                })
+
+                                                const locationInput = new SettingsActLink(
+                                                    [(evt, elm) => {
+                                                        LocationChooser((n) => {
+                                                            locationSignElement.clear(n)
+                                                            location = n
+                                                        })
+                                                    }, new IconSide(
+                                                        "meeting_room",
+                                                        locationSignElement,
+                                                        { style: { color: "var(--color-accent)", marginRight: ".5em" } },
+                                                    )],
+                                                )
+
+                                                edits.render(nameInput)
+                                                edits.render(locationInput)
+
+                                                p = Prompt({
+                                                    title: $$("@timetable/edit/edit_item"),
+                                                    text: edits,
+                                                    buttons: [
+                                                        {
+                                                            content: $$("@timetable/edit/cancel"),
+                                                            handler: "close",
+                                                            type: ["light"],
+                                                        },
+                                                        {
+                                                            content: $$("done"),
+                                                            handler: saver,
+                                                        },
+                                                    ],
+                                                })
+                                            },
+                                        },
+                                        {
+                                            icon: "delete",
+                                            title: $$("@timetable/edit/del_item"),
+                                            handler() {
+                                                const p = Prompt({
+                                                    title: $$("@timetable/edit/warning"),
+                                                    text: $$("@timetable/edit/delete_subject_warning"),
+                                                    buttons: [
+                                                        {
+                                                            content: $$("@timetable/edit/cancel"),
+                                                            handler: "close",
+                                                            type: ["light"],
+                                                        },
+                                                        {
+                                                            content: $$("@timetable/edit/del_item"),
+                                                            async handler() {
+                                                                await TimeManagementStorage
+                                                                    .removeSubject(sub.key)
+                                                                Toast.add($$("@timetable/edit/removed"))
+                                                                await new SlideOut({
+                                                                    duration: 100,
+                                                                })
+                                                                    .apply(el)
+                                                                el.destructSelf()
+                                                                p.close()
+                                                            },
+                                                        },
+                                                    ],
+                                                })
+                                            },
+                                        },
+                                    ],
+                                })
+                            },
+                        })),
+                        ...(list.length === 0
+                            ? [
+                                {
+                                    content: new CardContent(new IconSide("info", $$("@timetable/how_to_create_subjects"))),
+                                },
+                            ]
+                            : []),
+                    ],
+                )
+            },
+
+            options: {},
+        })
+
+    DBUserPresence.generateSettingsLayout(layout.getAct("storage"))
+
+    generateLanguageList(layout.getAct("language"))
+
+    SettingsLayoutManager.applyLayout(layout)
 }

@@ -1,6 +1,6 @@
 import Animation from "../../Classes/Animation"
 
-export default class SlideIn {
+export default class SlideOut {
     constructor({ renderAwait = false, ...params }) {
         let original
         let padding = [0, 0, 0, 0]

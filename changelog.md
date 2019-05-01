@@ -1,3 +1,12 @@
+# 0.6.1 01.05.2019
+## Time Management
++ Remove subject
++ Edit subject
+
+## Settings
+* Now timetable related settings are divided
++ Subject list with edit and delete options
+
 # 0.6.0 01.05.2019
 ## Time Management
 + Record creator and editor

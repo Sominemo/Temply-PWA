@@ -7,6 +7,8 @@ export default {
     timetable: {
         __index: "timetable",
         defaults: "defaults",
+        time_management_settings: "timetable settings",
+        how_to_create_subjects: "you can create subjects while filling your timetable",
         lesson_length: "lesson length",
         break_length: "break length",
         lesson_start: "lesson start",
@@ -25,6 +27,7 @@ export default {
             new_entry: "New Entry",
             deletion: "deletion",
             deletion_question: "are you sure you want to clear last used subjects?",
+            delete_subject_warning: "this will remove the subject and all associated items except notes",
             cancel: "cancel",
             clear: "clear",
             start_typing: "start typing...",
@@ -46,6 +49,7 @@ export default {
             success: "saved",
             removed: "deleted",
             remove_fail: "unable to delete",
+            subject_exists: "there's already a subject with such name",
         },
     },
     recovery_mode: {
@@ -198,5 +202,10 @@ export default {
     tap_to_change: "press to change",
     done: "done",
     subject: "subject",
+    subjects: {
+        __index: "subjects",
+        list: "subjects list",
+        name: "name",
+    },
     location: "location",
 }

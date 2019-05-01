@@ -7,6 +7,8 @@ export default {
     timetable: {
         __index: "расписание",
         defaults: "умолчания",
+        time_management_settings: "настройки расписания",
+        how_to_create_subjects: "вы можете создавать предметы при заполнении расписания",
         lesson_length: "длина занятия",
         break_length: "длина перерыва",
         lesson_start: "начало занятия",
@@ -25,6 +27,7 @@ export default {
             new_entry: "добавление",
             deletion: "очистка",
             deletion_question: "вы уверены, что хотите очистить список последних использованных предметов?",
+            delete_subject_warning: "это также удалит все связанные элементы, помимо заметок",
             cancel: "отмена",
             clear: "очистить",
             start_typing: "просто печатайте...",
@@ -46,6 +49,7 @@ export default {
             success: "сохранено",
             removed: "удалено",
             remove_fail: "ошибка при удалении",
+            subject_exists: "предмет с таким названием уже существует",
         },
     },
     recovery_mode: {
@@ -198,5 +202,10 @@ export default {
     tap_to_change: "нажмите, чтобы изменить",
     done: "готово",
     subject: "предмет",
+    subjects: {
+        __index: "предметы",
+        list: "список предметов",
+        name: "название",
+    },
     location: "местоположение",
 }
