@@ -4,7 +4,7 @@ import DOMObjectWrapper from "../../../Helpers/domObjectWrapper"
 
 export default class Button {
     constructor({
-        content, handler, type = "bright", style = {}, eventType = "click",
+        content, handler = () => {}, type = "bright", style = {}, eventType = "click",
     }) {
         type = (Array.isArray(type) ? type : [type])
         function rippleOut(ripple) {

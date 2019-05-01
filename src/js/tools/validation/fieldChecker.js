@@ -82,7 +82,6 @@ export default class FieldChecker {
         // IntRange
         if (Object.prototype.hasOwnProperty.call(o, "range") && !Number.isNaN(q)) {
             if (!Number.isNaN(o.range[0])
-                && !Number.isNaN(o.range[1])
                 && !Number.isNaN(o.range[1])) {
                 o.range[0] = Number(o.range[0])
                 o.range[1] = Number(o.range[1])

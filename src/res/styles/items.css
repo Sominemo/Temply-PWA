@@ -61,6 +61,10 @@
     padding: 10px 15px
 }
 
+.card.forced-card-padding {
+    padding: 10px 15px
+}
+
 .card .card-list-item:not(:last-child) {
     border-bottom: solid 1.5px var(--color-card-border);
 }
@@ -83,8 +87,15 @@
 }
 
 .card.warn-highlight {
-    border-color: var(--color-card-warning-border-color);
-    box-shadow: var(--color-card-warning-shadow);
+    box-shadow: var(--color-card-warning-shadow), 0 0 0 1px var(--color-card-warning-border);
+}
+
+.card.main-highlight {
+    box-shadow: var(--color-card-main-shadow), 0 0 0 1px var(--color-card-main-border);
+}
+
+.card.accent-highlight {
+    box-shadow: var(--color-card-accent-shadow), 0 0 0 1px var(--color-card-accent-border);
 }
 
 .two-sides-content-wrapper {
@@ -99,7 +110,7 @@ switch-input {
     width: 35px;
     height: 12px;
     border-radius: 13px;
-    background: var(--color-main-light-a);
+    background: var(--color-switch-race);
     position: relative;
     min-width: 35px;
     min-height: 12px;
@@ -115,16 +126,17 @@ switch-input:before {
     position: absolute;
     left: 100%;
     transform: translate(-100%, -25%);
-    background: var(--color-main);
+    background: var(--color-switch-toggle);
 }
 
 switch-input[state="0"] {
-    filter: grayscale(100)
+    background: var(--color-switch-race-off);
 }
 
 switch-input[state="0"]:before {
     left: 0;
     transform: translate(0, -25%);
+    background: var(--color-switch-toggle-off);
 }
 
 switch-input:after {
@@ -312,6 +324,7 @@ md-button:active:before, md-button:focus:before {
     max-height: 100%;
     margin: 10px;
     z-index: 2;
+    position: relative;
 }
 
 .popup-limit-container .card>.card-scroll-container {
@@ -555,16 +568,21 @@ md-toast md-button.transparentMDButton>md-ripple-effect {
     bottom: 0px;
     background: var(--color-bottom-buttons-bg);
     border-top: solid 1.5px var(--color-card-border);
+    z-index: 2;
 }
 
 md-input:focus, md-input:focus-within {
     --color-input-local: var(--color-main);
 }
 
+md-input.accent:focus, md-input.accent:focus-within {
+    --color-input-local: var(--color-accent);
+}
+
 md-input {
     position: relative;
     display: block;
-    --color-input-local: #878787;
+    --color-input-local: var(--color-text-input-default);
     box-shadow: 0px 2.5px 0px 0px var(--color-input-local);
     margin: 5px;
     transition: all .2s;
@@ -586,31 +604,45 @@ md-input>md-input-content+md-input-placeholder {
     color: var(--color-input-local);
     transition: all .2s;
     pointer-events: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 md-input:not(:focus-within)>md-input-content:empty+md-input-placeholder {
     top: 20px;
-    color: #b1b1b1;
+    color: var(--color-text-input-placeholder);
     font-weight: normal;
     font-size: initial;
 }
 
-md-select>md-input>md-input-content {
+.white-input-container md-input {
+    color: white;
+    --color-input-local: white;
+}
+
+.white-input-container md-input md-input-placeholder {
+    color: white;
+}
+
+md-select>md-input>md-input-content, md-widget-editable>md-input>md-input-content {
     width: 95%;
 }
 
-md-select {
+md-select, md-widget-editable {
     cursor: pointer;
     position: relative;
     display: block;
 }
 
-md-select>.md-select-hint>md-icon {
+md-input+.md-select-hint>md-icon {
     position: absolute;
     right: 1%;
     top: 50%;
-    transform: translateY(-25%);
+    transform: translateY(-50%);
     display: block;
+    color: var(--color-accent);
 }
 
 md-file-wrapper>label {
@@ -698,6 +730,7 @@ context-menu-delimeter {
     border-top: 1.5px solid var(--color-popup-delimeter);
     margin: 5px 0;
 }
+
 context-menu.swiper {
     transition: transform .05s ease-in-out;
     transform: translateY(100%) !important;
@@ -707,10 +740,69 @@ context-menu.swiper.start {
     transform: translateY(100%) !important;
 }
 
-
 context-menu.swiper.hide {
     max-height: 0 !important;
 }
+
 context-menu-handler-isolate {
     display: none;
+}
+
+input.md-input {
+    position: relative;
+    display: block;
+    --color-input-local: var(--color-text-input-default);
+    border: 0;
+    box-shadow: 0px 2.5px 0px 0px var(--color-input-local);
+    margin: 5px;
+    transition: all .2s;
+    padding: 20px 3px 10px 3px;
+    display: block;
+    font-size: var(--size-text-default);
+    min-height: 50px;
+    width: calc(100% - 10px);
+}
+
+input.md-input::-webkit-outer-spin-button, input.md-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input.md-input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input.md-input::placeholder {
+    color: var(--color-text-input-placeholder);
+    transition: all .2s;
+}
+
+input.md-input::-webkit-input-placeholder, input.md-input:-ms-input-placeholder, input.md-input::-ms-input-placeholder {
+    color: var(--color-text-input-placeholder);
+    transition: all .2s;
+}
+
+input.md-input:focus {
+    --color-input-local: var(--color-main);
+}
+
+input.md-input:not(:focus):empty::-webkit-input-placeholder, input.md-input:not(:focus):empty:-ms-input-placeholder, input.md-input:not(:focus):empty::-ms-input-placeholder, input.md-input:not(:focus):empty::placeholder {
+    top: 20px;
+    color: #b1b1b1;
+    font-weight: normal;
+    font-size: initial;
+}
+
+md-simple-list-item {
+    border-bottom: solid 1px var(--color-dedicated-accent-box);
+    padding: 15px 10px;
+    display: block;
+    cursor: pointer;
+}
+
+md-simple-list-item:hover {
+    background: var(--color-card-item-highlight)
+}
+
+md-simple-list-item:active,md-simple-list-item:focus  {
+    background: var(--color-card-item-highlight-focus)
 }

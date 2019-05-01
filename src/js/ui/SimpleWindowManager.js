@@ -245,7 +245,7 @@ export default class WindowManager {
 
     static async EnableFullScreenExperience() {
         if (!("webkitRequestFullscreen" in document.documentElement)
-            || !await SettingsStorage.getFlag("fullscreen_on_tap")) return
+            || !(await SettingsStorage.getFlag("fullscreen_on_tap"))) return
 
         window.addEventListener("load", () => {
             document.documentElement.addEventListener("touchend", () => {

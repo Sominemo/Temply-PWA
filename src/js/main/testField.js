@@ -3,11 +3,11 @@ import WindowManager from "../ui/SimpleWindowManager"
 import { WindowContainer } from "../ui/DOM/Library/buildBlock"
 import { Align } from "../ui/DOM/Library/style"
 import RadioLabel from "../ui/DOM/Library/object/input/radioLabel"
-import { Card } from "../ui/DOM/Library/object/card"
+import { Card, CardContent } from "../ui/DOM/Library/object/card"
 import SettingsStorage from "../services/Settings/SettingsStorage"
 import DOM from "../ui/DOM/Classes/dom"
 import FadeIn from "../ui/Animation/Library/Effects/fadeIn"
-import { Button } from "../ui/DOM/Library/object/input"
+import { Button, TextInput } from "../ui/DOM/Library/object/input"
 import FlyIn from "../ui/Animation/Library/Effects/flyIn"
 import FlyOut from "../ui/Animation/Library/Effects/flyOut"
 import EaseOutQuad from "../ui/Animation/Library/Timing/easeOutQuad"
@@ -15,6 +15,10 @@ import Toast from "../ui/DOM/Library/elements/toast"
 import IconSide from "../ui/DOM/Library/object/iconSide"
 import { ContextMenu } from "../ui/DOM/Library/elements"
 import Navigation from "./navigation"
+import WidgetEditable from "../ui/DOM/Library/object/input/widgetEditable"
+import BigNumberInput from "../ui/DOM/Library/object/input/contentEditableWidgets/bigNumberInput"
+import { $ } from "../services/Language/handler"
+import TimeNumInput from "../ui/DOM/Library/object/input/contentEditableWidgets/timeNumInput"
 
 export default class TestField {
     static async Init() {
@@ -70,6 +74,84 @@ export default class TestField {
                 },
             }), ["center", "row"]),
         ]))
+
+        w.render(new Card(
+            new CardContent([
+                new WidgetEditable({
+                    builder(input, ip) {
+                        return [
+                            new DOM({
+                                new: "div",
+                                content: "Set LMAO",
+                                style: {
+                                    margin: "10px",
+                                    whiteSpace: "nowrap",
+                                },
+                                events: [
+                                    {
+                                        event: "click",
+                                        handler() {
+                                            input.emitEvent("editValue", { content: "LMAO" })
+                                            ip().emitEvent("contextMenuClose")
+                                        },
+                                    },
+                                ],
+                            }),
+                            new DOM({
+                                new: "div",
+                                content: "Set WTF",
+                                style: {
+                                    margin: "10px",
+                                    whiteSpace: "nowrap",
+                                },
+                                events: [
+                                    {
+                                        event: "click",
+                                        handler() {
+                                            input.emitEvent("editValue", { content: "WTF" })
+                                            ip().emitEvent("contextMenuClose")
+                                        },
+                                    },
+                                ],
+                            }),
+                            new DOM({
+                                new: "div",
+                                content: "Clear",
+                                style: {
+                                    margin: "10px",
+                                    whiteSpace: "nowrap",
+                                },
+                                events: [
+                                    {
+                                        event: "click",
+                                        handler() {
+                                            input.emitEvent("editValue", { content: "" })
+                                            ip().emitEvent("contextMenuClose")
+                                        },
+                                    },
+                                ],
+                            }),
+                        ]
+                    },
+                }),
+
+                new BigNumberInput(
+                    {
+                        units: num => $("@units/min", { number: num }),
+                        placeholder: "Duration",
+                        max: 1440,
+                    },
+                ),
+                new TimeNumInput({
+                    placeholder: "Test",
+                    value: "09:03",
+                }),
+                new TextInput({
+                    value: "1",
+                    placeholder: "Lmao",
+                }),
+            ]),
+        ))
 
         w.render(new Button({
             content: new IconSide("help", "I need help"),

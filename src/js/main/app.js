@@ -55,7 +55,7 @@ export default class App {
                 while (mat = /\[(.+?)\]\((.+?)\)/.exec(st[st.length - 1])) {
                     const cur = st.pop()
                     const all = cur.split(mat[0])
-                    const link = new Link(mat[2].slice(1, -1), mat[1])
+                    const link = new Link(mat[2], mat[1])
                     st.push(all[0], link, all[1])
                 }
 
@@ -155,6 +155,7 @@ export default class App {
                 { content: new TwoSidesWrapper($$("@about/build_date"), this.buildDate) },
                 { content: new TwoSidesWrapper($$("@about/branch"), this.branch) },
                 ...(this.debug ? [{ content: new TwoSidesWrapper($$("@about/debug"), this.debug.toString()) }] : []),
+                ...("Windows" in window ? [{ content: new TwoSidesWrapper("WinRT", "true") }] : []),
             ],
             {}, true,
         )))

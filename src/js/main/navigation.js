@@ -177,6 +177,8 @@ export default class Navigation {
             this.historyCurrent.push(Object.create(null))
             this.historyLength = window.history.length
             Report.write("* Navigate:", parsed)
+            const navigationEvent = new CustomEvent("appNavigation", { detail: { type: "change", parsed } })
+            window.dispatchEvent(navigationEvent)
             return this.go(parsed.module, parsed.params, manual)
         }
 
@@ -184,6 +186,8 @@ export default class Navigation {
             this.historyFuture.push(this.history.pop())
             this.historyCurrentFuture.push(this.historyCurrent.pop())
             Report.write("* Navigate Back:", parsed)
+            const navigationEvent = new CustomEvent("appNavigation", { detail: { type: "back", parsed } })
+            window.dispatchEvent(navigationEvent)
             return WindowManager.navBack(parsed.module, parsed.params)
         }
 
@@ -191,6 +195,8 @@ export default class Navigation {
             this.history.push(this.historyFuture.pop())
             this.historyCurrent.push(this.historyCurrentFuture.pop())
             Report.write("* Navigate Forward:", parsed)
+            const navigationEvent = new CustomEvent("appNavigation", { detail: { type: "forward", parsed } })
+            window.dispatchEvent(navigationEvent)
             return WindowManager.navForward(parsed.module, parsed.params)
         }
 

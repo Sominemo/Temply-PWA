@@ -7,7 +7,7 @@ export default class LanguageLibrary {
 
     static replace(data, { replace = {} } = {}) {
         Object.keys(replace).forEach((key) => {
-            data = data.replace(RegExp(`/{%${key}}/`), replace[key].toString())
+            data = data.replace(RegExp(`{%${key}}`, "gi"), replace[key].toString())
         })
 
         return data

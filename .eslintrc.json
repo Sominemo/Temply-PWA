@@ -41,6 +41,7 @@
         "no-underscore-dangle": "off",
         "import/no-dynamic-require": "off",
         "global-require": "off",
+        "import/no-cycle": "off",
         "no-unused-vars": [
             "error",
             {

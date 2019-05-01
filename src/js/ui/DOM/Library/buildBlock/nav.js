@@ -2,7 +2,7 @@ import DOM from "../../Classes/dom"
 import Icon from "../object/icon"
 import FieldsContainer from "../../../../tools/validation/fieldsContainer"
 import FieldChecker from "../../../../tools/validation/fieldChecker"
-import { ContextMenu } from "../elements"
+import { ContextMenu, ContextMenuElement } from "../elements"
 import Navigation from "../../../../main/navigation"
 import { $$ } from "../../../../services/Language/handler"
 import Design from "../../../../main/design"
@@ -47,7 +47,9 @@ export default class Nav {
         ]
     }
 
-    static Toggle(e) {
+    static Toggle(e, ev) {
+        ev.stopPropagation()
+        ContextMenuElement.closeAll()
         const size = e.sizes
         ContextMenu({
             coords: size,
@@ -66,6 +68,7 @@ export default class Nav {
         let handlerLvl2
         let handlerLvl3
         let handlerLvl2triggered = false
+        let handlerLvl3triggered = false
         const windowHeight = document.body.clientHeight
 
 
@@ -124,6 +127,13 @@ export default class Nav {
 
         handlerLvl2 = (ev) => {
             handlerLvl2triggered = true
+            if (handlerLvl3triggered) {
+                cardStuff[0].style({
+                    transform: "none !important",
+                })
+                cardStuff[0].classList.remove("hide")
+                return
+            }
             touchYLast = ev.touches[0].clientY
             cardStuff[0].style({
                 maxHeight: `${windowHeight - touchYLast}px`,
@@ -134,6 +144,7 @@ export default class Nav {
 
 
         handlerLvl3 = (ev) => {
+            handlerLvl3triggered = true
             document.removeEventListener("touchmove", handlerLvl2)
             if (Design.getVar("size-nav-width", true) > windowHeight - ev.changedTouches[0].clientY) {
                 cardStuff[0].classList.add("start")
@@ -326,7 +337,7 @@ export default class Nav {
                             events: [
                                 {
                                     event: "click",
-                                    handler(ev, el) { Nav.Toggle(el) },
+                                    handler(ev, el) { Nav.Toggle(el, ev) },
                                 },
                             ],
                         }),

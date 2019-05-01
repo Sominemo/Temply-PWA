@@ -18,6 +18,9 @@ import { $ } from "./services/Language/handler"
 import App from "./main/app"
 import Toast from "./ui/DOM/Library/elements/toast"
 import PointerInfo from "./services/PointerInfo"
+import SettingsLayoutManager from "./services/Settings/user/manager"
+import ContentEditable from "./ui/DOM/Library/object/input/contentEditable"
+import HistoryHints from "./services/HistoryHints"
 
 function compare(a, b, path = "/") {
     const keys = Object.keys(a)
@@ -25,6 +28,13 @@ function compare(a, b, path = "/") {
         if (b[e] === undefined) console.log(path + e)
         if (typeof b[e] === "object") compare(a[e], b[e], `${path + e}/`)
     })
+}
+
+async function compareLanguages(a, b) {
+    a = new Language(a)
+    b = new Language(b)
+    await Promise.all([a.loadData(), b.loadData()])
+    compare(a.strings, b.strings)
 }
 
 const DevUtils = {
@@ -41,14 +51,20 @@ const DevUtils = {
     setStor: SettingsStorage,
     setCh: SettingsCheckProvider,
     setLay: SettingsLayout,
+    setLayMan: SettingsLayoutManager,
     fch: FieldChecker,
     fct: FieldsContainer,
     langCore: LanguageCore,
     langInstance: Language,
     $,
     compare,
+    compareLanguages,
     Toast,
     Pointer: PointerInfo,
+    HistoryHints,
+    lib: {
+        ContentEditable,
+    },
 }
 
 global.idb = idb

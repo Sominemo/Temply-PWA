@@ -1,4 +1,4 @@
-import ContextMenu from "./contextMenu"
+import { ContextMenu } from "./contextMenu"
 import Popup from "./popup"
 import ToastElement from "./toastElement"
 import ContextMenuElement from "./contextMenuElement"

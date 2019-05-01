@@ -3,7 +3,7 @@ import Report from "../main/report"
 import Navigation from "../main/navigation"
 import DOMObjectWrapper from "./DOM/Helpers/domObjectWrapper"
 import SettingsLayoutLoader from "../services/Settings/SettingsLayoutLoader"
-
+import testDB from "../services/Settings/testDB"
 
 Report.write("Started UI Init")
 
@@ -26,4 +26,6 @@ SettingsLayoutLoader()
         }
 
         Report.write("UI Scaffold inited")
+    }).then(() => {
+        testDB()
     })

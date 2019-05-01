@@ -70,6 +70,8 @@ function parseMDFile(version, date) {
 module.exports = function getChangelog(isProd, version, date, repository) {
     const md = parseMDFile(version, date)
 
+    const lastCommit = getLastCommit(isProd)
+
     if (!isProd) {
         md.push({
             name: "Development",
@@ -78,7 +80,7 @@ module.exports = function getChangelog(isProd, version, date, repository) {
                 removed: [],
                 changed: [],
                 other: [
-                    `Generate changelog by visiting [this link](${repository.slice(4, -4)}/compare/${getLastCommit()}...master)`,
+                    `Generate changelog by visiting [this link](${repository.slice(4, -4)}/compare/${lastCommit}...master)`,
                 ],
             },
         })

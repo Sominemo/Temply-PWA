@@ -6,7 +6,7 @@ import {
 import { CardList, CardTextList, CardContent } from "../../ui/DOM/Library/object/card"
 import SettingsLayout from "./user/layout"
 import SettingsLayoutManager from "./user/manager"
-import { $$, generateLanguageList } from "../Language/handler"
+import { $$, generateLanguageList, $ } from "../Language/handler"
 import updatePopup from "./layouts/updatePopup"
 import SW from "../../main/SW"
 import { Icon, Title, TwoSidesMobileFlick } from "../../ui/DOM/Library/object"
@@ -14,8 +14,12 @@ import AlignedContent from "../../ui/DOM/Library/object/AlignedContent"
 import Design from "../../main/design"
 import { Button } from "../../ui/DOM/Library/object/input"
 import DBUserPresence from "../DBUserPresence"
-import ContentEditable from "../../ui/DOM/Library/object/input/contentEditable"
 import { isRecoveryMode } from "../../recovery"
+import BigNumberInput from "../../ui/DOM/Library/object/input/contentEditableWidgets/bigNumberInput"
+import TimeNumInput from "../../ui/DOM/Library/object/input/contentEditableWidgets/timeNumInput"
+import SecondsToTime from "../../tools/transformation/text/SecondsToTime"
+import TimeToDigital from "../../tools/transformation/text/TimeToDigital"
+import timeToSeconds from "../../tools/transformation/text/timeToSeconds"
 
 export default async function SettingsLayoutLoader() {
     const a = new SettingsLayout()
@@ -26,6 +30,7 @@ export default async function SettingsLayoutLoader() {
             id: "updates",
             dom: SettingsActContainer,
             options: { name: $$("@settings/updates") },
+            display: () => !(/Edge/.test(navigator.userAgent)),
         })
         .createAct({
             id: "storage",
@@ -57,7 +62,9 @@ export default async function SettingsLayoutLoader() {
         .getGroup("alpha-information")
         .createItem({ dom: CardList, options: [{ content: $$("@settings/general/welcome_alpha") }], id: "welcome-alpha-text" })
         .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "about" } }, $$("@about/app")], id: "about-screen-link" })
-        .createItem({ dom: SettingsActLink, options: ["updates", $$("@settings/updates")], id: "updates-link" })
+        .createItem({
+            dom: SettingsActLink, options: ["updates", $$("@settings/updates")], id: "updates-link", display: () => !(/Edge/.test(navigator.userAgent)),
+        })
         .createItem({ dom: SettingsActLink, options: ["storage", $$("@settings/storage")], id: "storage-link" })
         .createItem({ dom: SettingsActLink, options: ["language", $$("@settings/language")], id: "language-link" })
         .createItem({ dom: SettingsActLink, options: ["timetable", $$("timetable")], id: "timetable-link" })
@@ -183,46 +190,62 @@ export default async function SettingsLayoutLoader() {
         .createGroup({
             id: "timetable-defaults-group",
             dom: SettingsGroupContainer,
-            options: {},
+            options: {
+                type: ["forced-card-padding"],
+            },
         })
         .getGroup("timetable-defaults-group")
         .createItem({
             id: "timetable-default-lesson-length",
-            dom: () => new CardContent(new ContentEditable({
-                placeholder: $$("@timetable/lesson_length"),
-                content: lessonLength,
-                change(value) {
-                    SettingsStorage.set("timetable_lesson_default_length", value)
-                    lessonLength = value
+            dom: () => new BigNumberInput(
+                {
+                    units: num => $("@units/min", { number: num }),
+                    placeholder: $$("@timetable/lesson_length"),
+                    content: lessonLength,
+                    max: 1440,
+                    async onchange(n) {
+                        n = parseInt(n, 10)
+                        if (n < 0 || n > 1440) n = lessonLength
+                        await SettingsStorage.set("timetable_lesson_default_length", n)
+                        lessonLength = await SettingsStorage.get("timetable_lesson_default_length")
+                    },
                 },
-            })),
+            ),
             options: {
             },
         })
         .createItem({
             id: "timetable-default-break-length",
-            dom: () => new CardContent(new ContentEditable({
-                placeholder: $$("@timetable/break_length"),
-                content: breakLength,
-                change(value) {
-                    SettingsStorage.set("timetable_break_default_length", value)
-                    breakLength = value
+            dom: () => new BigNumberInput(
+                {
+                    units: num => $("@units/min", { number: num }),
+                    placeholder: $$("@timetable/break_length"),
+                    content: breakLength,
+                    max: 1440,
+                    async onchange(n) {
+                        n = parseInt(n, 10)
+                        if (n < 0 || n > 1440) n = breakLength
+                        await SettingsStorage.set("timetable_break_default_length", n)
+                        breakLength = await SettingsStorage.get("timetable_break_default_length")
+                    },
                 },
-            })),
+            ),
             options: {
             },
         })
         .createItem({
             id: "timetable-default-lesson-start",
-            dom: () => new CardContent(new ContentEditable({
-                placeholder: $$("@timetable/lesson_start"),
-                content: lessonStart,
-                change(value) {
-                    value = 1
-                    SettingsStorage.set("timetable_lesson_default_start", value)
-                    lessonStart = value
+            dom: () => new TimeNumInput({
+                placeholder: $$("@timetable/lessons_start"),
+                content: TimeToDigital(SecondsToTime(lessonStart)),
+                async onchange(n) {
+                    n = timeToSeconds(n)
+                    n = parseInt(n, 10)
+                    if (n < 0 || n > 86400) n = lessonStart
+                    await SettingsStorage.set("timetable_lesson_default_start", n)
+                    lessonStart = await SettingsStorage.get("timetable_lesson_default_start")
                 },
-            })),
+            }),
             options: {
             },
         })

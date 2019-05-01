@@ -1,21 +1,58 @@
 import DOM from "../../../Classes/dom"
-import { HTML } from "../../basic"
 
 export default class ContentEditable {
     constructor({
-        placeholder = "", change = (value, element) => { }, content = "", type = "", contentType = "text", methods = {},
-        editable = true,
+        placeholder = "", change = (value, element) => { }, content = "", type = "", contentType = "text",
+        editable = true, onRendered = () => { }, style = {}, species = [], contentStyle = {},
+        placeholderStyle = {}, transformString = true,
     }) {
-        let value = ""
+        let value = content
+        let ip
+        let contentArray
 
-        const ip = new DOM({
+        if (transformString) {
+            contentArray = String(content).split(/\n/g).reduce((arr, b) => [...arr, b, new DOM({ new: "br" })], [])
+            contentArray.pop()
+        } else contentArray = content
+
+        const methods = {
+            elementEvents: [
+                {
+                    event: "editValue",
+                    handler(ev) {
+                        if (!("content" in ev)) throw new Error("Incorrect editValue event")
+                        if (transformString) {
+                            const evalue = String(ev.content)
+                            ip.clear(new DOM({ type: "text", new: evalue }))
+                            value = evalue
+                            change(evalue, ip)
+                        } else {
+                            value = ev.content
+                            ip.clear(ev.content)
+                            change(value, ip)
+                        }
+                    },
+                },
+            ],
+            objectProperty: [
+                {
+                    name: "currentValue",
+                    get() {
+                        return value
+                    },
+                },
+            ],
+        }
+
+        ip = new DOM({
             new: "md-input-content",
-            content: (content === "" ? "" : new HTML(`<span>${String(content).replace(/\n/g, "<br>")}</span>`)),
+            content: (content === "" ? "" : contentArray),
             set: {
                 ...(editable ? { contentEditable: "true" } : {}),
             },
             style: {
                 // ...(type === "password" ? { "-webkit-text-security": "disc" } : {}),
+                ...contentStyle,
             },
             events: [
                 {
@@ -41,25 +78,27 @@ export default class ContentEditable {
                     },
                 },
             ],
+            ...methods,
+            onRendered,
         })
 
         const ph = new DOM({
             new: "md-input-placeholder",
             content: placeholder,
+            style: placeholderStyle,
         })
 
         const wr = new DOM({
             new: "md-input",
+            class: species,
             content: [
                 ip,
                 ph,
             ],
+            style,
+            ...methods,
         })
 
-        methods.edit = (evalue) => {
-            ip.elementParse.native.innerText = evalue
-            change(evalue, ip)
-        }
 
         return wr
     }

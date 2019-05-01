@@ -1,5 +1,6 @@
 import DBTool from "../../tools/db/DBTool"
 import SettingsCheckProvider from "./SettingsCheckProvider"
+import Report from "../../main/report"
 
 export default class SettingsStorage {
     static ObjectStoreNames = ["user", "flags"]
@@ -31,118 +32,139 @@ export default class SettingsStorage {
     }
 
     static async get(setting, integrityCheck = false) {
-        if (typeof setting !== "string") throw new Error("Incorrect key")
-        const db = await this.db.getObjectStore(this.ObjectStoreNames[0])
-        const res = (await db.get(setting))
-        if (res === undefined) {
-            let props = SettingsCheckProvider.get(setting, "user")
-            if (typeof props !== "object") return undefined
-            props = props[props.length - 1]
-            if (typeof props.default === "function") return props.default()
-            return props.default
-        }
-        const resv = res.value
-        if (integrityCheck) {
-            const si = SettingsCheckProvider.check(setting, resv, "user")
-            if (!si[0]) {
-                let repl = resv
-                await si[1](resv, setting, async (v, ou = true) => {
-                    const ndb = await this.db.getObjectStore(this.ObjectStoreNames[0], true)
-                    await ndb.put({ key: setting, value: v })
-                    repl = v
-                    if (ou) si[3](v, resv, setting, si[2])
-                })
-
-                return repl
+        try {
+            if (typeof setting !== "string") throw new Error("Incorrect key")
+            const db = this.db.OSTool(this.ObjectStoreNames[0])
+            const res = (await db.get(setting))
+            if (res === undefined) {
+                let props = SettingsCheckProvider.get(setting, "user")
+                if (typeof props !== "object") return undefined
+                props = props[props.length - 1]
+                if (typeof props.default === "function") return props.default()
+                return props.default
             }
-        }
+            const resv = res.value
+            if (integrityCheck) {
+                const si = SettingsCheckProvider.check(setting, resv, "user")
+                if (!si[0]) {
+                    let repl = resv
+                    await si[1](resv, setting, async (v, ou = true) => {
+                        await db.put({ key: setting, value: v })
+                        repl = v
+                        if (ou) si[3](v, resv, setting, si[2])
+                    })
 
-        return resv
+                    return repl
+                }
+            }
+
+            return resv
+        } catch (e) {
+            Report.write("Failed getting settings", e)
+            return undefined
+        }
     }
 
     static async set(setting, value) {
-        if (typeof setting !== "string") throw new Error("Incorrect key")
+        try {
+            if (typeof setting !== "string") throw new Error("Incorrect key")
 
-        const si = SettingsCheckProvider.check(setting, value, "user")
-        const ov = await this.get(setting)
-        const db = await this.db.getObjectStore(this.ObjectStoreNames[0], true)
-        if (!si[0]) {
-            const res = await si[1](value, setting, async (v, ou = true) => {
-                const ndb = await this.db.getObjectStore(this.ObjectStoreNames[0], true)
-                await ndb.put({ key: setting, value: v })
-                if (ou) si[3](v, ov, setting, si[2])
-            })
+            const si = SettingsCheckProvider.check(setting, value, "user")
+            const ov = await this.get(setting)
+            const db = this.db.OSTool(this.ObjectStoreNames[0])
+            if (!si[0]) {
+                const res = await si[1](value, setting, async (v, ou = true) => {
+                    await db.put({ key: setting, value: v })
+                    if (ou) si[3](v, ov, setting, si[2])
+                })
 
-            return (!!res)
+                return (!!res)
+            }
+
+            await db.put({ key: setting, value })
+            si[3](value, ov, setting, si[2])
+            return true
+        } catch (e) {
+            Report.write("Failed saving settings", e)
+            return false
         }
-
-        await db.put({ key: setting, value })
-        si[3](value, ov, setting, si[2])
-        return true
     }
 
     static async getFlag(flag, integrityCheck = false) {
-        if (typeof flag !== "string") throw new Error("Incorrect key")
-        const db = await this.db.getObjectStore(this.ObjectStoreNames[1])
-        const res = (await db.get(flag))
-        if (res === undefined) {
-            let props = SettingsCheckProvider.get(flag, "flags")
-            if (typeof props !== "object") return undefined
-            props = props[props.length - 1]
-            if (typeof props.default === "function") return props.default()
-            return props.default
-        }
-        const resv = res.value
-        if (integrityCheck) {
-            const si = SettingsCheckProvider.check(flag, resv, "flags")
-            if (!si[0]) {
-                let repl = resv
-                await si[1](resv, flag, async (v, ou = true) => {
-                    const ndb = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
-                    await ndb.put({ key: flag, value: v })
-                    repl = v
-                    if (ou) si[3](v, resv, flag, si[2])
-                })
-
-                return repl
+        try {
+            if (typeof flag !== "string") throw new Error("Incorrect key")
+            const db = this.db.OSTool(this.ObjectStoreNames[1])
+            const res = (await db.get(flag))
+            if (res === undefined) {
+                let props = SettingsCheckProvider.get(flag, "flags")
+                if (typeof props !== "object") return undefined
+                props = props[props.length - 1]
+                if (typeof props.default === "function") return props.default()
+                return props.default
             }
-        }
+            const resv = res.value
+            if (integrityCheck) {
+                const si = SettingsCheckProvider.check(flag, resv, "flags")
+                if (!si[0]) {
+                    let repl = resv
+                    await si[1](resv, flag, async (v, ou = true) => {
+                        await db.put({ key: flag, value: v })
+                        repl = v
+                        if (ou) si[3](v, resv, flag, si[2])
+                    })
 
-        return resv
+                    return repl
+                }
+            }
+
+            return resv
+        } catch (e) {
+            Report.write("Failed getting flag", e)
+            return undefined
+        }
     }
 
     static async getAllFlags() {
-        const db = await this.db.getObjectStore(this.ObjectStoreNames[1])
-        const res = await db.getAll()
-        return res
+        try {
+            const db = this.db.OSTool(this.ObjectStoreNames[1])
+            const res = await db.getAll()
+            return res
+        } catch (e) {
+            Report.write("Failed getting all flags", e)
+            return undefined
+        }
     }
 
     static async setFlag(flag, value) {
-        if (typeof flag !== "string") throw new Error("Incorrect flag name")
+        try {
+            if (typeof flag !== "string") throw new Error("Incorrect flag name")
 
-        const si = SettingsCheckProvider.check(flag, value, "flags")
-        const ov = await this.get(flag)
-        const db = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
-        if (!si[0]) {
-            const res = si[1](value, flag, async (v, ou = true) => {
-                const ndb = await this.db.getObjectStore(this.ObjectStoreNames[1], true)
-                await ndb.put({ key: flag, value: v })
-                if (ou) si[3](v, ov, flag, si[2])
-            })
+            const si = SettingsCheckProvider.check(flag, value, "flags")
+            const ov = await this.getFlag(flag)
+            const db = this.db.OSTool(this.ObjectStoreNames[1])
+            if (!si[0]) {
+                const res = si[1](value, flag, async (v, ou = true) => {
+                    await db.put({ key: flag, value: v })
+                    if (ou) si[3](v, ov, flag, si[2])
+                })
 
-            return (!!res)
+                return (!!res)
+            }
+
+            await db.put({ key: flag, value })
+            si[3](value, ov, flag, si[2])
+            return true
+        } catch (e) {
+            Report.write("Failed setting flag", e)
+            return false
         }
-
-        await db.put({ key: flag, value })
-        si[3](value, ov, flag, si[2])
-        return true
     }
 
     static async reset(type) {
         if (typeof type !== "string"
             || !this.ObjectStoreNames.includes(type)) throw new TypeError("Undefined section name")
 
-        const o = await this.db.getObjectStore(type, true)
+        const o = this.db.OSTool(type)
         const r = await o.clear()
         return r
     }

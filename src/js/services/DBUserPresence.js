@@ -87,9 +87,24 @@ export default class DBUserPresence {
             let sizeContainer
 
             async function calculateSize() {
-                const size = fileSizeForHuman(await e.size())
-                const quota = fileSizeForHuman(await e.quota())
-                sizeContainer.clear(new DOM({ type: "text", new: `${$$("@settings/storage/used")} ${size} ${$("@settings/storage/of")} ${quota}` }))
+                const byteSize = await e.size()
+                const byteQuota = await e.quota()
+                const size = fileSizeForHuman(byteSize)
+                const quota = fileSizeForHuman(byteQuota)
+                sizeContainer.clear(new DOM({
+                    new: "div",
+                    content: [
+                        `${$$("@settings/storage/used")} ${size} ${$("@settings/storage/of")} ${quota}`,
+                        ...(byteSize > byteQuota
+                            ? [
+                                new IconSide(
+                                    "warning",
+                                    (e.functions.find(er => er.name === "auto-clean") ? $$("@settings/storage/cleanup_planned") : $$("@settings/storage/over_quota")),
+                                ),
+                            ]
+                            : []),
+                    ],
+                }))
             }
 
             async function updateStatus() {

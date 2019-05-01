@@ -4,8 +4,8 @@ import App from "../main/app"
 import Report from "../main/report"
 
 const timetableDefaults = {
-    lesson: 2700,
-    break: 600,
+    lesson: 45,
+    break: 10,
     start: 28800,
 }
 
@@ -37,7 +37,7 @@ SettingsCheckProvider.setRules([
         name: "timetable_lesson_default_length",
         rule: {
             default: timetableDefaults.lesson,
-            checker: new FieldChecker({ type: "number", isInt: true, range: [0, 86400] }),
+            checker: new FieldChecker({ type: "number", isInt: true, range: [0, 1440] }),
             async onfail(a, b, c) { await c(timetableDefaults.lesson) },
         },
     },
@@ -45,7 +45,7 @@ SettingsCheckProvider.setRules([
         name: "timetable_break_default_length",
         rule: {
             default: timetableDefaults.break,
-            checker: new FieldChecker({ type: "number", isInt: true, range: [0, 86400] }),
+            checker: new FieldChecker({ type: "number", isInt: true, range: [0, 1440] }),
             async onfail(a, b, c) { await c(timetableDefaults.break) },
         },
     },

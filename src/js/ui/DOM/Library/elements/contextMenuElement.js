@@ -22,6 +22,7 @@ export default class ContextMenuElement {
         content = [], style = {}, coords = null, control = null, mode = "context",
         event = false, noSelfControl = false, onClose = false, classes = [],
         onRendered = () => { }, onClosing = false, renderClasses = [],
+        disableResizeHide = false,
     } = {}) {
         let x = 0
         let y = 0
@@ -31,7 +32,6 @@ export default class ContextMenuElement {
         let card
         let closing = false
         let outside
-        let ft
 
         const isolator = new DOM({
             new: "context-menu-handler-isolate",
@@ -77,6 +77,7 @@ export default class ContextMenuElement {
             document.body.removeEventListener("click", outside)
             document.body.removeEventListener("context", outside)
             window.removeEventListener("resize", closeCurrent)
+            window.removeEventListener("appNavigation", closeCurrent)
             WindowManager.controlWin.elementParse.native.removeEventListener("scroll", closeCurrent)
             if (typeof onClose === "function") onClose()
             return true
@@ -99,10 +100,10 @@ export default class ContextMenuElement {
         this.constructor.closers.push(closeCurrent)
 
         outside = (ev) => {
-            if (!event && !ft && !noSelfControl) {
+            /* if (!event && !ft && !noSelfControl) {
                 ft = true
                 return
-            }
+            } */
 
             if (card.contains(ev.target, true) || card.elementParse.native === ev.target) return
             closeCurrent()
@@ -112,8 +113,9 @@ export default class ContextMenuElement {
         const setListeners = () => {
             document.body.addEventListener("click", outside)
             document.body.addEventListener("context", outside)
-            window.addEventListener("resize", closeCurrent)
-            WindowManager.controlWin.elementParse.native.addEventListener("scroll", closeCurrent)
+            window.addEventListener("appNavigation", closeCurrent)
+            if (!disableResizeHide) window.addEventListener("resize", closeCurrent)
+            if (!disableResizeHide) WindowManager.controlWin.elementParse.native.addEventListener("scroll", closeCurrent)
         }
 
         setListeners()

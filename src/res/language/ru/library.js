@@ -1,4 +1,5 @@
 export default class LanguageLibrary {
+    // [число, числа, чисел] [минута, минуты, минут]
     static plural(data, { number = 1 } = {}) {
         number = Math.abs(number)
         if (Math.floor(number) !== number) return data[1]

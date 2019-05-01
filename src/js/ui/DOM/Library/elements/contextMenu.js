@@ -54,9 +54,10 @@ function toMenuItem(o, close = false) {
 }
 
 
-export default function ContextMenu({
-    content = [], coords = null, style, mode = "context", event = false, noSelfControl = false,
-    onClose = false, classes = [], onRendered = () => {}, onClosing = false, renderClasses = [],
+function ContextMenu({
+    content = [], coords = null, style = {}, mode = "context", event = false, noSelfControl = false,
+    onClose = false, classes = [], onRendered = () => { }, onClosing = false, renderClasses = [],
+    generate = true, disableResizeHide = false,
 } = {}) {
     const h = WindowManager.newHelper()
 
@@ -72,15 +73,25 @@ export default function ContextMenu({
         onRendered,
         onClosing,
         renderClasses,
-        content: content.reduce((a, c) => {
-            const conv = toMenuItem(c, () => { cm[0].emitEvent("contextMenuClose") })
-            if (conv) a.push(conv)
-            return a
-        }, []),
+        disableResizeHide,
+        content: (
+            generate
+                ? content.reduce((a, c) => {
+                    const conv = toMenuItem(c, () => { cm[0].emitEvent("contextMenuClose") })
+                    if (conv) a.push(conv)
+                    return a
+                }, [])
+                : (typeof content === "function" ? content(() => cm[0]) : content)
+        ),
     })
 
     h.append(cm[1])
     h.append(cm[0])
 
     return (noSelfControl ? [cm[0], cm[2]] : cm[0])
+}
+
+export {
+    ContextMenu,
+    toMenuItem,
 }

@@ -3,7 +3,7 @@ import { Icon } from "."
 
 export default class IconSide {
     constructor(icon, content, {
-        style = {}, after = false, contentStyle = {}, normalIcon = false,
+        style = {}, after = false, contentStyle = {}, normalIcon = false, containerStyle = {},
     } = {}) {
         const cnt = [new DOM({
             new: "div",
@@ -29,6 +29,7 @@ export default class IconSide {
             content: cnt,
             style: {
                 alignItems: "center",
+                ...containerStyle,
             },
         })
     }

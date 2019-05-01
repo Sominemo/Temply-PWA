@@ -1,3 +1,50 @@
+# 0.6.0 01.05.2019
+## Time Management
++ Record creator and editor
++ Timetable editor
+
+## Core
++ HintsHistory to save a limited amount of data
++ WinRT availability check
++ IDB incompatibility detection
+* Report now works on OSTool
++ Time convertors
+* Render() ignores null 
+* Button now does not require the handler
+* Fixed link parse in changelog
+* Fixed Prod detection in webpack script
+
+## Language
+* Replace library function didn't work correctly
+
+## UI
++ Widget editables
++ Numeric widget input
++ Time widget input
+* Fixed switches in Edge
++ Location Chooser
++ Subject Chooser
+- Removed updates settings from Edge
+* Popup backdrop was above the popup in Safari
++ Prompt object
++ Preloader styling
++ CardList class support
+
+## DB
++ User Interactions presence
++ GetAll polyfill
+
+# 0.5.1 26.04.2019
+## Core
++ getWhere for OSTool
++ Dynamic property setter
+* DB User Presence in settings now warns about cleanup status
+
+## UI
++ ContentEditable widgets
++ HTML Input
++ Big number input widget
+
 # 0.5.1 19.04.2019
 ## Core
 + Detailed startup log

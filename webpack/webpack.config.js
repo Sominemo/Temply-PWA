@@ -171,13 +171,12 @@ module.exports = (env = {}) => ({
             description: "Universal time management diary to help you handle the routine",
             background_color: "#ffffff",
             theme_color: "#ffffff",
-            "theme-color": "#ffffff",
             start_url: "/",
             display: "standalone",
             icons: [
                 {
                     src: path.join(PATHS.resources, "images", "logo", "512.png"),
-                    sizes: [96, 128, 192, 256, 384, 512],
+                    sizes: [44, 50, 96, 100, 128, 150, 192, 256, 384, 512],
                     destination: path.join("assets", "icons"),
                 },
             ],

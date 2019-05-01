@@ -27,6 +27,13 @@ export default class Report {
         return this._dbConnectionInstance
     }
 
+    static get DBOS() {
+        if (this._dbOS) return this._dbOS
+        const db = this.DBConnection
+        this._dbOS = db.OSTool(this.StorageName)
+        return this._dbOS
+    }
+
 
     static trace() {
         let stack = new Error().stack || ""
@@ -52,16 +59,20 @@ export default class Report {
     }
 
     static async saveToDB(...log) {
-        if (log.length === 1) [log] = log
-        const r = await this.DBConnection.getObjectStore(this.StorageName, true)
-            .then(a => a.add(log))
-        return r
+        try {
+            if (log.length === 1) [log] = log
+            const os = this.DBOS
+            const r = os.add(log)
+            return r
+        } catch (e) {
+            console.log("Failed DB log", e)
+            return false
+        }
     }
 
-    static get allLog() {
-        return new Promise((resolve, reject) => {
-            this.DBConnection.getObjectStore(this.StorageName).then(a => a.getAll())
-                .then(res => resolve(res))
-        })
+    static async allLog() {
+        const os = this.DBOS
+        const r = await os.getAll()
+        return r
     }
 }
