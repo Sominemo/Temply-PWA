@@ -1,3 +1,7 @@
+# 0.6.1 02.05.2019
+## Core
++ Ukrainian language
+
 # 0.6.1 01.05.2019
 ## Time Management
 + Remove subject
