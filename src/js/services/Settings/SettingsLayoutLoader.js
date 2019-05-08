@@ -347,7 +347,7 @@ export default async function SettingsLayoutLoader() {
                                                     }, new IconSide(
                                                         "meeting_room",
                                                         locationSignElement,
-                                                        { style: { color: "var(--color-accent)", marginRight: ".5em" } },
+                                                        { style: { color: Design.getVar("color-accent"), marginRight: ".5em" } },
                                                     )],
                                                 )
 

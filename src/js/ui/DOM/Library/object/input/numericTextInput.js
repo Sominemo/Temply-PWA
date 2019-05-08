@@ -1,14 +1,16 @@
 import TextInput from "./textInput"
 
 export default class NumericTextInput {
-    constructor(set = {}, style = {}, events = [], params = {}) {
-        return new TextInput(
-            {
+    constructor({
+        set = {}, style = {}, events = [], params = {},
+    } = {}) {
+        return new TextInput({
+            set: {
                 ...set,
                 type: "number",
             },
             style,
-            [
+            events: [
                 {
                     event: "keypress",
                     handler(evt, el) {
@@ -30,6 +32,6 @@ export default class NumericTextInput {
                 ...events,
             ],
             params,
-        )
+        })
     }
 }

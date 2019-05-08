@@ -127,10 +127,15 @@ export default {
                     __index: "interaction data",
                     description: "different information about your interaction with the app like text input history",
                 },
+                time_management: {
+                    __index: "time management",
+                    description: "your subjects, schedule and tasks",
+                },
             },
             actions: {
                 clear: "clear",
                 export: "export",
+                import: "import",
             },
         },
         updates: {
@@ -208,4 +213,7 @@ export default {
         name: "name",
     },
     location: "location",
+    select_file: "select file",
+    success: "success",
+    faliture: "faliture",
 }

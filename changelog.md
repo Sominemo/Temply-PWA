@@ -1,3 +1,15 @@
+# 0.6.2 09.05.2019
+## UI
++ Theme engine
++ Dark mode in experiments
+* Slightly updated design
+
+## Time Management
++ Started tasks development
+
+## Core
++ Date/Time functions
+
 # 0.6.1 02.05.2019
 ## Core
 + Ukrainian language

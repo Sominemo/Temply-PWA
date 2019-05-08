@@ -6,7 +6,7 @@ export default class FadeIn {
         return new Animation({
             duration,
             painter(time) {
-                this.elementParse.native.style.opacity = time
+                this.style({ opacity: time })
             },
             timingFunc: timing,
         })

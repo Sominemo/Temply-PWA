@@ -168,6 +168,7 @@ export default class ObjectStoreTool {
 
     async clearPercent(percent = 1, direction = "next", range = null) {
         if (typeof percent !== "number" || percent > 1 || percent < 0) return false
+        if (percent === 1 && range === null) return this.clear()
         let allSize = 0
         const thisAllSize = await this.getSize()
         return new Promise(async (resolve) => {

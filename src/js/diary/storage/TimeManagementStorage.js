@@ -1,6 +1,7 @@
 import DBTool from "../../tools/db/DBTool"
 import FieldsContainer from "../../tools/validation/fieldsContainer"
 import FieldChecker from "../../tools/validation/fieldChecker"
+import TimestampToDays from "../../tools/time/timestampToDays"
 
 export default class TimeManagementStorage {
     static connection = new DBTool("timeManagement", 1, {
@@ -87,6 +88,11 @@ export default class TimeManagementStorage {
         return r
     }
 
+    static get todayWeekDay() {
+        const js = new Date().getDay()
+        return (js === 0 ? 7 : js)
+    }
+
     static async getAllTimetable() {
         const os = this.connection.OSTool("schedule")
         return os.getAll()
@@ -161,7 +167,104 @@ export default class TimeManagementStorage {
         return os.delete(key)
     }
 
-    static getTasks(count) {
+    static async getTasks(dayOffset = 0) {
+        const os = this.connection.OSTool("tasks")
+        const search = TimestampToDays() + dayOffset
+        const tasks = await os.getWhere(null, e => e.day === search)
+        return tasks.sort((a, b) => {
+            if (a.day < b.day) { return -1 }
+            if (a.day > b.day) { return 1 }
+            return 0
+        })
+    }
 
+    static async getTasksForDay(day) {
+        const os = this.connection.OSTool("tasks")
+        const tasks = await os.getWhere(null, e => e.day === day)
+        return tasks.sort((a, b) => {
+            if (a.day < b.day) { return -1 }
+            if (a.day > b.day) { return 1 }
+            return 0
+        })
+    }
+
+    static async getAllTasks() {
+        const os = this.connection.OSTool("tasks")
+        const tasks = await os.getAll()
+        return tasks.sort((a, b) => {
+            if (a.day < b.day) { return -1 }
+            if (a.day > b.day) { return 1 }
+            return 0
+        })
+    }
+
+    static async markTaskAs(key, state = true) {
+        const os = this.connection.OSTool("tasks")
+        const tasks = await os.get(key)
+        tasks.state = state
+        await os.put(tasks)
+    }
+
+    static async getTasksForSubject(key) {
+        const subject = this.getSubject(key)
+        if (!subject) return []
+
+        const os = this.connection.OSTool("tasks")
+        const tasks = await os.getWhere(null, e => e.subject === subject.key)
+        return tasks.sort((a, b) => {
+            if (a.day < b.day) { return -1 }
+            if (a.day > b.day) { return 1 }
+            return 0
+        })
+    }
+
+    static getTask(key) {
+        const os = this.connection.OSTool("tasks")
+        return os.get(key)
+    }
+
+    static async addTask({
+        content,
+        title = "",
+        day = null,
+        subject = null,
+    }) {
+        if (!subject) return false
+
+        if (title === "" && content.length <= 30) {
+            title = content
+            content = ""
+        }
+        const current = TimestampToDays()
+        if (day < current) return false
+
+        content = String(content)
+        title = String(title)
+
+        const subjectOBJ = this.getSubject(subject)
+        if (!subjectOBJ) return false
+
+        const os = this.connection.OSTool("tasks")
+        const id = await os.add({
+            content, title, day, subject,
+        })
+        return this.getTask(id)
+    }
+
+    static async FindNextSubjectClass(entryID = null, ignoreToday = true) {
+        const timetable = (await this.getAllTimetable()).sort((a, b) => {
+            if (a.start < b.start) { return -1 }
+            if (a.start > b.start) { return 1 }
+            return 0
+        })
+
+        const pos = timetable.findIndex(e => e.key === entryID)
+        const current = timetable[pos]
+        const nextThisWeek = timetable.findIndex((e, i) => i > pos
+            && e.subject === current.subject
+            && (!ignoreToday && this.todayWeekDay !== e.day))
+
+        if (!nextThisWeek) return current
+        return timetable[nextThisWeek]
     }
 }

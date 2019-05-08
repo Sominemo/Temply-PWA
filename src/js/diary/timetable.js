@@ -46,7 +46,7 @@ Nav.newItem({
 
 export default class Timetable {
     static async Init() {
-        const parse = Navigation.parse()
+        const { parse } = Navigation
         if (parse.params[0] === "editor") {
             this.InitEdit(parse.params[1], parse.params[2])
             return
@@ -78,7 +78,6 @@ export default class Timetable {
         }
 
         const w = new WindowContainer()
-        WindowManager.newWindow().append(w)
         const date = new Date()
         let countEmpty = 0
 
@@ -105,7 +104,7 @@ export default class Timetable {
                                         minWidth: "24px",
                                         textAlign: "center",
                                         marginRight: "15px",
-                                        color: "var(--color-generic-light-a)",
+                                        color: Design.getVar("color-generic-light-a"),
                                     },
                                     content: `${n + 1}`,
                                 }),
@@ -172,7 +171,7 @@ export default class Timetable {
                         new IconSide(
                             "add",
                             $$("@timetable/edit/add_item"),
-                            { style: { color: "var(--color-accent)", marginRight: "15px" } },
+                            { style: { color: Design.getVar("color-accent"), marginRight: "15px" } },
                         ),
                     ),
                     handler() {
@@ -210,7 +209,7 @@ export default class Timetable {
                             margin: "5px",
                             marginRight: "15px",
                             fontSize: "32px",
-                            color: "var(--color-main)",
+                            color: Design.getVar("color-main"),
                         }),
                         [
                             new Title($$("@timetable/empty"), 2, { marginLeft: 0, marginTop: 0 }),
@@ -231,6 +230,8 @@ export default class Timetable {
                 ),
             ), { type: ["main-highlight"] }))
         }
+
+        WindowManager.newWindow().append(w)
     }
 
     // EDITOR
@@ -242,7 +243,6 @@ export default class Timetable {
         if (weekday < 1 || weekday > 7) weekday = 1
 
         const w = new WindowContainer()
-        WindowManager.newWindow().append(w)
 
         const itemObject = (item > 0 ? await db.getTimetableItem(item) : false)
         const editMode = !!itemObject
@@ -447,7 +447,7 @@ export default class Timetable {
                         }, new IconSide(
                             "school",
                             subjectSignElement,
-                            { style: { color: "var(--color-accent)", marginRight: ".5em" } },
+                            { style: { color: Design.getVar("color-accent"), marginRight: ".5em" } },
                         )]),
                     ],
                 ),
@@ -474,7 +474,7 @@ export default class Timetable {
                                     },
                                 }),
                                 {
-                                    style: { color: "var(--color-accent)" },
+                                    style: { color: Design.getVar("color-accent") },
                                     contentStyle: { width: "100%" },
                                 },
                             ),
@@ -497,7 +497,7 @@ export default class Timetable {
                                     },
                                 ),
                                 {
-                                    style: { color: "var(--color-accent)" },
+                                    style: { color: Design.getVar("color-accent") },
                                     contentStyle: { width: "100%" },
                                 },
                             ),
@@ -522,7 +522,7 @@ export default class Timetable {
                                     contentStyle: { width: "100%" },
                                 },
                             ),
-                            style: { background: "var(--color-accent)", color: "white" },
+                            style: { background: Design.getVar("color-accent"), color: "white" },
                             classes: ["white-input-container"],
                         },
                     ], true,
@@ -545,7 +545,7 @@ export default class Timetable {
                         }, new IconSide(
                             "meeting_room",
                             locationSignElement,
-                            { style: { color: "var(--color-accent)", marginRight: ".5em" } },
+                            { style: { color: Design.getVar("color-accent"), marginRight: ".5em" } },
                         )]),
                     ],
                 ),
@@ -561,5 +561,7 @@ export default class Timetable {
             },
             handler: save,
         }), ["row", "center"]))
+
+        WindowManager.newWindow().append(w)
     }
 }

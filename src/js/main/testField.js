@@ -19,6 +19,13 @@ import WidgetEditable from "../ui/DOM/Library/object/input/widgetEditable"
 import BigNumberInput from "../ui/DOM/Library/object/input/contentEditableWidgets/bigNumberInput"
 import { $ } from "../services/Language/handler"
 import TimeNumInput from "../ui/DOM/Library/object/input/contentEditableWidgets/timeNumInput"
+import FileInput from "../ui/DOM/Library/object/input/fileInput"
+import TimeManagementStorage from "../diary/storage/TimeManagementStorage"
+import download from "../tools/interaction/download"
+import errorToObject from "../tools/transformation/object/errorToObject"
+import Prompt from "../ui/DOM/Library/elements/prompt"
+import pFileReader from "../tools/objects/pFileReader"
+import runGPUTest from "../tools/interaction/runGPUTest"
 
 export default class TestField {
     static async Init() {
@@ -147,17 +154,19 @@ export default class TestField {
                     value: "09:03",
                 }),
                 new TextInput({
-                    value: "1",
-                    placeholder: "Lmao",
+                    set: {
+                        value: "1",
+                        placeholder: "Lmao",
+                    },
                 }),
             ]),
         ))
 
         w.render(new Button({
-            content: new IconSide("help", "I need help"),
+            content: new IconSide("motorcycle", "Graphical Test"),
             type: ["small", "light"],
             handler() {
-                Toast.add("There's no help")
+                runGPUTest()
             },
         }))
 
@@ -200,6 +209,53 @@ export default class TestField {
                 })
             },
         }))
+
+        w.render(
+            new Card([
+                new Title("Import/Export", 3),
+                new Button({
+                    content: "Export",
+                    async handler() {
+                        const db = TimeManagementStorage.connection
+                        const sub = await db.OSTool("subjects").getAll()
+                        const sch = await db.OSTool("schedule").getAll()
+
+                        download([JSON.stringify([sub, sch])], "text/plain", "export.json")
+                    },
+                    type: ["light"],
+                    style: {
+                        display: "block",
+                        margin: "15px",
+                        textAlign: "center",
+                    },
+                }),
+                new FileInput({
+                    async onchange(file) {
+                        try {
+                            const data = JSON.parse(await pFileReader(file))
+
+                            const subDB = TimeManagementStorage.connection.OSTool("subjects")
+                            const schDB = TimeManagementStorage.connection.OSTool("schedule")
+
+                            await subDB.clear()
+                            await Promise.all(
+                                [
+                                    ...data[0].map(sub => subDB.put(sub)),
+                                    ...data[1].map(sub => schDB.put(sub)),
+                                ],
+                            )
+                            Toast.add("Imported")
+                        } catch (e) {
+                            Toast.add("Import fail")
+                            Prompt({
+                                text: JSON.stringify(errorToObject(e)),
+                            })
+                        }
+                    },
+                }),
+            ]),
+        )
+
         // Toast.add("Just a test", 5000)
         // Toast.add("I'm kinda fast!", 500)
     }

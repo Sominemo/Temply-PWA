@@ -2,6 +2,7 @@ import SettingsCheckProvider from "../services/Settings/SettingsCheckProvider"
 import FieldChecker from "../tools/validation/fieldChecker"
 import App from "../main/app"
 import Report from "../main/report"
+import Design from "../main/design"
 
 const timetableDefaults = {
     lesson: 45,
@@ -27,6 +28,29 @@ SettingsCheckProvider.setRules([
         rule: {
             default: App.debug,
             checker: new FieldChecker({ type: "boolean" }),
+            onfail: async (a, b, c) => { await c(!!a); return true },
+        },
+    },
+    {
+        name: "ui_wm_adv_transitions",
+        rule: {
+            default: false,
+            checker: new FieldChecker({ type: "boolean" }),
+            onfail: async (a, b, c) => { await c(!!a); return true },
+        },
+    },
+    {
+        name: "ui_dark_theme",
+        rule: {
+            default: false,
+            checker: {
+                set: (q) => {
+                    q = !!q
+                    const r = new FieldChecker({ type: "boolean" }).set(q)
+                    Design.themeLoader((q ? "dark" : "default"))
+                    return r
+                },
+            },
             onfail: async (a, b, c) => { await c(!!a); return true },
         },
     },

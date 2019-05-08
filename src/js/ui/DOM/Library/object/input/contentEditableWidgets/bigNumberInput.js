@@ -6,6 +6,7 @@ import IconSide from "../../iconSide"
 import { Align } from "../../../style"
 import DOM from "../../../../Classes/dom"
 import { $$ } from "../../../../../../services/Language/handler"
+import Design from "../../../../../../main/design"
 
 export default class BigNumberInput {
     constructor({
@@ -17,22 +18,22 @@ export default class BigNumberInput {
         return new WidgetEditable({
             builder(input, context) {
                 const c = []
-                const numberInput = new NumericTextInput(
-                    {
+                const numberInput = new NumericTextInput({
+                    set: {
                         value: parseInt(input.currentValue, 10),
                         placeholder,
                     },
-                    {
+                    style: {
                         boxShadow: "none",
                         fontSize: "42px",
-                        color: "var(--color-accent)",
+                        color: Design.getVar("color-accent"),
                         overflowX: "auto",
                         textAlign: "center",
                         padding: "0 10px",
                         width: "200px",
                         margin: "10px auto 0 auto",
                     },
-                    [
+                    events: [
                         {
                             event: "keyup",
                             handler(ev) {
@@ -66,14 +67,14 @@ export default class BigNumberInput {
                             },
                         },
                     ],
-                    {
+                    params: {
                         onRendered(ev, el) {
                             setTimeout(() => {
                                 el.elementParse.native.focus()
                             }, 200)
                         },
                     },
-                )
+                })
                 c.push(numberInput)
 
                 acceptHandler = () => {
@@ -89,7 +90,7 @@ export default class BigNumberInput {
                         new: "div",
                         content: (typeof units === "function" ? units(parseInt(input.currentValue, 10)) : units),
                         style: {
-                            color: "var(--color-accent-light)",
+                            color: Design.getVar("color-accent-light"),
                             textAlign: "center",
                             fontSize: "24px",
                             marginBottom: "20px",

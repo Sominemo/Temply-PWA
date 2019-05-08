@@ -5,6 +5,7 @@ import TextInput from "./textInput"
 import IconSide from "../iconSide"
 import Preloader from "../preloader"
 import FadeOut from "../../../../Animation/Library/Effects/fadeOut"
+import Design from "../../../../../main/design"
 
 export default async function DynamicListPopup(
     {
@@ -26,7 +27,7 @@ export default async function DynamicListPopup(
         return new DOM({
             new: "md-simple-list-item",
             tabIndex: 1,
-            content: new IconSide(e.icon, e.name, { style: { marginRight: "10px", color: (e.color ? e.color : "var(--color-context-menu-icon)") } }),
+            content: new IconSide(e.icon, e.name, { style: { marginRight: "10px", color: (e.color ? e.color : Design.getVar("color-context-menu-icon")) } }),
             ...("value" in e ? {
                 events: [
                     {
@@ -98,44 +99,49 @@ export default async function DynamicListPopup(
         content: results,
     })
     searchInput = new TextInput({
-        placeholder,
-        maxLength: inputMax,
-    }, {
-        padding: "10px",
-        borderRadius: "2em",
-        boxShadow: "0 2px 5px rgba(0,0,0,.05)",
-    },
-    [
-        {
-            event: "keyup",
-            handler(ev) {
-                if (ev.keyCode === 13) {
-                    for (let i = 0; i < res.length; i++) {
-                        if ("value" in res[i]) {
-                            elements[i].elementParse.native.focus()
-                            elements[i].elementParse.native.click()
-                            break
+        set: {
+            placeholder,
+            maxLength: inputMax,
+        },
+        style: {
+            padding: "10px",
+            borderRadius: "2em",
+            boxShadow: "0 2px 5px rgba(0,0,0,.05)",
+            background: Design.getVar("color-dedicated-accent-box-input"),
+        },
+        events: [
+            {
+                event: "keyup",
+                handler(ev) {
+                    if (ev.keyCode === 13) {
+                        for (let i = 0; i < res.length; i++) {
+                            if ("value" in res[i]) {
+                                elements[i].elementParse.native.focus()
+                                elements[i].elementParse.native.click()
+                                break
+                            }
                         }
                     }
-                }
-                if (ev.key === "ArrowUp") {
-                    if (0 in elements) elements[0].elementParse.native.focus()
-                }
+                    if (ev.key === "ArrowUp") {
+                        if (0 in elements) elements[0].elementParse.native.focus()
+                    }
+                },
             },
-        },
-        {
-            event: "input",
-            async handler(ev, el) {
-                res = await list(el.currentValue.trim())
-                results.clear()
-                fillElements().map(e => results.render(e))
+            {
+                event: "input",
+                async handler(ev, el) {
+                    res = await list(el.currentValue.trim())
+                    results.clear()
+                    fillElements().map(e => results.render(e))
+                },
             },
-        },
-    ], {
-        onRendered(ev, el) {
-            setTimeout(() => {
-                el.elementParse.native.focus()
-            }, 200)
+        ],
+        params: {
+            onRendered(ev, el) {
+                setTimeout(() => {
+                    el.elementParse.native.focus()
+                }, 200)
+            },
         },
     })
     const searchBox = new DOM({
@@ -144,14 +150,14 @@ export default async function DynamicListPopup(
             icon,
             searchInput,
             {
-                style: { margin: ".5em", color: "var(--color-accent)" },
+                style: { margin: ".5em", color: Design.getVar("color-accent") },
                 containerStyle: { width: "100%" },
                 contentStyle: { marginRight: ".5em", flexGrow: "1" },
             },
         ),
         style: {
             display: "flex",
-            background: "var(--color-dedicated-accent-box)",
+            background: Design.getVar("color-dedicated-accent-box"),
             height: "80px",
         },
     })

@@ -1,4 +1,5 @@
 import "./ErrorHandler"
+import "./ThemeLoader"
 import "./FeatureChecker"
 import "./Settings"
 import "./Navigation"

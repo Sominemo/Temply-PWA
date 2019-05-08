@@ -1,7 +1,7 @@
 .inline-title-block {
     font-family: var(--font-accent);
     font-weight: 300;
-    margin: 20px;
+    margin: 15px;
     user-select: none;
     display: flex;
     align-items: center;
@@ -13,7 +13,11 @@
 
 .inline-title-level-2 {
     font-size: 24px;
-    margin: 15px 30px 5px;
+    margin: 15px;
+}
+
+.inline-title-level-1 + .inline-title-level-2 {
+    margin-top: 0;
 }
 
 .inline-title-level-3 {
@@ -28,6 +32,10 @@
     border: solid 1.5px var(--color-card-border);
     padding: 5px 15px;
     border-radius: 2em;
+}
+
+.inline-title-block>.title-decoration-container>.flex-container {
+    align-items: center;
 }
 
 .inline-title-clickable .inline-title-level-3 {
@@ -47,7 +55,7 @@
 }
 
 .card {
-    border-radius: .8em;
+    border-radius: .6em;
     box-shadow: 0 5px 20px var(--color-card-shadow), 0 0 0 1px var(--color-card-border);
     overflow: hidden;
     background: var(--color-card-background);
@@ -241,6 +249,12 @@ md-button>md-ripple-effect {
     position: absolute;
     transform: translate(-50%, -50%);
     pointer-events: none;
+    z-index: 1;
+}
+
+md-button>md-button-content {
+    z-index: 2;
+    position: relative;
 }
 
 md-button::before {
@@ -613,8 +627,8 @@ md-input>md-input-content+md-input-placeholder {
 md-input:not(:focus-within)>md-input-content:empty+md-input-placeholder {
     top: 20px;
     color: var(--color-text-input-placeholder);
-    font-weight: normal;
-    font-size: initial;
+    font-size: inherit;
+    font-weight: inherit;
 }
 
 .white-input-container md-input {
@@ -646,10 +660,12 @@ md-input+.md-select-hint>md-icon {
 }
 
 md-file-wrapper>label {
+    color: var(--color-generic-inverted);
     display: block;
     padding: 10px 15px;
     background: var(--color-main);
     border-radius: 5px;
+    font-family: var(--font-accent);
     box-shadow: 0 3px 5px 0 var(--color-button-shadow);
     cursor: pointer;
     margin: 15px;
@@ -748,7 +764,7 @@ context-menu-handler-isolate {
     display: none;
 }
 
-input.md-input {
+input.md-input, textarea.md-input {
     position: relative;
     display: block;
     --color-input-local: var(--color-text-input-default);
@@ -761,6 +777,7 @@ input.md-input {
     font-size: var(--size-text-default);
     min-height: 50px;
     width: calc(100% - 10px);
+    background: transparent;
 }
 
 input.md-input::-webkit-outer-spin-button, input.md-input::-webkit-inner-spin-button {
@@ -771,17 +788,18 @@ input.md-input[type="number"] {
     -moz-appearance: textfield;
 }
 
-input.md-input::placeholder {
+input.md-input::placeholder, textarea.md-input::placeholder {
     color: var(--color-text-input-placeholder);
     transition: all .2s;
 }
 
-input.md-input::-webkit-input-placeholder, input.md-input:-ms-input-placeholder, input.md-input::-ms-input-placeholder {
+input.md-input::-webkit-input-placeholder, input.md-input:-ms-input-placeholder, input.md-input::-ms-input-placeholder,
+textarea.md-input::-webkit-input-placeholder, textarea.md-input:-ms-input-placeholder, textarea.md-input::-ms-input-placeholder {
     color: var(--color-text-input-placeholder);
     transition: all .2s;
 }
 
-input.md-input:focus {
+input.md-input:focus, textarea.md-input:focus {
     --color-input-local: var(--color-main);
 }
 

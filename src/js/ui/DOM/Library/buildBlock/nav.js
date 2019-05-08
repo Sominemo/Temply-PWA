@@ -61,7 +61,7 @@ export default class Nav {
         const self = this
         const minTop = e.touches[0].clientY
         const minLeft = e.touches[0].clientX
-        if (Design.getVar("nav-bottom") !== "1") return
+        if (Design.getVar("nav-bottom", true) !== "1") return
         let cardStuff
         let touchYLast = "0"
 
@@ -74,8 +74,8 @@ export default class Nav {
 
         const handlerLvl1 = (ev) => {
             if (
-                minTop - ev.touches[0].clientY < Design.getVar("size-nav-width", true) / 2
-                || Math.abs(ev.touches[0].clientX - minLeft) > Design.getVar("size-nav-width", true) / 2
+                minTop - ev.touches[0].clientY < Design.getVar("size-nav-width", true, true) / 2
+                || Math.abs(ev.touches[0].clientX - minLeft) > Design.getVar("size-nav-width", true, true) / 2
             ) {
                 this.mobileGesture.classList.add("animated")
                 setTimeout(() => {
@@ -146,7 +146,7 @@ export default class Nav {
         handlerLvl3 = (ev) => {
             handlerLvl3triggered = true
             document.removeEventListener("touchmove", handlerLvl2)
-            if (Design.getVar("size-nav-width", true) > windowHeight - ev.changedTouches[0].clientY) {
+            if (Design.getVar("size-nav-width", true, true) > windowHeight - ev.changedTouches[0].clientY) {
                 cardStuff[0].classList.add("start")
                 cardStuff[0].emitEvent("contextMenuClose")
             } else {
@@ -311,7 +311,7 @@ export default class Nav {
                 {
                     event: "mouseup",
                     handler(e) {
-                        if (Design.getVar("nav-bottom") !== "1" || e.button !== 2) return
+                        if (Design.getVar("nav-bottom", true) !== "1" || e.button !== 2) return
 
                         ContextMenu({
                             content: self.constructor.navigationList,

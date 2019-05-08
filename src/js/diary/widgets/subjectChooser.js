@@ -4,6 +4,7 @@ import TimeManagementStorage from "../storage/TimeManagementStorage"
 import DynamicListPopup from "../../ui/DOM/Library/object/input/dynamicListPopup"
 import HistoryHints from "../../services/HistoryHints"
 import Prompt from "../../ui/DOM/Library/elements/prompt"
+import Design from "../../main/design"
 
 export default function SubjectChooser(onChange = () => {}) {
     let subject
@@ -91,7 +92,7 @@ export default function SubjectChooser(onChange = () => {}) {
                     name: query,
                     value: query,
                     icon: "add",
-                    color: "var(--color-accent)",
+                    color: Design.getVar("color-accent"),
                 }]),
                 ...output,
             ]

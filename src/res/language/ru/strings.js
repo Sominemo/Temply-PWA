@@ -127,10 +127,15 @@ export default {
                     __index: "взаимодействие",
                     description: "различная информация о взаимодействии с приложением, такая как история текстового ввода",
                 },
+                time_management: {
+                    __index: "планирование",
+                    description: "ваши предметы, задания и расписание",
+                },
             },
             actions: {
                 clear: "очистить",
                 export: "экспорт",
+                import: "импорт",
             },
         },
         updates: {
@@ -208,4 +213,7 @@ export default {
         name: "название",
     },
     location: "местоположение",
+    select_file: "выберите файл",
+    success: "успех",
+    faliture: "неудача",
 }

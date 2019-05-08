@@ -113,7 +113,7 @@ export default class App {
     }
 
     static InitAboutScreen() {
-        if (Navigation.parse().params[0] === "changelog") {
+        if (Navigation.parse.params[0] === "changelog") {
             this.InitChangelog()
             return
         }

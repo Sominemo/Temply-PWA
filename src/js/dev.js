@@ -21,6 +21,8 @@ import PointerInfo from "./services/PointerInfo"
 import SettingsLayoutManager from "./services/Settings/user/manager"
 import ContentEditable from "./ui/DOM/Library/object/input/contentEditable"
 import HistoryHints from "./services/HistoryHints"
+import TimeManagementStorage from "./diary/storage/TimeManagementStorage"
+import Design from "./main/design"
 
 function compare(a, b, path = "/") {
     const keys = Object.keys(a)
@@ -44,6 +46,7 @@ const DevUtils = {
     nav: Nav,
     navigation: Navigation,
     win: WindowManager,
+    Design,
     idb,
     report: Report,
     dbtool: DBTool,
@@ -62,6 +65,7 @@ const DevUtils = {
     Toast,
     Pointer: PointerInfo,
     HistoryHints,
+    TimeManagementStorage,
     lib: {
         ContentEditable,
     },

@@ -41,7 +41,7 @@ export default class Navigation {
             return stringHash
         }
         window.location.hash = hash.toString()
-        return this.parse(hash)
+        return this.parseHash(hash)
     }
 
     static history = []
@@ -97,7 +97,11 @@ export default class Navigation {
         this.modulesRegister.push(config)
     }
 
-    static parse(hash = this.hash) {
+    static get parse() {
+        return this.parseHash()
+    }
+
+    static parseHash(hash = this.hash) {
         let module = ""
         let paramsString = ""
         let params = []
@@ -165,7 +169,7 @@ export default class Navigation {
 
         const event = manual || this.whatHappened
 
-        const parsed = this.parse()
+        const parsed = this.parse
 
         const { hash } = this
 

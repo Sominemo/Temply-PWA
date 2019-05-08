@@ -5,8 +5,8 @@ export default class Preloader {
     constructor({
         main, accent, size = 64, style = {},
     } = {}) {
-        main = main || Design.getVar("color-main")
-        accent = accent || Design.getVar("color-accent")
+        main = main || Design.getVar("color-main", true)
+        accent = accent || Design.getVar("color-accent", true)
         let svg = require("Resources/images/vector/preloader.svg")
         svg = svg.replace(/\$mainColor\$/g, main).replace(/\$accentColor\$/g, accent)
 

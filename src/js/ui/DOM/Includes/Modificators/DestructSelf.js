@@ -3,6 +3,10 @@ import DOMController from "../../Helpers/domController"
 DOMController.registerModificator({
     name: "destructSelf",
     handler() {
-        this.elementParse.native.parentElement.removeChild(this.elementParse.native)
+        try {
+            this.elementParse.native.parentElement.removeChild(this.elementParse.native)
+        } catch (e) {
+            // Already destructed
+        }
     },
 })

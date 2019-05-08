@@ -4,11 +4,13 @@ import Button from "../button"
 import IconSide from "../../iconSide"
 import { Align } from "../../../style"
 import { $$ } from "../../../../../../services/Language/handler"
+import ValueToDate from "../../../../../../tools/time/ValueToDate"
+import DateToString from "../../../../../../tools/time/dateToString"
 import Design from "../../../../../../main/design"
 
-export default class TimeNumInput {
+export default class DateInput {
     constructor({
-        content = "00:00", placeholder = "", onchange = () => { }, iconName = "edit",
+        content = DateToString(), placeholder = "", onchange = () => { }, iconName = "edit",
     } = {}) {
         let acceptHandler
 
@@ -17,7 +19,7 @@ export default class TimeNumInput {
                 const c = []
                 const numberInput = new TextInput({
                     set: {
-                        type: "time",
+                        type: "date",
                         value: input.currentValue,
                     },
                     style: {
@@ -27,7 +29,7 @@ export default class TimeNumInput {
                         overflowX: "auto",
                         textAlign: "center",
                         padding: "0 10px",
-                        width: "300px",
+                        width: "400px",
                         margin: "10px auto 0 auto",
                     },
                     params: {
@@ -42,9 +44,12 @@ export default class TimeNumInput {
 
                 acceptHandler = () => {
                     const newValue = numberInput.elementParse.native.value
-                    if (!newValue.match(/^([01]\d|2[0-3]):([0-5]\d)$/)) return
-                    input.emitEvent("editValue", { content: `${newValue}` })
-                    if (typeof onchange === "function") onchange(newValue)
+                    if (!newValue.match(/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/)) return
+                    let dat = ValueToDate(newValue)
+                    dat = DateToString(new Date(dat[2], dat[1], dat[0]))
+
+                    input.emitEvent("editValue", { content: dat })
+                    if (typeof onchange === "function") onchange(dat)
                     context().emitEvent("contextMenuClose")
                 }
 

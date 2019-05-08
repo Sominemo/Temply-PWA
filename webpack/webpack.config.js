@@ -101,7 +101,12 @@ module.exports = (env = {}) => ({
             },
             {
                 test: /\.css$/,
+                exclude: /\.theme\.css$/,
                 use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.theme\.css$/,
+                loader: "style-loader/useable!css-loader",
             },
             {
                 test: /\.(png|jpg|gif)$/,

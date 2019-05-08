@@ -4,7 +4,7 @@ export default class ContentEditable {
     constructor({
         placeholder = "", change = (value, element) => { }, content = "", type = "", contentType = "text",
         editable = true, onRendered = () => { }, style = {}, species = [], contentStyle = {},
-        placeholderStyle = {}, transformString = true,
+        placeholderStyle = {}, transformString = true, onKey = () => {},
     }) {
         let value = content
         let ip
@@ -76,6 +76,10 @@ export default class ContentEditable {
                         value = el.elementParse.native.innerText
                         change(value, el)
                     },
+                },
+                {
+                    event: "keypress",
+                    handler: onKey,
                 },
             ],
             ...methods,

@@ -30,15 +30,15 @@ export default class Button {
                     e.elementParse.native.style.top = `${ev.layerY}px`
                     e.elementParse.native.style.left = `${ev.layerX}px`
                     if (!ev.isTrusted) {
-                        e.elementParse.native.style.top = `${self.clientHeight / 2}px`
-                        e.elementParse.native.style.left = `${self.clientWidth / 2}px`
+                        e.elementParse.native.style.top = `${self.clientHeight / 2.5}px`
+                        e.elementParse.native.style.left = `${self.clientWidth / 2.5}px`
                     }
 
                     new Animation({
                         duration: 100,
                         painter(t) {
-                            e.elementParse.native.style.width = `${t * biggerSide * 2}px`
-                            e.elementParse.native.style.height = `${t * biggerSide * 2}px`
+                            e.elementParse.native.style.width = `${t * biggerSide * 2.5}px`
+                            e.elementParse.native.style.height = `${t * biggerSide * 2.5}px`
                         },
                     }).apply(e)
                 },
@@ -56,7 +56,10 @@ export default class Button {
         return new DOM({
             new: "md-button",
             class: [...type],
-            content,
+            content: new DOM({
+                new: "md-button-content",
+                content,
+            }),
             style,
             events: [
                 {

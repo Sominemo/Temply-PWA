@@ -5,6 +5,9 @@ import Navigation from "../main/navigation"
 import SettingsStorage from "../services/Settings/SettingsStorage"
 import FadeOut from "./Animation/Library/Effects/fadeOut"
 import FadeIn from "./Animation/Library/Effects/fadeIn"
+import Animation from "./Animation/Classes/Animation"
+import EaseOutCubic from "./Animation/Library/Timing/easeOutCubic"
+import EaseOutQuad from "./Animation/Library/Timing/easeOutQuad"
 
 export default class WindowManager {
     static windows = []
@@ -23,6 +26,16 @@ export default class WindowManager {
 
     static controlHelp = false
 
+    static advancedTransitionsCache = null
+
+    static get advancedTransitions() {
+        if (this.advancedTransitionsCache !== null) return this.advancedTransitionsCache
+        SettingsStorage.getFlag("ui_wm_adv_transitions").then((r) => {
+            this.advancedTransitionsCache = r
+        })
+        return false
+    }
+
     static get fullscreen() { return document.webkitFullscreenElement !== null }
 
     static newLayer() {
@@ -38,13 +51,64 @@ export default class WindowManager {
         })
 
         const generated = w
+        const prev = this.currentWindow.element
         this.windows.push(generated)
-        new FadeOut({ duration: 200 }).apply(this.controlWin)
-            .then(() => {
-                this.controlWin.clear(generated)
-                new FadeIn({ duration: 200 }).apply(this.controlWin)
-            })
+        const self = this
 
+        async function basicTransition() {
+            await new FadeOut({ duration: 200 }).apply(self.controlWin)
+            self.controlWin.clear(generated)
+            await new FadeIn({ duration: 200 }).apply(self.controlWin)
+        }
+
+        function animateTransition() {
+            if (!self.advancedTransitions) {
+                basicTransition()
+                return
+            }
+
+            if (prev) {
+                const cw = self.controlWin
+                const curScroll = cw.elementParse.native.scrollTop
+                if (curScroll !== 0) {
+                    new Animation({
+                        duration: 100,
+                        timingFunc: EaseOutQuad,
+                        painter(time) {
+                            console.log(Math.floor(curScroll * (1 - time)))
+                            cw.elementParse.native.scrollTop = Math.floor(curScroll * (1 - time))
+                        },
+                    }).apply(cw)
+                }
+
+                new Animation({
+                    duration: 200,
+                    painter(time) {
+                        this.style({
+                            opacity: 1 - time,
+                            transform: `scale(${1 + 0.05 * time})`,
+                            zIndex: 0,
+                        })
+                    },
+                    timingFunc: EaseOutCubic,
+                }).apply(prev).then(() => prev.destructSelf())
+            }
+
+            self.controlWin.render(generated)
+
+            new Animation({
+                duration: 200,
+                painter(time) {
+                    this.style({
+                        opacity: time,
+                        transform: `scale(${1 - 0.05 * (1 - time)})`,
+                    })
+                },
+                timingFunc: EaseOutCubic,
+            }).apply(generated)
+        }
+
+        animateTransition()
         if (typeof h === "function") h(w)
         return this.currentWindow
     }

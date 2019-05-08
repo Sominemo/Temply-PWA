@@ -26,7 +26,6 @@ Nav.newItem({
 export default class SettingsUI {
     static async Init() {
         const w = new WindowContainer()
-        WindowManager.newWindow().append(w)
         const l = SettingsLayoutManager.layout
 
         try {
@@ -34,7 +33,7 @@ export default class SettingsUI {
                 throw new TypeError(`Incorrect Settings Layout applied of type ${typeof this._layout}`)
             }
 
-            const path = Navigation.parse().params
+            const path = Navigation.parse.params
             const tAct = (path.length > 0 ? path[0] : l.defaultAct)
             const actObj = l.getAct(tAct)
 
@@ -59,6 +58,7 @@ export default class SettingsUI {
             }
 
             w.render(await actObj.render())
+            WindowManager.newWindow().append(w)
         } catch (e) {
             w.clear()
             w.render(new Title($$("unexpected_error")))
