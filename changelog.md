@@ -1,3 +1,15 @@
+# 0.6.2 14.05.2019
+## Settings
++ Theme manager
+- Dark mode flag
+
+## Core
+* New theme loader
+
+## Webpack
++ Theme list generator
++ BG, Main and Accent colors extractor
+
 # 0.6.2 09.05.2019
 ## UI
 + Theme engine

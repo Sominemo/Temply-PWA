@@ -53,6 +53,11 @@ export default async function SettingsLayoutLoader() {
             options: { name: $$("@settings/language") },
         })
         .createAct({
+            id: "appearance",
+            dom: SettingsActContainer,
+            options: { name: $$("@settings/appearance") },
+        })
+        .createAct({
             id: "timetable",
             dom: SettingsActContainer,
             options: { name: $$("timetable") },
@@ -82,6 +87,7 @@ export default async function SettingsLayoutLoader() {
         })
         .createItem({ dom: SettingsActLink, options: ["storage", $$("@settings/storage")], id: "storage-link" })
         .createItem({ dom: SettingsActLink, options: ["language", $$("@settings/language")], id: "language-link" })
+        .createItem({ dom: SettingsActLink, options: ["appearance", $$("@settings/appearance")], id: "appearance-link" })
 
     layout.getAct("settings").getSection("time-management")
         .createGroup({ id: "time-management-group", dom: SettingsGroupContainer, options: {} })
@@ -423,6 +429,7 @@ export default async function SettingsLayoutLoader() {
     DBUserPresence.generateSettingsLayout(layout.getAct("storage"))
 
     generateLanguageList(layout.getAct("language"))
+    Design.generateThemesList(layout.getAct("appearance"))
 
     SettingsLayoutManager.applyLayout(layout)
 }

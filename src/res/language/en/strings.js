@@ -111,6 +111,16 @@ export default {
             information: "information",
             welcome_alpha: "welcome to alpha-testing of Temply PWA",
         },
+        appearance: {
+            __index: "appearance",
+            themes: {
+                __index: "themes",
+                names: {
+                    default: "default",
+                    dark: "dark",
+                },
+            },
+        },
         storage: {
             __index: "storage",
             used: "used",
@@ -215,5 +225,5 @@ export default {
     location: "location",
     select_file: "select file",
     success: "success",
-    faliture: "faliture",
+    failure: "failure",
 }

@@ -70,11 +70,6 @@ export default class FlagsUI {
                 id: "ui_wm_adv_transitions",
             })
             exps.push({
-                title: "Dark theme",
-                about: "Just enables dark theme",
-                id: "ui_dark_theme",
-            })
-            exps.push({
                 title: "TAB-powered navigation",
                 about: `Adds tabIndex attributes to all clickable elements so they can be 
                 focused by pressing the 'TAB' button and adds event listener for the 'Enter' key to simulate 

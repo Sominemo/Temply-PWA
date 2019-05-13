@@ -140,7 +140,7 @@ DBUserPresence.registerNewPresence({
                                     Toast.add($$("success"))
                                     p.close()
                                 } catch (e) {
-                                    Toast.add($$("faliture"))
+                                    Toast.add($$("failure"))
                                 }
                             },
                         }),

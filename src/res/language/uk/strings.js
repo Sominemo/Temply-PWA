@@ -111,6 +111,16 @@ export default {
             information: "інформація",
             welcome_alpha: "ласкаво просимо у попереднє тестування Temply PWA",
         },
+        appearance: {
+            __index: "зовнішній вигляд",
+            themes: {
+                __index: "теми",
+                names: {
+                    default: "стандартна",
+                    dark: "темна",
+                },
+            },
+        },
         storage: {
             __index: "сховище",
             used: "використано",
@@ -215,5 +225,5 @@ export default {
     location: "розташування",
     select_file: "оберіть файл",
     success: "успіх",
-    faliture: "невдача",
+    failure: "невдача",
 }

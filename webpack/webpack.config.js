@@ -27,10 +27,13 @@ const PATHS = {
 PATHS.resources = path.join(PATHS.source, "res")
 PATHS.js = path.join(PATHS.source, "js")
 PATHS.language = path.join(PATHS.resources, "language")
+PATHS.themes = path.join(PATHS.resources, "styles", "colors")
 
 // Own scripts
 const makeLangMap = require(path.join(__dirname, "scripts", "languageList"))
+const makeThemesMap = require(path.join(__dirname, "scripts", "themesList"))
 makeLangMap(PATHS.language)
+makeThemesMap(PATHS.themes)
 
 const getChangelog = require(path.join(__dirname, "scripts", "getChangelog"))
 
@@ -101,11 +104,11 @@ module.exports = (env = {}) => ({
             },
             {
                 test: /\.css$/,
-                exclude: /\.theme\.css$/,
+                exclude: /theme\.css$/,
                 use: ["style-loader", "css-loader"],
             },
             {
-                test: /\.theme\.css$/,
+                test: /theme\.css$/,
                 loader: "style-loader/useable!css-loader",
             },
             {

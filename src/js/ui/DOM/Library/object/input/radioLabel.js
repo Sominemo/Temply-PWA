@@ -10,13 +10,12 @@ export default class RadioLabel {
                 ["handler", "content"],
                 {
                     handler: new FieldChecker({ type: "function" }),
-                    selected: new FieldChecker({ type: "boolean" }),
                 },
             ])]).set(data)
 
         const radios = new MDRadio(data.map(e => ({
             handler: e.handler,
-            selected: e.selected,
+            selected: (typeof e.selected === "function" ? !!(e.selected()) : !!e.selected),
             include: true,
         })), style)
 

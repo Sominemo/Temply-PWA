@@ -39,21 +39,6 @@ SettingsCheckProvider.setRules([
             onfail: async (a, b, c) => { await c(!!a); return true },
         },
     },
-    {
-        name: "ui_dark_theme",
-        rule: {
-            default: false,
-            checker: {
-                set: (q) => {
-                    q = !!q
-                    const r = new FieldChecker({ type: "boolean" }).set(q)
-                    Design.themeLoader((q ? "dark" : "default"))
-                    return r
-                },
-            },
-            onfail: async (a, b, c) => { await c(!!a); return true },
-        },
-    },
 ], "flags")
 
 SettingsCheckProvider.setRules([

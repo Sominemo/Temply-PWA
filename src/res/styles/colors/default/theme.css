@@ -98,6 +98,7 @@
 	--color-text-input-default: #878787;
 	--color-text-input-placeholder: #b1b1b1;
 	
-	--color-dedicated-accent-box: #eee;
+	--color-dedicated-accent-box: var(--color-card-border);
+	--color-dedicated-accent-box-input: #ffffff;
 
 }
