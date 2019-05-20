@@ -1,3 +1,23 @@
+# 0.6.2 20.05.2019
+## Core
+* Code fixes
+
+# 0.6.2 20.05.2019
+## UI
+* Button fixes
+
+# 0.6.2 18.05.2019
+## UI
++ WarningConstructor
++ WarningConstructorButton
+* Rewritten all warnings to use WarningConstructor
+
+# 0.6.2 15.05.2019
+## UI
+* Typo fixes in Ukrainian
+* Removed margin for title in mobile-flip container
+- MD Icons load from Google Servers (some icons were missing for unknown reason)
+
 # 0.6.2 14.05.2019
 ## Settings
 + Theme manager

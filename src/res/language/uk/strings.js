@@ -7,6 +7,9 @@ export default {
     timetable: {
         __index: "розклад",
         defaults: "замовчування",
+        hint: "підказка",
+        where_to_control: "ви можете імпортувати та експортувати розклад у налаштуваннях сховища",
+        check_out: "перейти",
         time_management_settings: "налаштування розкладу",
         how_to_create_subjects: "ви можете створювати предмети при заповненні розкладу",
         lesson_length: "довжина заняття",
@@ -152,7 +155,7 @@ export default {
             __index: "оновлення",
             title: "налаштування оновлень",
             description: `виберіть найзручнішу поведінку для повідомлень про оновлення.
-            Натисніть на зображення, щоб побачити демонстрацію варіанти`,
+            Натисніть на зображення, щоб побачити демонстрацію варіанту`,
             first_time_explanation: "Temply працює завдяки технології Progressive Web Apps.",
             learn_more_about_pwa: "Дізнайтесь більше про значення PWA для процесу оновлення",
             pwa_support_link: "https://temply.procsec.top/help/article/ru/what-is-pwa#pwa-role-in-update",
@@ -226,4 +229,6 @@ export default {
     select_file: "оберіть файл",
     success: "успіх",
     failure: "невдача",
+    dev_warn: "ця функція знаходиться у стані ррозробки",
+    preview_warn: "ця функція зараз тестується та може працювати неправильно",
 }

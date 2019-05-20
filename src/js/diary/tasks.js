@@ -2,13 +2,12 @@ import Navigation from "../main/navigation"
 import WindowContainer from "../ui/DOM/Library/buildBlock/windowContainer"
 import { Nav } from "../ui/DOM/Library/buildBlock"
 import WindowManager from "../ui/SimpleWindowManager"
-import { Title, Icon, TwoSidesMobileFlick } from "../ui/DOM/Library/object"
+import { Title, Icon } from "../ui/DOM/Library/object"
 import { $$ } from "../services/Language/handler"
 import TimeManagementStorage from "./storage/TimeManagementStorage"
 import TaskToCardRegenerator from "./widgets/taskToCardRegenerator"
 import Design from "../main/design"
 import { CardContent, Card, CardTextList } from "../ui/DOM/Library/object/card"
-import AlignedContent from "../ui/DOM/Library/object/AlignedContent"
 import { Button, TextInput } from "../ui/DOM/Library/object/input"
 import { Align } from "../ui/DOM/Library/style"
 import { SettingsActLink } from "../ui/DOM/Library/settings"
@@ -20,6 +19,8 @@ import DateToValue from "../tools/time/dateToValue"
 import DaysToTimestamp from "../tools/time/DaysToTimestamp"
 import TimestampToDays from "../tools/time/timestampToDays"
 import ValueToDate from "../tools/time/ValueToDate"
+import { InDevelopmentCard } from "../ui/DOM/Library/object/warnings"
+import WarningConstructorButton from "../ui/DOM/Library/object/warnings/WarningConstructorButton"
 
 Nav.newItem({
     name() { return $$("tasks") },
@@ -58,6 +59,7 @@ export default class Tasks {
         }
 
         w.render(new Title($$("tasks")))
+        w.render(new InDevelopmentCard())
 
         const today = await TimeManagementStorage.getTasks()
         const renderToday = await Promise.all(today.map(TaskToCardRegenerator))
@@ -91,33 +93,16 @@ export default class Tasks {
 
         const allCount = today.length + tomorrow.length
         if (allCount === 0) {
-            w.render(new Card(new CardContent(
-                new TwoSidesMobileFlick(
-                    new AlignedContent([
-                        new Icon("info", {
-                            margin: "5px",
-                            marginRight: "15px",
-                            fontSize: "32px",
-                            color: Design.getVar("color-main"),
-                        }),
-                        [
-                            new Title($$("@tasks/empty"), 2, { marginLeft: 0, marginTop: 0 }),
-                            $$("@tasks/empty_description"),
-                        ],
-                    ]),
-                    new Button({
-                        content: $$("@tasks/empty_fill_it"),
-                        handler() {
-                            Navigation.hash = {
-                                module: "tasks",
-                                params: [
-                                    "edit",
-                                ],
-                            }
-                        },
-                    }),
-                ),
-            ), { type: ["main-highlight"] }))
+            w.render(new WarningConstructorButton({
+                type: 1,
+                icon: "info",
+                title: $$("@tasks/empty"),
+                content: $$("@tasks/empty_description"),
+                button: {
+                    content: $$("@tasks/empty_fill_it"),
+                    handler() { Navigation.hash = { module: "tasks", params: ["edit"] } },
+                },
+            }))
         }
 
         WindowManager.newWindow().append(w)

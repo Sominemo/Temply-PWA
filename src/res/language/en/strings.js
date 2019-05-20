@@ -7,6 +7,9 @@ export default {
     timetable: {
         __index: "timetable",
         defaults: "defaults",
+        hint: "hint",
+        where_to_control: "you can import and export your timetable in storage settings",
+        check_out: "check out",
         time_management_settings: "timetable settings",
         how_to_create_subjects: "you can create subjects while filling your timetable",
         lesson_length: "lesson length",
@@ -226,4 +229,6 @@ export default {
     select_file: "select file",
     success: "success",
     failure: "failure",
+    dev_warn: "this feature is in development for now",
+    preview_warn: "this feature is in test now and may be unstable",
 }

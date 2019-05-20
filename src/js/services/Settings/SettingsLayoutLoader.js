@@ -11,10 +11,8 @@ import SettingsLayoutManager from "./user/manager"
 import { $$, generateLanguageList, $ } from "../Language/handler"
 import updatePopup from "./layouts/updatePopup"
 import SW from "../../main/SW"
-import { Icon, Title, TwoSidesMobileFlick } from "../../ui/DOM/Library/object"
-import AlignedContent from "../../ui/DOM/Library/object/AlignedContent"
 import Design from "../../main/design"
-import { Button, ContentEditable } from "../../ui/DOM/Library/object/input"
+import { ContentEditable } from "../../ui/DOM/Library/object/input"
 import DBUserPresence from "../DBUserPresence"
 import { isRecoveryMode } from "../../recovery"
 import BigNumberInput from "../../ui/DOM/Library/object/input/contentEditableWidgets/bigNumberInput"
@@ -30,6 +28,8 @@ import SlideOut from "../../ui/Animation/Library/Effects/slideOut"
 import IconSide from "../../ui/DOM/Library/object/iconSide"
 import DOM from "../../ui/DOM/Classes/dom"
 import LocationChooser from "../../diary/widgets/locationChooser"
+import WarningConstructor from "../../ui/DOM/Library/object/warnings/WarningConstructor"
+import WarningConstructorButton from "../../ui/DOM/Library/object/warnings/WarningConstructorButton"
 
 export default async function SettingsLayoutLoader() {
     const layout = new SettingsLayout()
@@ -102,23 +102,13 @@ export default async function SettingsLayoutLoader() {
         .getGroup("recovery-mode-alert")
         .createItem({
             id: "recovery-mode-alert-text",
-            dom: CardContent,
-            options: [
-                new TwoSidesMobileFlick(
-                    new AlignedContent([
-                        new Icon("warning", {
-                            margin: "5px",
-                            marginRight: "15px",
-                            fontSize: "32px",
-                            color: Design.getVar("color-warning-info"),
-                        }),
-                        [
-                            new Title($$("@recovery_mode/now"), 2, { marginLeft: 0, marginTop: 0 }),
-                            $$("@recovery_mode/back_to_normal"),
-                        ],
-                    ]),
-                ),
-            ],
+            dom: WarningConstructor,
+            options: {
+                type: 3,
+                icon: "warning",
+                title: $$("@recovery_mode/now"),
+                content: $$("@recovery_mode/back_to_normal"),
+            },
         })
 
 
@@ -176,35 +166,53 @@ export default async function SettingsLayoutLoader() {
     layout.getAct("updates").getSection("updates-main").getGroup("updates-pending-alert")
         .createItem({
             id: "update-pending-text",
-            dom: CardContent,
-            options: [
-                new TwoSidesMobileFlick(
-                    new AlignedContent([
-                        new Icon("warning", {
-                            margin: "5px",
-                            marginRight: "15px",
-                            fontSize: "32px",
-                            color: Design.getVar("color-warning-info"),
-                        }),
-                        [
-                            new Title($$("@settings/updates/pending"), 2, { marginLeft: 0, marginTop: 0 }),
-                            $$("@settings/updates/click_to_restart"),
-                        ],
-                    ]),
-                    new Button({
-                        content: $$("@settings/updates/restart"),
-                        type: ["alert"],
-                        handler() {
-                            window.location.reload()
-                        },
-                    }),
-                ),
-            ],
+            dom: WarningConstructorButton,
+            options: {
+                type: 3,
+                icon: "warning",
+                title: $$("@settings/updates/pending"),
+                content: $$("@settings/updates/click_to_restart"),
+                button: {
+                    content: $$("@settings/updates/restart"),
+                    handler() { window.location.reload() },
+
+                },
+            },
         })
 
     let lessonLength = await SettingsStorage.get("timetable_lesson_default_length")
     let breakLength = await SettingsStorage.get("timetable_break_default_length")
     let lessonStart = await SettingsStorage.get("timetable_lesson_default_start")
+
+    layout.getAct("timetable")
+        .createSection({
+            id: "timetable-hints",
+            dom: SettingsSectionElement,
+            options: {},
+        })
+        .getSection("timetable-hints")
+        .createGroup({
+            id: "timetable-hints-group",
+            dom: DOM,
+            options: {
+                new: "div",
+            },
+        })
+        .getGroup("timetable-hints-group")
+        .createItem({
+            id: "timetable-io-hint",
+            dom: WarningConstructorButton,
+            options: {
+                type: 2,
+                icon: "info",
+                title: $$("@timetable/hint"),
+                content: $$("@timetable/where_to_control"),
+                button: {
+                    content: $$("@timetable/check_out"),
+                    handler: () => { Navigation.hash = { module: "settings", params: ["storage"] } },
+                },
+            },
+        })
 
     layout.getAct("timetable")
         .createSection({

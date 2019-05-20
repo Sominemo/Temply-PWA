@@ -16,6 +16,10 @@
     margin: 15px;
 }
 
+.two-sides-content-wrapper.mobile-flick .inline-title-level-2 {
+    margin: 0
+}
+
 .inline-title-level-1 + .inline-title-level-2 {
     margin-top: 0;
 }

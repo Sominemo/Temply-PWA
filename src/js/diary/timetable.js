@@ -6,7 +6,7 @@ import {
     Card, CardTextList, CardList, CardContent,
 } from "../ui/DOM/Library/object/card"
 import {
-    Title, TwoSidesMobileFlick, Icon, TwoSidesWrapper,
+    Title, TwoSidesWrapper,
 } from "../ui/DOM/Library/object"
 import { $$, $ } from "../services/Language/handler"
 import IconSide from "../ui/DOM/Library/object/iconSide"
@@ -21,7 +21,6 @@ import timeToSeconds from "../tools/transformation/text/timeToSeconds"
 import TimeNumInput from "../ui/DOM/Library/object/input/contentEditableWidgets/timeNumInput"
 import BigNumberInput from "../ui/DOM/Library/object/input/contentEditableWidgets/bigNumberInput"
 import { ContentEditable, Button } from "../ui/DOM/Library/object/input"
-import AlignedContent from "../ui/DOM/Library/object/AlignedContent"
 import Design from "../main/design"
 import LocationChooser from "./widgets/locationChooser"
 import Prompt from "../ui/DOM/Library/elements/prompt"
@@ -31,6 +30,8 @@ import Toast from "../ui/DOM/Library/elements/toast"
 import { ContextMenu } from "../ui/DOM/Library/elements"
 import SlideOut from "../ui/Animation/Library/Effects/slideOut"
 import EaseInOutQuad from "../ui/Animation/Library/Timing/easeInOutQuad"
+import WarningConstructorButton from "../ui/DOM/Library/object/warnings/WarningConstructorButton"
+import WarningConstructor from "../ui/DOM/Library/object/warnings/WarningConstructor"
 
 Nav.newItem({
     name() { return $$("timetable") },
@@ -202,33 +203,16 @@ export default class Timetable {
 
         if (countEmpty === 7) {
             w.render(new Title($$("timetable")))
-            w.render(new Card(new CardContent(
-                new TwoSidesMobileFlick(
-                    new AlignedContent([
-                        new Icon("info", {
-                            margin: "5px",
-                            marginRight: "15px",
-                            fontSize: "32px",
-                            color: Design.getVar("color-main"),
-                        }),
-                        [
-                            new Title($$("@timetable/empty"), 2, { marginLeft: 0, marginTop: 0 }),
-                            $$("@timetable/empty_description"),
-                        ],
-                    ]),
-                    new Button({
-                        content: $$("@timetable/empty_fill_it"),
-                        handler() {
-                            Navigation.hash = {
-                                module: "timetable",
-                                params: [
-                                    "edit",
-                                ],
-                            }
-                        },
-                    }),
-                ),
-            ), { type: ["main-highlight"] }))
+            w.render(new WarningConstructorButton({
+                type: 1,
+                icon: "info",
+                title: $$("@timetable/empty"),
+                content: $$("@timetable/empty_description"),
+                button: {
+                    content: $$("@timetable/empty_fill_it"),
+                    handler() { Navigation.hash = { module: "timetable", params: ["edit"] } },
+                },
+            }))
         }
 
         WindowManager.newWindow().append(w)
@@ -251,22 +235,14 @@ export default class Timetable {
         w.render(new Title((editMode ? $$("@timetable/edit/edit_entry") : $$("@timetable/edit/new_entry"))))
 
         const warningContent = new DOM({ new: "span" })
-        const warningCard = new Card(new CardContent(
-            new TwoSidesMobileFlick(
-                new AlignedContent([
-                    new Icon("warning", {
-                        margin: "5px",
-                        marginRight: "15px",
-                        fontSize: "32px",
-                        color: Design.getVar("color-warning-info"),
-                    }),
-                    [
-                        new Title($$("@timetable/edit/warning"), 2, { marginLeft: 0, marginTop: 0 }),
-                        warningContent,
-                    ],
-                ]),
-            ),
-        ), { style: { display: "none" }, type: ["warn-highlight"] })
+        const warningCard = new WarningConstructor({
+            type: 3,
+            icon: "warning",
+            title: $$("@timetable/edit/warning"),
+            content: warningContent,
+            style: { display: "none" },
+        })
+
 
         function showWarning(warning = null) {
             if (warning === null) {

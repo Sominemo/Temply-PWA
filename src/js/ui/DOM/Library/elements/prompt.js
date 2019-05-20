@@ -18,15 +18,17 @@ export default function Prompt({
 
     ca.push(new Title(title, 2))
     ca.push(new CardContent(text))
-    ca.push(new DOM({
-        new: "div",
-        class: "bottom-buttons",
-        content: new Align(buttons.map((e) => {
-            if (e instanceof DOM) return e
-            if (typeof e === "object") if (e.handler === "close") e.handler = () => pop.close()
-            return new Button(e)
-        }), ["center", "row"]),
-    }))
+    if (buttons.length > 0) {
+        ca.push(new DOM({
+            new: "div",
+            class: "bottom-buttons",
+            content: new Align(buttons.map((e) => {
+                if (e instanceof DOM) return e
+                if (typeof e === "object") if (e.handler === "close") e.handler = () => pop.close()
+                return new Button(e)
+            }), ["center", "row"]),
+        }))
+    }
 
     const content = new DOM({ new: "div", content: ca })
     pop = new Popup(content, { control: o, fullWidth: true, ...popupSettings })
