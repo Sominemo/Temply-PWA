@@ -213,6 +213,7 @@ main {
     left: 0;
     right: 0;
     z-index: 1;
+    will-change: transform, opacity, scroll-position;
 }
 
 .s--wm-aoi {
@@ -241,6 +242,7 @@ main {
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative;
+    will-change: opacity, scroll-position;
 }
 
 #s--wm-helpers {

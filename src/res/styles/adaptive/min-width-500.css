@@ -2,6 +2,11 @@
     :root {
         --nav-bottom: 1;
     }
+    @media all and (display-mode: standalone) {
+        body {
+            box-shadow: inset var(--color-top-border-delimeter) 0 1px 0;
+        }
+    }
     #scaffold {
         flex-direction: column-reverse;
         height: 100%;
@@ -50,7 +55,7 @@
         display: block;
         height: 5px;
         width: 33%;
-        background: #e0e0e0;
+        background: var(--color-nav-mobile-gesture);
         border-radius: 2em;
         margin: 2.5px auto;
         position: static;
@@ -97,6 +102,7 @@
     }
     context-menu-handler-isolate.shown {
         background: var(--color-context-menu-backdrop);
+        will-change: opacity;
     }
     context-menu-item {
         padding: 15px 20px 15px 0;

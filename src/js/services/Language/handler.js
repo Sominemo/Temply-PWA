@@ -8,7 +8,7 @@ import Design from "../../main/design"
 import SettingsStorage from "../Settings/SettingsStorage"
 import { SettingsGroupContainer, SettingsSectionElement } from "../../ui/DOM/Library/settings"
 import RadioLabel from "../../ui/DOM/Library/object/input/radioLabel"
-import Toast from "../../ui/DOM/Library/elements/toast"
+import reloadToast from "../../tools/interaction/reloadToast"
 
 const languagePack = LanguageCore.language
 
@@ -119,16 +119,7 @@ function generateLanguageList(act) {
         handler(s) {
             if (!s) return
             SettingsStorage.set("user_ui_language", lang.code)
-            Toast.add($$("@settings/restart_to_apply"), 0, {
-                buttons: [
-                    {
-                        content: $$("@settings/actions/restart"),
-                        handler() {
-                            window.location.reload()
-                        },
-                    },
-                ],
-            })
+            reloadToast()
         },
         selected: (lang.code === current),
     }))

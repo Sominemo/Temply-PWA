@@ -179,6 +179,7 @@ md-button {
     background: var(--color-button-background);
     color: var(--color-button-text);
     margin: 10px;
+    margin-left: 0;
     border-radius: 5px;
     box-shadow: 0 2px 6px var(--color-button-shadow);
     transition: all .2s;
@@ -191,6 +192,10 @@ md-button {
     -khtml-user-select: none;
     user-select: none;
     font-family: var(--font-accent);
+}
+
+md-button + md-button {
+    margin-left: 10px;
 }
 
 md-button:active {
@@ -416,8 +421,8 @@ md-button:active:before, md-button:focus:before {
 }
 
 radio-handler>md-radio {
-    width: 20px;
-    height: 20px;
+    width: 21px;
+    height: 21px;
     box-shadow: inset 0 0 0 2px var(--color-radio-selected);
     position: relative;
     border-radius: 50%;
@@ -450,14 +455,14 @@ radio-handler>md-radio:before {
 }
 
 radio-handler[selected-radio]>md-radio:before {
-    width: 50%;
-    height: 50%;
+    width: 50.5%;
+    height: 50.5%;
 }
 
 radio-handler>md-radio:after {
     content: "";
-    width: 50%;
-    height: 50%;
+    width: 50.5%;
+    height: 50.5%;
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -754,6 +759,7 @@ context-menu-delimeter {
 context-menu.swiper {
     transition: transform .05s ease-in-out;
     transform: translateY(100%) !important;
+    will-change: transform, height, top;
 }
 
 context-menu.swiper.start {

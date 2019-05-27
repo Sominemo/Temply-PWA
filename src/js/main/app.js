@@ -145,7 +145,7 @@ export default class App {
                     },
                 }),
                 [
-                    new Title(this.appName, 2, { marginLeft: 0, marginTop: 0 }),
+                    new Title(this.appName, 2, { margin: 0 }),
                     this.version,
                 ],
             ]),

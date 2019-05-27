@@ -31,6 +31,7 @@
 	--color-nav-active: var(--color-accent);
 	--color-nav-hover: var(--color-nav-icon);
 	--color-nav-hover-active: var(--color-nav-active);
+	--color-nav-mobile-gesture: var(--color-nav-icon);
 
 	--color-main-bg: #313131;
 

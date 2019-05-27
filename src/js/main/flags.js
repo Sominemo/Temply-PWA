@@ -64,18 +64,29 @@ export default class FlagsUI {
                 about: "Enables 'Miscellaneous' group and a link to 'Experiments' section for main settings menu",
                 id: "miscellaneous_in_settings",
             })
+            /*
             exps.push({
                 title: "Advanced window transitions",
-                about: "Uses new animations while changing app screens. May lag on portable and low-end devices",
+                about: "Uses new animations while changing app screens. May lag on
+                portable and low-end devices",
                 id: "ui_wm_adv_transitions",
             })
+
+            exps.push({
+                title: "Advanced window transitions | Use CSS",
+                about: "Enables CSS window transitions instead of JS-powered ones.
+                Requires ui_wm_adv_transitions to be enabled too",
+                id: "ui_wm_adv_css_transitions",
+            })
+            */
             exps.push({
                 title: "TAB-powered navigation",
-                about: `Adds tabIndex attributes to all clickable elements so they can be 
-                focused by pressing the 'TAB' button and adds event listener for the 'Enter' key to simulate 
+                about: `Adds tabIndex attributes to all clickable elements so they can be
+                focused by pressing the 'TAB' button and adds event listener for the 'Enter' key to simulate
                 click event for current active element`,
                 id: "enable_tab_navigation",
             })
+
             exps.push({
                 title: "Enable Test Field",
                 about: "Allows user to enter /test module with layout tests etc.",

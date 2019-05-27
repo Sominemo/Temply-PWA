@@ -1,6 +1,7 @@
 :root {
 	--color-fallback-main-bg: #ffffff;
 	--color-scrollbar-fill: rgba(116,116,116,.5);
+	--color-top-border-delimeter: rgba(0, 0, 0, .2);
 	
 	--color-main-light-a: #51bba0;
 	--color-main-light: #079d7b;
@@ -31,6 +32,7 @@
 	--color-nav-active: var(--color-accent);
 	--color-nav-hover: var(--color-nav-icon);
 	--color-nav-hover-active: var(--color-nav-active);
+	--color-nav-mobile-gesture: #e0e0e0;
 
 	--color-main-bg: #ffffff;
 

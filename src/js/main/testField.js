@@ -165,8 +165,22 @@ export default class TestField {
         w.render(new Button({
             content: new IconSide("motorcycle", "Graphical Test"),
             type: ["small", "light"],
-            handler() {
-                runGPUTest()
+            handler(e) {
+                ContextMenu({
+                    event: e,
+                    content: [
+                        {
+                            icon: "opacity",
+                            title: "General",
+                            handler() { runGPUTest(1) },
+                        },
+                        {
+                            icon: "open_in_browser",
+                            title: "Advanced Window Transitions",
+                            handler() { runGPUTest(2) },
+                        },
+                    ],
+                })
             },
         }))
 

@@ -8,6 +8,7 @@ import FadeIn from "./Animation/Library/Effects/fadeIn"
 import Animation from "./Animation/Classes/Animation"
 import EaseOutCubic from "./Animation/Library/Timing/easeOutCubic"
 import EaseOutQuad from "./Animation/Library/Timing/easeOutQuad"
+import CSSAnimation from "./Animation/Classes/CSSAnimation"
 
 export default class WindowManager {
     static windows = []
@@ -28,10 +29,30 @@ export default class WindowManager {
 
     static advancedTransitionsCache = null
 
+    static useCSSTransitionsCache = null
+
+    static NoTransitionsCache = null
+
     static get advancedTransitions() {
         if (this.advancedTransitionsCache !== null) return this.advancedTransitionsCache
         SettingsStorage.getFlag("ui_wm_adv_transitions").then((r) => {
-            this.advancedTransitionsCache = r
+            this.advancedTransitionsCache = !!r
+        })
+        return false
+    }
+
+    static useCSSTransitions() {
+        if (this.useCSSTransitionsCache !== null) return this.useCSSTransitionsCache
+        SettingsStorage.getFlag("ui_wm_adv_css_transitions").then((r) => {
+            this.useCSSTransitionsCache = !!r
+        })
+        return false
+    }
+
+    static get NoTransitions() {
+        if (this.NoTransitionsCache !== null) return this.NoTransitionsCache
+        SettingsStorage.getFlag("ui_wm_no_transitions").then((r) => {
+            this.NoTransitionsCache = !!r
         })
         return false
     }
@@ -58,12 +79,76 @@ export default class WindowManager {
         async function basicTransition() {
             await new FadeOut({ duration: 200 }).apply(self.controlWin)
             self.controlWin.clear(generated)
+            self.controlWin.elementParse.native.scrollTop = 0
             await new FadeIn({ duration: 200 }).apply(self.controlWin)
         }
 
+        function CSSTransition() {
+            requestAnimationFrame(() => {
+                new CSSAnimation({
+                    duration: 200,
+                    timingFunc: "cubic-bezier(0.215, 0.61, 0.355, 1)",
+                    start: {
+                        opacity: 0,
+                        transform: "scale(1.05)",
+                        zIndex: 1,
+                    },
+                    end: {
+                        opacity: 1,
+                        transform: "scale(1)",
+                        zIndex: 1,
+                    },
+                }).apply(generated)
+
+                self.controlWin.render(generated)
+
+                if (prev) {
+                    const cw = self.controlWin
+                    const curScroll = cw.elementParse.native.scrollTop
+                    if (curScroll !== 0) {
+                        new Animation({
+                            duration: 100,
+                            timingFunc: EaseOutQuad,
+                            painter(time) {
+                                cw.elementParse.native
+                                    .scrollTop = Math.floor(curScroll * (1 - time))
+                            },
+                        }).apply(cw)
+                    }
+                    new CSSAnimation({
+                        duration: 200,
+                        timingFunc: "cubic-bezier(0.215, 0.61, 0.355, 1)",
+                        start: {
+                            opacity: 1,
+                            transform: "scale(1)",
+                            zIndex: 0,
+                        },
+                        end: {
+                            opacity: 0,
+                            transform: "scale(1.05)",
+                            zIndex: 0,
+                        },
+                    }).apply(prev).then(() => prev.destructSelf())
+                }
+            })
+        }
+
         function animateTransition() {
+            if (self.NoTransitions) {
+                prev.destructSelf()
+                self.controlWin.render(generated)
+
+                return
+            }
+
             if (!self.advancedTransitions) {
                 basicTransition()
+                self.useCSSTransitions()
+                return
+            }
+
+            if (self.useCSSTransitions()) {
+                CSSTransition()
                 return
             }
 
@@ -75,7 +160,6 @@ export default class WindowManager {
                         duration: 100,
                         timingFunc: EaseOutQuad,
                         painter(time) {
-                            console.log(Math.floor(curScroll * (1 - time)))
                             cw.elementParse.native.scrollTop = Math.floor(curScroll * (1 - time))
                         },
                     }).apply(cw)

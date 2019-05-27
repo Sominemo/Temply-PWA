@@ -1,3 +1,19 @@
+# 0.6.3 27.05.2019
+## Core
++ New syntethic test type
++ CSS Animations core
++ Window Transitions: CSS-Powered
++ Window Transitions: No animation
++ Window animation switch in settings
+
+# 0.6.3 26.05.2019
+## UI
++ System theme in settings (no selection option instead of showing current theme)
++ Automatic theme switching based on system settings
+* Fixed browser color changing when user was switching theme from dark to default
+* Removed margin below the app name in About screen
+* Fixed mobile-gesture block color in dark theme
+
 # 0.6.2 20.05.2019
 ## Core
 * Code fixes

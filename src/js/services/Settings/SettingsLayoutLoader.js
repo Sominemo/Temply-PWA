@@ -437,7 +437,7 @@ export default async function SettingsLayoutLoader() {
     DBUserPresence.generateSettingsLayout(layout.getAct("storage"))
 
     generateLanguageList(layout.getAct("language"))
-    Design.generateThemesList(layout.getAct("appearance"))
+    await Design.generateThemesList(layout.getAct("appearance"))
 
     SettingsLayoutManager.applyLayout(layout)
 }

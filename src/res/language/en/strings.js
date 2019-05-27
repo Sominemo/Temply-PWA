@@ -118,9 +118,30 @@ export default {
             __index: "appearance",
             themes: {
                 __index: "themes",
+                system_theme_info: "depends on your system settings",
                 names: {
+                    system: "system",
                     default: "default",
                     dark: "dark",
+                },
+            },
+            window_transition: "transitions",
+            animations: {
+                optimized: {
+                    __index: "optimized",
+                    info: "advanced animation that is smooth on most devices",
+                },
+                simple: {
+                    __index: "simple",
+                    info: "simplified fade animation",
+                },
+                stable: {
+                    __index: "stable",
+                    info: "use instead of optimized if it acts wrong",
+                },
+                no_animation: {
+                    __index: "no animation",
+                    info: "just app screen switching",
                 },
             },
         },
