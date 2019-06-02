@@ -49,7 +49,7 @@ export default class Tasks {
                     icon: "archive",
                     title: "Archive",
                     handler() {
-                        Navigation.parse = {
+                        Navigation.hash = {
                             module: "tasks",
                             params: ["all"],
                         }

@@ -73,7 +73,7 @@ export default class TaskCard {
                                     new: "div",
                                     content: [
                                         IconButton("assignment", () => {
-                                            Navigation.parse = {
+                                            Navigation.hash = {
                                                 module: "tasks",
                                                 params: ["list", subjectKey],
                                             }
