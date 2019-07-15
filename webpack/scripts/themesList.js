@@ -10,7 +10,7 @@ const getDirectories = source => readdirSync(source)
 
 const getVar = (theme, name) => theme.match(RegExp(`--${name}: (.+?);`, "m"))[1]
 
-function getThemesMap(path) {
+function getThemesFolderMap(path) {
     const r = []
     const list = getDirectories(path)
     list.forEach((e) => {
@@ -37,9 +37,17 @@ function getThemesMap(path) {
     return r
 }
 
-module.exports = function makeThemesMap(path) {
-    const map = getThemesMap(path)
-    writeFileSync(join(path, "list.js"),
+function getThemesMap(paths) {
+    if (!Array.isArray(paths)) return getThemesFolderMap(paths)
+    return paths.reduce((r, i) => [...r, ...getThemesFolderMap(i)], [])
+        .filter((a, i, self) => i === self.findIndex(t => (
+            t.dir === a.dir
+        )))
+}
+
+module.exports = function makeThemesMap(paths, path) {
+    const map = getThemesMap(paths)
+    writeFileSync(join(path, "themes.js"),
         `// This file generates automatically on Webpack build
 // Don't edit its content (see /scripts folder in webpack config directory)
 /* eslint-disable */

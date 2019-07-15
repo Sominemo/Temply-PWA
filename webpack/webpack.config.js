@@ -3,13 +3,16 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const WebpackPwaManifest = require("webpack-pwa-manifest")
 const workboxPlugin = require("workbox-webpack-plugin")
 const BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin")
-const CleanWebpackPlugin = require("clean-webpack-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const WebpackAutoInject = require("webpack-auto-inject-version")
 const TerserPlugin = require("terser-webpack-plugin")
 const ResourceHintWebpackPlugin = require("resource-hints-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const webpack = require("webpack")
 const fecha = require("fecha")
+const fs = require("fs-extra")
+const ExtraWatchWebpackPlugin = require("extra-watch-webpack-plugin")
+const WatchHook = require("./scripts/WatchHook")
 
 const __root = process.cwd()
 const builder = {
@@ -24,16 +27,26 @@ const PATHS = {
     public: "https://app.temply.procsec.top/",
 }
 
-PATHS.resources = path.join(PATHS.source, "res")
-PATHS.js = path.join(PATHS.source, "js")
+PATHS.app = path.join(PATHS.source, "app")
+PATHS.core = path.join(PATHS.source, "core")
+PATHS.environment = path.join(PATHS.source, "environment")
+PATHS.generated = path.join(PATHS.app, "generated")
+PATHS.themesGenerated = path.join(PATHS.generated, "themes")
+
+PATHS.resources = path.join(PATHS.app, "res")
+PATHS.envResources = path.join(PATHS.environment, "res")
 PATHS.language = path.join(PATHS.resources, "language")
-PATHS.themes = path.join(PATHS.resources, "styles", "colors")
+PATHS.themes = [
+    path.join(PATHS.resources, "styles", "themes"),
+    path.join(PATHS.envResources, "styles", "themes"),
+]
 
 // Own scripts
 const makeLangMap = require(path.join(__dirname, "scripts", "languageList"))
 const makeThemesMap = require(path.join(__dirname, "scripts", "themesList"))
-makeLangMap(PATHS.language)
-makeThemesMap(PATHS.themes)
+makeLangMap(PATHS.language, PATHS.generated)
+makeThemesMap(PATHS.themes, PATHS.generated)
+PATHS.themes.map(el => fs.copySync(el, PATHS.themesGenerated))
 
 const getChangelog = require(path.join(__dirname, "scripts", "getChangelog"))
 
@@ -50,12 +63,12 @@ module.exports = (env = {}) => ({
                     enforce: true,
                 },
                 language: {
-                    test: /[\\/]res[\\/]language[\\/].+[\\/]/,
+                    test: /language[\\/].+[\\/]/,
                     enforce: true,
                     name(module, chunks) {
                         // get the name. E.g. node_modules/packageName/not/this/part.js
                         // or node_modules/packageName
-                        const packageName = module.context.match(/[\\/]res[\\/]language[\\/](.*?)([\\/]|$)/)[1]
+                        const packageName = module.context.match(/language[\\/](.*?)([\\/]|$)/)[1]
                         // npm package names are URL-safe, but some servers don't like @ symbols
                         return `language/${packageName.replace("@", "")}`
                     },
@@ -74,12 +87,18 @@ module.exports = (env = {}) => ({
     },
     resolve: {
         alias: {
-            Resources: PATHS.resources,
-            DOMPath: path.resolve(PATHS.js, "ui", "DOM"),
+            "@DOMPath": path.join(PATHS.core, "DOM"),
+            "@Resources": PATHS.resources,
+            "@EnvResources": PATHS.envResources,
+            "@Generated": PATHS.generated,
+            "@App": PATHS.app,
+            "@Core": PATHS.core,
+            "@Environment": PATHS.environment,
+            "@Themes": PATHS.themesGenerated,
         },
     },
     entry: [
-        path.join(PATHS.js, "index.js"),
+        path.join(PATHS.core, "init", "index.js"),
     ],
     ...(!PROD || env.makeMaps ? { devtool: "source-map" } : {}),
     output: {
@@ -93,7 +112,6 @@ module.exports = (env = {}) => ({
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
                     options: {
@@ -139,10 +157,16 @@ module.exports = (env = {}) => ({
         new CopyWebpackPlugin([
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
-            { from: path.join(PATHS.resources, "language.template.htaccess"), to: path.join(PATHS.build, "language", ".htaccess"), toType: "file" },
+            { from: path.join(PATHS.envResources, "language.template.htaccess"), to: path.join(PATHS.build, "language", ".htaccess"), toType: "file" },
             { from: path.join(PATHS.resources, "images", "logo", "ios"), to: path.join(PATHS.build, "assets", "icons", "ios") },
             { from: path.join(PATHS.resources, "animations"), to: path.join(PATHS.build, "assets", "animations") },
         ]),
+        new ExtraWatchWebpackPlugin({
+            dirs: PATHS.themes,
+        }),
+        new WatchHook(() => {
+            PATHS.themes.map(el => fs.copySync(el, PATHS.themesGenerated))
+        }),
         new WebpackAutoInject({
             SILENT: true,
             SHORT: "TEMPLY",

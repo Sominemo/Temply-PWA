@@ -1,18 +1,35 @@
 {
-    "compilerOptions": {
-      "target": "esnext",
-      "allowSyntheticDefaultImports": true,
-      "moduleResolution": "node",
-      },
-      "exclude": [
-        "node_modules"
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "target": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@DOMPath/*": [
+        "src/core/DOM/*"
       ],
-      "paths": {
-        "$Resources/*": [
-          "./src/res/"
-        ],
-        "$DOMPath/*": [
-          "./src/js/ui/DOM"
-        ],
-      }
+      "@App/*": [
+        "src/app/*"
+      ],
+      "@Core/*": [
+        "src/core/*"
+      ],
+      "@Environment/*": [
+        "src/environment/*"
+      ],
+      "@Resources/*": [
+        "src/app/res/*"
+      ],
+      "@Generated/*": [
+        "src/app/generated/*"
+      ],
+      "@Themes/*": [
+        "src/app/res/styles/themes/*",
+        "src/environment/res/styles/themes/*"
+      ],
+    }
   }
+}

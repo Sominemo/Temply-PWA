@@ -1,3 +1,14 @@
+# 0.7.0 15.07.2019
+## General
+* Full refactoring by splitting code to different parts
+- Hidden the tasks module from menu
+
+## Core
++ CoreLoader to control the order of init actions
+* main and uiinit now united to the single chunk
+* United app init console output
++ Report output without trace
+
 # 0.6.3 27.05.2019
 ## Core
 + New syntethic test type

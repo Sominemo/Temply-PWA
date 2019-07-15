@@ -1,0 +1,81 @@
+import { Nav, WindowContainer } from "@Environment/Library/DOM/buildBlock"
+import Navigation from "@Core/Services/navigation"
+import SettingsLayoutManager from "@Core/Services/Settings/user/manager"
+import SettingsLayout from "@Core/Services/Settings/user/layout"
+import { Title } from "@Environment/Library/DOM/object"
+import { Card, CardList } from "@Environment/Library/DOM/object/card"
+import { $$ } from "@Core/Services/Language/handler"
+import Design from "@Core/Services/design"
+import WindowManager from "@Core/Services/SimpleWindowManager"
+
+Nav.newItem({
+    name() { return $$("settings") },
+    icon: "settings",
+    id: "settings",
+    handler: () => {
+        Navigation.hash = {
+            module: "settings",
+            params: {},
+        }
+    },
+})
+
+
+export default class SettingsUI {
+    static async Init() {
+        const w = new WindowContainer()
+        const l = SettingsLayoutManager.layout
+
+        try {
+            if (!(l instanceof SettingsLayout)) {
+                throw new TypeError(`Incorrect Settings Layout applied of type ${typeof this._layout}`)
+            }
+
+            const path = Navigation.parse.params
+            const tAct = (path.length > 0 ? path[0] : l.defaultAct)
+            const actObj = l.getAct(tAct)
+
+            if (!(typeof actObj === "object")) {
+                w.clear()
+                w.render(new Title("Oops!"))
+                w.render(new Card(new CardList([
+                    {
+                        content: $$("@settings/errors/no_page"),
+                    },
+
+                    {
+                        content: $$("@settings/actions/go_main"),
+                        handler() { Navigation.hash = { module: "settings" } },
+                        style: {
+                            background: Design.getVar("color-accent"),
+                            color: Design.getVar("color-generic-inverted"),
+                        },
+                    },
+                ])))
+                return
+            }
+
+            w.render(await actObj.render())
+            WindowManager.newWindow().append(w)
+        } catch (e) {
+            w.clear()
+            w.render(new Title($$("unexpected_error")))
+            w.render(new Card(new CardList([
+                {
+                    content: $$("@settings/errors/layout_failed"),
+                },
+
+                {
+                    content: $$("@settings/actions/open_about"),
+                    handler() { Navigation.hash = { module: "about" } },
+                    style: {
+                        background: Design.getVar("color-accent"),
+                        color: Design.getVar("color-generic-inverted"),
+                    },
+                },
+            ])))
+
+            throw e
+        }
+    }
+}

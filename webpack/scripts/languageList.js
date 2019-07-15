@@ -21,9 +21,9 @@ function getLangMap(path) {
     return r
 }
 
-module.exports = function makeLangMap(path) {
+module.exports = function makeLangMap(path, save) {
     const map = getLangMap(path)
-    writeFileSync(join(path, "list.js"),
+    writeFileSync(join(save, "languages.js"),
         `// This file generates automatically on Webpack build
 // Don't edit its content (see /scripts folder in webpack config directory)
 /* eslint-disable */

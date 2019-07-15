@@ -13,6 +13,12 @@ function getLastCommit(isProd) {
 
 function parseMDFile(version, date) {
     let file = fs.readFileSync("changelog.md", "utf8")
+    const multiline = file.split("\n")
+    if (multiline[0] === "[LOCK]") {
+        multiline.splice(0, 1)
+        file = multiline.join("\n")
+    }
+
     if (!file.match(/^# /)) {
         file = `# ${version} ${date}\n${file}`
         fs.writeFileSync("changelog.md", file)

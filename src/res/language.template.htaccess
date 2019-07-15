@@ -1,3 +1,0 @@
-ExpiresActive On
-ExpiresByType text/javascript "access"
-ExpiresByType application/javascript "access"
