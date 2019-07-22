@@ -59,6 +59,14 @@ CoreLoader.registerTask({
                     onfail: async (a, b, c) => { await c(!!a); return true },
                 },
             },
+            {
+                name: "tasks_enabled",
+                rule: {
+                    default: false,
+                    checker: new FieldChecker({ type: "boolean" }),
+                    onfail: async (a, b, c) => { await c(!!a); return true },
+                },
+            },
         ], "flags")
 
         SettingsCheckProvider.setRules([

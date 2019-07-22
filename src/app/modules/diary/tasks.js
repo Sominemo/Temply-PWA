@@ -17,24 +17,11 @@ import ValueToDate from "@Core/Tools/time/ValueToDate"
 import { SettingsActLink } from "@Environment/Library/DOM/settings"
 import IconSide from "@Environment/Library/DOM/object/iconSide"
 import { Align } from "@Environment/Library/DOM/style"
+import SettingsStorage from "@Core/Services/Settings/SettingsStorage"
+import { CoreLoader, CoreLoaderSkip, CoreLoaderResult } from "@Core/Init/CoreLoader"
 import SubjectChooser from "./widgets/subjectChooser"
 import TaskToCardRegenerator from "./widgets/taskToCardRegenerator"
 import TimeManagementStorage from "./storage/TimeManagementStorage"
-
-
-/*
-Nav.newItem({
-    name() { return $$("tasks") },
-    icon: "assignment",
-    id: "tasks",
-    handler: () => {
-        Navigation.hash = {
-            module: "tasks",
-            params: {},
-        }
-    },
-})
-*/
 
 export default class Tasks {
     static async Init() {
@@ -273,3 +260,31 @@ export default class Tasks {
         WindowManager.newWindow().append(w)
     }
 }
+
+CoreLoader.registerTask({
+    id: "tasks_module",
+    presence: "Tasks",
+    async task() {
+        if (!(await (SettingsStorage.getFlag("tasks_enabled")))) return new CoreLoaderSkip()
+
+        Navigation.addModule({
+            name: "Tasks",
+            id: "tasks",
+            callback() { Tasks.Init() },
+        })
+
+        Nav.newItem({
+            name() { return $$("tasks") },
+            icon: "assignment",
+            id: "tasks",
+            handler: () => {
+                Navigation.hash = {
+                    module: "tasks",
+                    params: {},
+                }
+            },
+        })
+
+        return new CoreLoaderResult()
+    },
+})

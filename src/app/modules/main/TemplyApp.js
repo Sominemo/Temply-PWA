@@ -12,6 +12,7 @@ import WindowManager from "@Core/Services/SimpleWindowManager"
 import getCounter from "@Core/Tools/objects/counter"
 import AlignedContent from "@Environment/Library/DOM/object/AlignedContent"
 import { SettingsActLink } from "@Environment/Library/DOM/settings"
+import { CoreLoader } from "@Core/Init/CoreLoader"
 
 export default class TemplyApp extends App {
     static async lastChangelog() {
@@ -143,3 +144,15 @@ export default class TemplyApp extends App {
         w.render(this.changelogFormated())
     }
 }
+
+CoreLoader.registerTask({
+    id: "about_app_module",
+    presence: "About App Screen",
+    task() {
+        Navigation.addModule({
+            name: "About",
+            id: "about",
+            callback() { TemplyApp.InitAboutScreen() },
+        })
+    },
+})

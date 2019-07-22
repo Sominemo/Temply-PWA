@@ -1,6 +1,6 @@
 {
     "name": "temply-pwa",
-    "version": "0.7.0",
+    "version": "0.7.2",
     "description": "Temply PWA",
     "main": "index.html",
     "config": {
@@ -60,10 +60,11 @@
         "workbox-webpack-plugin": "^4.0.0"
     },
     "dependencies": {
+        "core-js": "^3.0.0",
+        "git-rev-sync": "^1.12.0",
         "idb": "^4.0.0",
         "node-fetch": "^2.6.0",
         "regenerator-runtime": "^0.13.2",
-        "core-js": "^3.0.0",
-        "git-rev-sync": "^1.12.0"
+        "semver-parser": "^3.0.1"
     }
 }

@@ -26,21 +26,10 @@ import timeToSeconds from "@Core/Tools/transformation/text/timeToSeconds"
 import BigNumberInput from "@Environment/Library/DOM/object/input/contentEditableWidgets/bigNumberInput"
 import { ContentEditable, Button } from "@Environment/Library/DOM/object/input"
 import { Align } from "@Environment/Library/DOM/style"
+import { CoreLoader } from "@Core/Init/CoreLoader";
 import LocationChooser from "./widgets/locationChooser"
 import SubjectChooser from "./widgets/subjectChooser"
 import TimeManagementStorage from "./storage/TimeManagementStorage"
-
-Nav.newItem({
-    name() { return $$("timetable") },
-    icon: "schedule",
-    id: "timetable",
-    handler: () => {
-        Navigation.hash = {
-            module: "timetable",
-            params: {},
-        }
-    },
-})
 
 export default class Timetable {
     static async Init() {
@@ -537,3 +526,27 @@ export default class Timetable {
         WindowManager.newWindow().append(w)
     }
 }
+
+CoreLoader.registerTask({
+    id: "timetable-module",
+    presence: "Timetable",
+    task() {
+        Navigation.addModule({
+            name: "Timetable",
+            id: "timetable",
+            callback() { Timetable.Init() },
+        })
+
+        Nav.newItem({
+            name() { return $$("timetable") },
+            icon: "schedule",
+            id: "timetable",
+            handler: () => {
+                Navigation.hash = {
+                    module: "timetable",
+                    params: {},
+                }
+            },
+        })
+    },
+})

@@ -7,18 +7,7 @@ import { Card, CardList } from "@Environment/Library/DOM/object/card"
 import { $$ } from "@Core/Services/Language/handler"
 import Design from "@Core/Services/design"
 import WindowManager from "@Core/Services/SimpleWindowManager"
-
-Nav.newItem({
-    name() { return $$("settings") },
-    icon: "settings",
-    id: "settings",
-    handler: () => {
-        Navigation.hash = {
-            module: "settings",
-            params: {},
-        }
-    },
-})
+import { CoreLoader } from "@Core/Init/CoreLoader"
 
 
 export default class SettingsUI {
@@ -79,3 +68,27 @@ export default class SettingsUI {
         }
     }
 }
+
+CoreLoader.registerTask({
+    id: "settings_module",
+    presence: "Settings UI",
+    task() {
+        Navigation.addModule({
+            name: "Settings",
+            id: "settings",
+            callback() { SettingsUI.Init() },
+        })
+
+        Nav.newItem({
+            name() { return $$("settings") },
+            icon: "settings",
+            id: "settings",
+            handler: () => {
+                Navigation.hash = {
+                    module: "settings",
+                    params: {},
+                }
+            },
+        })
+    },
+})

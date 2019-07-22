@@ -10,6 +10,7 @@ import { Button, SwitchLabel } from "@Environment/Library/DOM/object/input"
 import App from "@Core/Services/app"
 import DOM from "@DOMPath/DOM/Classes/dom"
 import { SVG } from "@Environment/Library/DOM/basic"
+import { CoreLoader } from "@Core/Init/CoreLoader"
 
 export default class FlagsUI {
     static async Init() {
@@ -63,6 +64,11 @@ export default class FlagsUI {
                 title: "Displaying 'Experiments' section in settings menu",
                 about: "Enables 'Miscellaneous' group and a link to 'Experiments' section for main settings menu",
                 id: "miscellaneous_in_settings",
+            })
+            exps.push({
+                title: "Enable Tasks",
+                about: "Turn the Tasks module on (in development)",
+                id: "tasks_enabled",
             })
             /*
             exps.push({
@@ -159,3 +165,15 @@ export default class FlagsUI {
         ])
     }
 }
+
+CoreLoader.registerTask({
+    id: "flags_module",
+    presence: "Flags and experiments",
+    task() {
+        Navigation.addModule({
+            name: "Flags",
+            id: "flags",
+            callback() { FlagsUI.Init() },
+        })
+    },
+})

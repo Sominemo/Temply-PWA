@@ -25,6 +25,7 @@ import FileInput from "@Environment/Library/DOM/object/input/fileInput"
 import pFileReader from "@Core/Tools/objects/pFileReader"
 import Prompt from "@Environment/Library/DOM/elements/prompt"
 import errorToObject from "@Core/Tools/transformation/object/errorToObject"
+import { CoreLoader } from "@Core/Init/CoreLoader";
 import TimeManagementStorage from "../diary/storage/TimeManagementStorage"
 
 export default class TestField {
@@ -274,3 +275,15 @@ export default class TestField {
         // Toast.add("I'm kinda fast!", 500)
     }
 }
+
+CoreLoader.registerTask({
+    id: "test_field_module",
+    presence: "Test Field",
+    task() {
+        Navigation.addModule({
+            name: "Test Field",
+            id: "test",
+            callback() { TestField.Init() },
+        })
+    },
+})

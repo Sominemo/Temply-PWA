@@ -1,0 +1,5 @@
+import "@App/modules/diary/timetable"
+import "@App/modules/diary/tasks"
+import "@App/modules/main/settings"
+import "@App/modules/main/flags"
+import "@App/modules/main/testField"

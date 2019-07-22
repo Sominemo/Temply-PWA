@@ -1,3 +1,14 @@
+# 0.7.2 22.07.2019
+## General
+* CoreLoader fixes
+* New CoreLoader listener
+* Language autoload fix
+
+# 0.7.1 21.07.2019
+## General
++ Now you can enable Tasks in experiments
+* New way to load app modules
+
 # 0.7.0 15.07.2019
 ## General
 * Full refactoring by splitting code to different parts

@@ -20,13 +20,20 @@ function parseMDFile(version, date) {
     }
 
     if (!file.match(/^# /)) {
-        file = `# ${version} ${date}\n${file}`
+        const string = `# ${version} ${date}`
+        file = `${string}\n${file}`
+        multiline.unshift(string)
         fs.writeFileSync("changelog.md", file)
     }
+    const versionNumber = file.match(/^# ((?:0|[1-9]\d*)(?:\.(?:0|[1-9]\d*)){2}(?:-(?:(?:0|[1-9]\d*|\d*[A-z-][A-z\d-]*)(?:\.(?:0|[1-9]\d*|\d*[A-z-][A-z\d-]*))*))?(?:\+(?:\d*[A-z-][A-z\d-]*|\d+)(?:\.(?:\d*[A-z-][A-z\d-]*|\d+))*)?) .+/)[1]
+    const packageJson = require(path.join(process.cwd(), "package.json"))
+    if (versionNumber && versionNumber !== packageJson.version) {
+        packageJson.version = versionNumber
+        fs.writeFileSync("package.json", JSON.stringify(packageJson, null, 4))
+    }
+
     const lastVersion = file.match(/^#.+\n+((.|\n)+?)(\n# |$)/)[1]
-
     const groups = lastVersion.match(/[^\n](.|\n)+?(?=\n?(\n## |$))/g)
-
     const groupsParsed = []
 
     groups.forEach((group) => {

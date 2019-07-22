@@ -15,22 +15,20 @@ const ExtraWatchWebpackPlugin = require("extra-watch-webpack-plugin")
 const WatchHook = require("./scripts/WatchHook")
 
 const __root = process.cwd()
-const builder = {
-    pack: require(path.join(__root, "package.json")),
-}
 
 const PROD = process.env.NODE_ENV === "production"
 
 const PATHS = {
+    root: __root,
     source: path.join(__root, "src"),
     build: path.join(__root, "build"),
+    generated: path.join(__root, "generated"),
     public: "https://app.temply.procsec.top/",
 }
 
 PATHS.app = path.join(PATHS.source, "app")
 PATHS.core = path.join(PATHS.source, "core")
 PATHS.environment = path.join(PATHS.source, "environment")
-PATHS.generated = path.join(PATHS.app, "generated")
 PATHS.themesGenerated = path.join(PATHS.generated, "themes")
 
 PATHS.resources = path.join(PATHS.app, "res")
@@ -42,6 +40,11 @@ PATHS.themes = [
 ]
 
 // Own scripts
+
+if (!fs.existsSync(PATHS.generated)) {
+    fs.mkdirSync(PATHS.generated)
+}
+
 const makeLangMap = require(path.join(__dirname, "scripts", "languageList"))
 const makeThemesMap = require(path.join(__dirname, "scripts", "themesList"))
 makeLangMap(PATHS.language, PATHS.generated)
@@ -50,7 +53,12 @@ PATHS.themes.map(el => fs.copySync(el, PATHS.themesGenerated))
 
 const getChangelog = require(path.join(__dirname, "scripts", "getChangelog"))
 
+const builder = {
+    pack: require(path.join(__root, "package.json")),
+}
+
 module.exports = (env = {}) => ({
+    performance: { hints: false },
     optimization: {
         namedChunks: true,
         runtimeChunk: false,
