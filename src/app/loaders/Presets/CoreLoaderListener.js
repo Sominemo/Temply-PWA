@@ -1,5 +1,6 @@
 import Report from "@Core/Services/report"
 import { CoreLoader } from "@Core/Init/CoreLoader"
+import CriticalLoadErrorListener from "@Core/Services/CriticalLoadErrorListener"
 
 const states = [
     [
@@ -21,4 +22,7 @@ CoreLoader.addDoneListener((loaded) => {
     out.push(`%c ${current.badge} %c ${loaded.name}${(loaded.result.answer && loaded.result.answer !== true ? `: ${String(loaded.result.answer)}` : "")}`, `background: ${current.color}; color:${current.text}`, "")
     if (loaded.result.data) out.push(loaded.result.data)
     Report.writeNoTrace(...out)
+    if (loaded.result.state === 1) {
+        CriticalLoadErrorListener.listener(loaded.result.data || `${loaded.name}: ${loaded.result.answer}`, false)
+    }
 })

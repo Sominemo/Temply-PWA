@@ -1,3 +1,8 @@
+[LOCK]
+# 0.7.3 23.07.2019
+## General
+* New error page
+
 # 0.7.2 22.07.2019
 ## General
 * CoreLoader fixes

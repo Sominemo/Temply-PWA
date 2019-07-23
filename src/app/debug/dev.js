@@ -24,6 +24,7 @@ import { ContentEditable } from "@Environment/Library/DOM/object/input"
 import DOM from "@DOMPath/DOM/Classes/dom"
 import DOMController from "@DOMPath/DOM/Helpers/domController"
 import { CoreLoader } from "@Core/Init/CoreLoader"
+import SW from "@Core/Services/SW"
 
 function compare(a, b, path = "/") {
     const keys = Object.keys(a)
@@ -71,6 +72,7 @@ const DevUtils = {
         ContentEditable,
     },
     CoreLoader,
+    SW,
 }
 
 CoreLoader.registerTask({
