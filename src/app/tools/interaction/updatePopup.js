@@ -18,9 +18,9 @@ export default async function updatePopup({ wait = false, update = false, online
     let firstTime
     async function getCard({ noAssets = false } = {}) {
         const videos = [
-            ["assets/animations/update-silently.webm", 4, "#e23163"],
-            ["assets/animations/update-on-toast.webm", 2, "#4875d1"],
-            ["assets/animations/update-on-popup.webm", 2.5, "#fbbf00"],
+            ["/.assets/animations/update-silently.webm", 4, "#e23163"],
+            ["/.assets/animations/update-on-toast.webm", 2, "#4875d1"],
+            ["/.assets/animations/update-on-popup.webm", 2.5, "#fbbf00"],
         ]
 
         async function getVid(url, time, color) {

@@ -1,5 +1,4 @@
 import CriticalLoadErrorListener from "@Core/Services/CriticalLoadErrorListener"
-import uaTools from "express-useragent"
 
 function htmlEntities(str) {
     const div = document.createElement("div")
@@ -12,15 +11,13 @@ const fallback = {
     alert: "Aw geez, something went wrong",
     description: "Sorry, but Temply just failed to load",
     lets_fix: "We are here to help you",
-    whats_your_browser: "What browser do you use?",
-    supported_browsers: "Temply PWA is officially supported on the newest versions of browsers, such as Google Chrome 73+, Firefox 65+, and also Safari on iOS 12+.",
-    your_browser_is: "It seems your browser is",
-    is_network_stable: "Is your Internet connection stable enough?",
-    network_troubleshooting: "If your Internet connection works with interrupts, Temply may fail to load language packs and other modules correctly. Try to reload the page. If it doesn't help, clear your browser cache.",
+    troubleshooting: "Check out our help article and troubleshoot the issue",
     maybe_its_us: "It can be Temply's fault",
-    how_to_send_report: "If you think the problem was caused by Temply, just tell us about it by pressing the \"Send\" button",
-    send: "Send",
+    how_to_send_report: "Tell us about the problem if it is caused by Temply",
+    send: "Report",
     technical: "Technical info",
+    read: "Read it",
+    link: "https://temply.procsec.top/help/article/en/troubleshoot-loading-error",
 }
 
 function getLoc() {
@@ -67,7 +64,6 @@ function loadError(e, consoleIt) {
         } else error = String(e)
 
         const ua = window.navigator.userAgent
-        const uaParsed = uaTools.parse(ua)
 
         document.body.innerHTML = `
     <style>#fatal-error-box h1, #fatal-error-box h3{
@@ -78,8 +74,11 @@ function loadError(e, consoleIt) {
         padding: 0 10px 0;
         margin: 0;
     }
+    #fatal-error-box form {
+        margin-bottom: 15px;
+    }
     #fatal-error-box h2 {
-        padding: 15px 0 0 10px;
+        padding: 0 0 0 10px;
         margin: 0;
     }
     #fatal-error-box h1, #fatal-error-box h2, #fatal-error-box h3 {
@@ -93,6 +92,11 @@ function loadError(e, consoleIt) {
         margin: 5px;
         background: #dddddd;
     }
+    #fatal-error-box input[type="submit"].read {
+        background: #3f51b5;
+        color: white;
+    }
+
     #fatal-error-box pre {
         overflow: scroll; 
         padding: 5px; 
@@ -101,32 +105,50 @@ function loadError(e, consoleIt) {
         border: #dddddd 1px solid; 
         user-select: all;
     }
+    #fatal-error-box table {
+        width: 100%;
+    }
+    #fatal-error-box td {
+        vertical-align: top;
+    }
+    #fatal-error-box td.with-btn {
+        vertical-align: middle;
+        text-align: right;
+    }
     #fatal-error-box {
      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', Arial, sans-serif;   
     }</style>
-    <div style="width: 100%; height: 100%; overflow: auto; position: fixed; top: 0; left: 0;" id="fatal-error-box">
-    <div style="max-width: 500px; padding: 10px; border: solid black 2px; background: white; color: black; margin: auto; margin-top: 15px; border-radius: 8px;">
+    <div style="width: 100%; height: 100%; overflow: auto; position: fixed; top: 0; left: 0; display: flex;" id="fatal-error-box">
+    <div style="max-width: 500px; padding: 10px; border: solid #efefef 2px; box-shadow: 0 0 20px rgba(0,0,0,.1); background: white; color: black; margin: auto; border-radius: 8px;">
     <h1>${loc.__index}</h1>
     <p> ${loc.description} </p>
-
-    <h2> ${loc.lets_fix} </h2>
-
-    <h3> ${loc.whats_your_browser} </h3>
-    <p> ${loc.supported_browsers} </p>
-    <p> ${loc.your_browser_is} <b>${uaParsed.browser} ${uaParsed.version}</b></p>
-    
-    <h3> ${loc.is_network_stable} </h3>
-    <p> ${loc.network_troubleshooting} </p>
-
-    <h3> ${loc.maybe_its_us} </h3>
+    <br>
+    <p>
+    <form action="${loc.link}" method="POST">
+    <input value="${htmlEntities(error)}" name="error" hidden>
+    <input value="${htmlEntities(ua)}" name="browser" hidden>
+    <table>
+        <tr>
+            <td>
+                <h2> ${loc.lets_fix} </h2>
+                <p>${loc.troubleshooting}</p>
+            </td>
+            <td class="with-btn"><input type="submit" value="${loc.read}" class="read"></td>
+        </tr>
+    </table>
+    </form>
+    </p>
     <p>
     <form action="https://temply.procsec.top/report/pwa/" method="POST">
     <input value="${htmlEntities(error)}" name="error" hidden>
     <input value="${htmlEntities(ua)}" name="browser" hidden>
     <table>
         <tr>
-            <td>${loc.how_to_send_report}</td>
-            <td style="vertical-align: center"><input type="submit" value="${loc.send}"></td>
+            <td>
+                <h2> ${loc.maybe_its_us} </h2>
+                <p>${loc.how_to_send_report}</p>
+            </td>
+            <td class="with-btn"><input type="submit" value="${loc.send}"></td>
         </tr>
     </table>
     </form>

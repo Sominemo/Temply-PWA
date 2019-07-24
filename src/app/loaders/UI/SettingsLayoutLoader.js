@@ -28,7 +28,6 @@ import Design from "@Core/Services/design"
 import SettingsLayoutManager from "@Core/Services/Settings/user/manager"
 import TimeManagementStorage from "@App/modules/diary/storage/TimeManagementStorage"
 import { CoreLoader } from "@Core/Init/CoreLoader"
-import { Padding } from "@Environment/Library/DOM/style"
 import generateLanguageList from "../SettingsLayout/LanguageList"
 import generateDBSettingsLayout from "../SettingsLayout/DBPresence"
 import generateThemesList from "../SettingsLayout/ThemesList"
@@ -87,7 +86,7 @@ CoreLoader.registerTask({
             .getSection("general")
             .createGroup({ id: "main-group", dom: SettingsGroupContainer, options: {} })
             .getGroup("main-group")
-            .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "about" } }, $$("@about/app")], id: "about-screen-link" })
+            .createItem({ dom: SettingsActLink, options: [() => { Navigation.url = { module: "about" } }, $$("@about/app")], id: "about-screen-link" })
             .createItem({
                 dom: SettingsActLink, options: ["updates", $$("@settings/updates")], id: "updates-link", display: () => !(/Edge/.test(navigator.userAgent)),
             })
@@ -128,10 +127,10 @@ CoreLoader.registerTask({
             .getSection("miscellaneous")
             .createGroup({ id: "experiments-menus", dom: SettingsGroupContainer, options: {} })
             .getGroup("experiments-menus")
-            .createItem({ dom: SettingsActLink, options: [() => { Navigation.hash = { module: "flags" } }, $$("experiments")], id: "experiments-menu-link" })
+            .createItem({ dom: SettingsActLink, options: [() => { Navigation.url = { module: "flags" } }, $$("experiments")], id: "experiments-menu-link" })
             .createItem({
                 dom: SettingsActLink,
-                options: [() => { Navigation.hash = { module: "test" } }, "Test Field"],
+                options: [() => { Navigation.url = { module: "test" } }, "Test Field"],
                 id: "test-field-menu-link",
                 display: async () => !!await SettingsStorage.getFlag("test_field_enabled"),
             })
@@ -286,7 +285,7 @@ CoreLoader.registerTask({
                     content: $$("@timetable/where_to_control"),
                     button: {
                         content: $$("@timetable/check_out"),
-                        handler: () => { Navigation.hash = { module: "settings", params: ["storage"] } },
+                        handler: () => { Navigation.url = { module: "settings", params: ["storage"] } },
                     },
                 },
             })
@@ -470,7 +469,7 @@ CoreLoader.registerTask({
                     style: { marginTop: "15px" },
                     button: {
                         content: $$("@timetable/check_out"),
-                        handler: () => { Navigation.hash = { module: "timetable", params: ["edit"] } },
+                        handler: () => { Navigation.url = { module: "timetable", params: ["edit"] } },
                     },
                 },
             })

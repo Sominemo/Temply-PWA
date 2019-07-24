@@ -78,7 +78,7 @@ module.exports = (env = {}) => ({
                         // or node_modules/packageName
                         const packageName = module.context.match(/language[\\/](.*?)([\\/]|$)/)[1]
                         // npm package names are URL-safe, but some servers don't like @ symbols
-                        return `language/${packageName.replace("@", "")}`
+                        return `.assets/language/${packageName.replace("@", "")}`
                     },
                 },
             },
@@ -147,7 +147,7 @@ module.exports = (env = {}) => ({
                     loader: "file-loader",
                     options: {
                         name: "[name].[ext]",
-                        outputPath: "assets/fonts/",
+                        outputPath: ".assets/fonts/",
                     },
                 }],
             },
@@ -165,9 +165,9 @@ module.exports = (env = {}) => ({
         new CopyWebpackPlugin([
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
-            { from: path.join(PATHS.envResources, "language.template.htaccess"), to: path.join(PATHS.build, "language", ".htaccess"), toType: "file" },
-            { from: path.join(PATHS.resources, "images", "logo", "ios"), to: path.join(PATHS.build, "assets", "icons", "ios") },
-            { from: path.join(PATHS.resources, "animations"), to: path.join(PATHS.build, "assets", "animations") },
+            { from: path.join(PATHS.envResources, "language.template.htaccess"), to: path.join(PATHS.build, ".assets", "language", ".htaccess"), toType: "file" },
+            { from: path.join(PATHS.resources, "images", "logo", "ios"), to: path.join(PATHS.build, ".assets", "icons", "ios") },
+            { from: path.join(PATHS.resources, "animations"), to: path.join(PATHS.build, ".assets", "animations") },
         ]),
         new ExtraWatchWebpackPlugin({
             dirs: PATHS.themes,
@@ -217,7 +217,7 @@ module.exports = (env = {}) => ({
                 {
                     src: path.join(PATHS.resources, "images", "logo", "512.png"),
                     sizes: [44, 50, 96, 100, 128, 150, 192, 256, 384, 512],
-                    destination: path.join("assets", "icons"),
+                    destination: path.join(".assets", "icons"),
                 },
             ],
         }),
@@ -227,7 +227,7 @@ module.exports = (env = {}) => ({
             skipWaiting: true,
             exclude: [/\.htaccess$/, /language\/.+$/],
             navigateFallback: "/",
-            navigateFallbackBlacklist: [/^\.well-known/, /language/],
+            navigateFallbackBlacklist: [/^\/\.well-known/, /^\/\.assets/, /^\/favicon\.ico$/, /^\/sw\.js$/],
             directoryIndex: "index.html",
             runtimeCaching: [
                 {

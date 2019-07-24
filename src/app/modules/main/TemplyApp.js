@@ -96,7 +96,7 @@ export default class TemplyApp extends App {
         function openFlags() {
             const r = counter()
             if (r < 4) return
-            Navigation.hash = { module: "flags" }
+            Navigation.url = { module: "flags" }
         }
 
         w.render(new Title($$("@about/app")))
@@ -131,7 +131,7 @@ export default class TemplyApp extends App {
             {}, true,
         )))
         w.render(new Card(new SettingsActLink([
-            () => { Navigation.hash = { module: "about", params: ["changelog"] } },
+            () => { Navigation.url = { module: "about", params: ["changelog"] } },
             $$("@about/changelog"),
         ])))
     }

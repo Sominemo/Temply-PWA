@@ -38,7 +38,7 @@ export default class Tasks {
                     icon: "archive",
                     title: "Archive",
                     handler() {
-                        Navigation.hash = {
+                        Navigation.url = {
                             module: "tasks",
                             params: ["all"],
                         }
@@ -89,7 +89,7 @@ export default class Tasks {
                 content: $$("@tasks/empty_description"),
                 button: {
                     content: $$("@tasks/empty_fill_it"),
-                    handler() { Navigation.hash = { module: "tasks", params: ["edit"] } },
+                    handler() { Navigation.url = { module: "tasks", params: ["edit"] } },
                 },
             }))
         }
@@ -278,7 +278,7 @@ CoreLoader.registerTask({
             icon: "assignment",
             id: "tasks",
             handler: () => {
-                Navigation.hash = {
+                Navigation.url = {
                     module: "tasks",
                     params: {},
                 }

@@ -26,7 +26,7 @@ import timeToSeconds from "@Core/Tools/transformation/text/timeToSeconds"
 import BigNumberInput from "@Environment/Library/DOM/object/input/contentEditableWidgets/bigNumberInput"
 import { ContentEditable, Button } from "@Environment/Library/DOM/object/input"
 import { Align } from "@Environment/Library/DOM/style"
-import { CoreLoader } from "@Core/Init/CoreLoader";
+import { CoreLoader } from "@Core/Init/CoreLoader"
 import LocationChooser from "./widgets/locationChooser"
 import SubjectChooser from "./widgets/subjectChooser"
 import TimeManagementStorage from "./storage/TimeManagementStorage"
@@ -49,14 +49,14 @@ export default class Timetable {
                         icon: "done",
                         title: $$("@timetable/edit/mode_exit"),
                         handler() {
-                            Navigation.hash = { module: "timetable" }
+                            Navigation.url = { module: "timetable" }
                         },
                     }
                     : {
                         icon: "edit",
                         title: $$("@timetable/edit/mode"),
                         handler() {
-                            Navigation.hash = { module: "timetable", params: ["edit"] }
+                            Navigation.url = { module: "timetable", params: ["edit"] }
                         },
                     }
 
@@ -112,7 +112,7 @@ export default class Timetable {
                                         icon: "edit",
                                         title: $$("@timetable/edit/edit_item"),
                                         handler() {
-                                            Navigation.hash = {
+                                            Navigation.url = {
                                                 module: "timetable",
                                                 params: [
                                                     "editor",
@@ -161,7 +161,7 @@ export default class Timetable {
                         ),
                     ),
                     handler() {
-                        Navigation.hash = {
+                        Navigation.url = {
                             module: "timetable",
                             params: [
                                 "editor",
@@ -195,7 +195,7 @@ export default class Timetable {
                 content: $$("@timetable/empty_description"),
                 button: {
                     content: $$("@timetable/empty_fill_it"),
-                    handler() { Navigation.hash = { module: "timetable", params: ["edit"] } },
+                    handler() { Navigation.url = { module: "timetable", params: ["edit"] } },
                 },
             }))
         }
@@ -386,7 +386,7 @@ export default class Timetable {
 
             if (res.every(e => e)) {
                 Toast.add($$("@timetable/edit/success"))
-                Navigation.hash = {
+                Navigation.url = {
                     module: "timetable",
                     params: [
                         "edit",
@@ -542,7 +542,7 @@ CoreLoader.registerTask({
             icon: "schedule",
             id: "timetable",
             handler: () => {
-                Navigation.hash = {
+                Navigation.url = {
                     module: "timetable",
                     params: {},
                 }

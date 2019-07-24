@@ -25,7 +25,7 @@ import FileInput from "@Environment/Library/DOM/object/input/fileInput"
 import pFileReader from "@Core/Tools/objects/pFileReader"
 import Prompt from "@Environment/Library/DOM/elements/prompt"
 import errorToObject from "@Core/Tools/transformation/object/errorToObject"
-import { CoreLoader } from "@Core/Init/CoreLoader";
+import { CoreLoader } from "@Core/Init/CoreLoader"
 import TimeManagementStorage from "../diary/storage/TimeManagementStorage"
 
 export default class TestField {
@@ -39,7 +39,7 @@ export default class TestField {
                     icon: "outlined_flag",
                     title: "Experiments",
                     handler() {
-                        Navigation.hash = { module: "flags" }
+                        Navigation.url = { module: "flags" }
                     },
                 },
             ],

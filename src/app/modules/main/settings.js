@@ -34,7 +34,7 @@ export default class SettingsUI {
 
                     {
                         content: $$("@settings/actions/go_main"),
-                        handler() { Navigation.hash = { module: "settings" } },
+                        handler() { Navigation.url = { module: "settings" } },
                         style: {
                             background: Design.getVar("color-accent"),
                             color: Design.getVar("color-generic-inverted"),
@@ -56,7 +56,7 @@ export default class SettingsUI {
 
                 {
                     content: $$("@settings/actions/open_about"),
-                    handler() { Navigation.hash = { module: "about" } },
+                    handler() { Navigation.url = { module: "about" } },
                     style: {
                         background: Design.getVar("color-accent"),
                         color: Design.getVar("color-generic-inverted"),
@@ -84,7 +84,7 @@ CoreLoader.registerTask({
             icon: "settings",
             id: "settings",
             handler: () => {
-                Navigation.hash = {
+                Navigation.url = {
                     module: "settings",
                     params: {},
                 }

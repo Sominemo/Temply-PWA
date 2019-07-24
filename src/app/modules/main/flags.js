@@ -25,7 +25,7 @@ export default class FlagsUI {
                             icon: "markunread_mailbox",
                             title: "Test Field",
                             handler() {
-                                Navigation.hash = { module: "test" }
+                                Navigation.url = { module: "test" }
                             },
                         },
                     ] : []),
