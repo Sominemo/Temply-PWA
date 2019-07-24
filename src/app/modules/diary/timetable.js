@@ -537,6 +537,20 @@ CoreLoader.registerTask({
             callback() { Timetable.Init() },
         })
 
+        Navigation.InitNavigationError = () => {
+            Navigation.url = {
+                module: "timetable",
+                params: {},
+            }
+        }
+
+        Navigation.defaultScreen = () => {
+            Navigation.url = {
+                module: "timetable",
+                params: {},
+            }
+        }
+
         Nav.newItem({
             name() { return $$("timetable") },
             icon: "schedule",
