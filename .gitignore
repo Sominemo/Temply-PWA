@@ -1,0 +1,13 @@
+.vscode
+node_modules
+package-lock.json
+/doc
+dev-env
+yarn.lock
+yarn-error.log
+build
+prod
+*.build
+/webpack/scripts/config
+.yarn*
+/generated/
