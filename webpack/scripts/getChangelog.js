@@ -77,7 +77,7 @@ function parseMDFile(version, date) {
         })
     })
 
-    return groupsParsed
+    return [groupsParsed, versionNumber]
 }
 
 module.exports = function getChangelog(isProd, version, date, repository) {
@@ -86,7 +86,7 @@ module.exports = function getChangelog(isProd, version, date, repository) {
     const lastCommit = getLastCommit(isProd)
 
     if (!isProd) {
-        md.push({
+        md[0].push({
             name: "Development",
             list: {
                 added: [],
@@ -101,7 +101,7 @@ module.exports = function getChangelog(isProd, version, date, repository) {
 
     try {
         const postChangelog = require("./config/postChangelog")
-        postChangelog({ changelog: md, date, version })
+        postChangelog({ changelog: md[0], date, version: md[1] })
     } catch (e) {
         console.log("No post access")
     }

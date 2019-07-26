@@ -1,6 +1,19 @@
 import CriticalLoadErrorListener from "@Core/Services/CriticalLoadErrorListener"
 
-function htmlEntities(str) {
+function escapeAttr(str) {
+    return (`${str}`)
+        .replace(/\\/g, "\\\\")
+        .replace(/\t/g, "\\t")
+        .replace(/\n/g, "\\n")
+        .replace(/\u00A0/g, "\\u00A0")
+        .replace(/&/g, "\\x26")
+        .replace(/'/g, "\\x27")
+        .replace(/"/g, "\\x22")
+        .replace(/</g, "\\x3C")
+        .replace(/>/g, "\\x3E")
+}
+
+function escapeHtml(str) {
     const div = document.createElement("div")
     div.innerText = str
     return div.innerHTML
@@ -27,9 +40,9 @@ function getLoc() {
         const { $ } = require("@Core/Services/Language/handler")
         Object.keys(fallback).forEach((k) => {
             try {
-                res[k] = htmlEntities($(`@loading_error/${k}`, null, false))
+                res[k] = escapeHtml($(`@loading_error/${k}`, null, false))
             } catch (e) {
-                res[k] = htmlEntities(fallback[k])
+                res[k] = escapeHtml(fallback[k])
             }
         })
     } catch (e) {
@@ -125,8 +138,8 @@ function loadError(e, consoleIt) {
     <br>
     <p>
     <form action="${loc.link}" method="POST">
-    <input value="${htmlEntities(error)}" name="error" hidden>
-    <input value="${htmlEntities(ua)}" name="browser" hidden>
+    <input value="${escapeAttr(error)}" name="error" hidden>
+    <input value="${escapeAttr(ua)}" name="browser" hidden>
     <table>
         <tr>
             <td>
@@ -140,8 +153,8 @@ function loadError(e, consoleIt) {
     </p>
     <p>
     <form action="https://temply.procsec.top/report/pwa/" method="POST">
-    <input value="${htmlEntities(error)}" name="error" hidden>
-    <input value="${htmlEntities(ua)}" name="browser" hidden>
+    <input value="${escapeAttr(error)}" name="error" hidden>
+    <input value="${escapeAttr(ua)}" name="browser" hidden>
     <table>
         <tr>
             <td>

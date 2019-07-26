@@ -134,10 +134,7 @@ export default class Timetable {
                                                     duration: 150,
                                                     timing: EaseInOutQuad,
                                                 }).apply(item)
-                                                item.elementParse.native.parentElement.parentElement
-                                                    .removeChild(
-                                                        item.elementParse.native.parentElement,
-                                                    )
+                                                item.parent.destructSelf()
                                             } catch (e) {
                                                 Toast.add($$("@timetable/edit/remove_fail"))
                                             }

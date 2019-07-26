@@ -8,7 +8,7 @@ const getDirectories = source => readdirSync(source)
     .map(name => [join(source, name), name])
     .filter(isDirectory)
 
-const getVar = (theme, name) => theme.match(RegExp(`--${name}: (.+?);`, "m"))[1]
+const getVar = (theme, name) => (theme.match(RegExp(`--${name}: (.+?);`, "m")) || [])[1]
 
 function getThemesFolderMap(path) {
     const r = []

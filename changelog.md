@@ -1,3 +1,7 @@
+# 0.7.4 26.07.2019
+## General
+* Small fixes
+
 # 0.7.3 23.07.2019
 ## Navigation
 * History API instead of hashes. All old links are broken. That means now Temply uses real URLs.

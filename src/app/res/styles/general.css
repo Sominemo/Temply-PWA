@@ -1,0 +1,6 @@
+body {
+    background-image: url("~@Resources/images/logo/transparent_bg.png");
+    background-size: 25vh;
+    background-repeat: no-repeat;
+    background-position: center calc(50vh + 50%);
+}
