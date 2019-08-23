@@ -225,6 +225,13 @@ export default {
             removed: "removed",
             other: "other",
         },
+        help: {
+            __index: "help",
+            use_language: "",
+            link: "Stop it. Get some help",
+            search_placeholder: "search for help articles...",
+            lookup_error: "failed to fetch articles",
+        },
     },
     experiments: {
         __index: "experiments",

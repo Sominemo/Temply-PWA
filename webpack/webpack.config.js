@@ -165,6 +165,7 @@ module.exports = (env = {}) => ({
         new CopyWebpackPlugin([
             { from: path.join(PATHS.resources, ".well-known"), to: path.join(PATHS.build, ".well-known") },
             { from: path.join(PATHS.resources, "template.htaccess"), to: path.join(PATHS.build, ".htaccess"), toType: "file" },
+            { from: path.join(PATHS.resources, "robots.txt"), to: path.join(PATHS.build, "robots.txt"), toType: "file" },
             { from: path.join(PATHS.envResources, "language.template.htaccess"), to: path.join(PATHS.build, ".assets", "language", ".htaccess"), toType: "file" },
             { from: path.join(PATHS.resources, "images", "logo", "ios"), to: path.join(PATHS.build, ".assets", "icons", "ios") },
             { from: path.join(PATHS.resources, "animations"), to: path.join(PATHS.build, ".assets", "animations") },
@@ -253,7 +254,7 @@ module.exports = (env = {}) => ({
             __PACKAGE_VERSION_NUMBER: JSON.stringify(builder.pack.version),
             __PACKAGE_BRANCH: JSON.stringify(builder.pack.config.branch),
             __PACKAGE_BUILD_TIME: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(fecha.format(new Date(), "DD.MM.YYYY HH:mm:ss")), true),
-            __PACKAGE_CHANGELOG: JSON.stringify(getChangelog(PROD, builder.pack.version, fecha.format(new Date(), "DD.MM.YYYY"), builder.pack.repository)),
+            __PACKAGE_CHANGELOG: JSON.stringify(getChangelog(PROD, builder.pack.version, fecha.format(new Date(), "DD.MM.YYYY"), builder.pack.repository)[0]),
         }),
     ],
 })

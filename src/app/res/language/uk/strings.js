@@ -225,6 +225,13 @@ export default {
             removed: "прибрано",
             other: "інше",
         },
+        help: {
+            __index: "допомога",
+            use_language: "ru",
+            link: "Зупинись. Тобі потрібна допомога",
+            search_placeholder: "шукати статті...",
+            lookup_error: "не вдалось завантажити список",
+        },
     },
     experiments: {
         __index: "експерименти",

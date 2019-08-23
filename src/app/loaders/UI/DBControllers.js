@@ -9,6 +9,7 @@ import FileInput from "@Environment/Library/DOM/object/input/fileInput"
 import pFileReader from "@Core/Tools/objects/pFileReader"
 import Toast from "@Environment/Library/DOM/elements/toast"
 import { CoreLoader } from "@Core/Init/CoreLoader"
+import TemplyApp from "@App/modules/main/TemplyApp"
 
 CoreLoader.registerTask({
     id: "db-presence",
@@ -162,6 +163,7 @@ CoreLoader.registerTask({
                         const schDB = TimeManagementStorage.connection.OSTool("schedule")
 
                         await subDB.clear()
+                        await schDB.clear()
                         await Promise.all(
                             [
                                 ...data.subjects.map(sub => subDB.put(sub)),
@@ -177,7 +179,16 @@ CoreLoader.registerTask({
                         const sub = await db.OSTool("subjects").getAll()
                         const sch = await db.OSTool("schedule").getAll()
 
-                        download([JSON.stringify({ subjects: sub, schedule: sch })], "text/plain", "export.json")
+                        download([JSON.stringify(
+                            {
+                                meta: {
+                                    version: 1,
+                                    app: { v: TemplyApp.version, tag: "pwa" },
+                                },
+                                subjects: sub,
+                                schedule: sch,
+                            },
+                        )], "text/plain", "export.json")
                     },
                 },
             ],

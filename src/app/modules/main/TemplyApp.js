@@ -4,7 +4,7 @@ import {
     CardContent, Card, CardTextList, CardList,
 } from "@Environment/Library/DOM/object/card"
 import { Title, TwoSidesWrapper } from "@Environment/Library/DOM/object"
-import { $$ } from "@Core/Services/Language/handler"
+import { $$, $ } from "@Core/Services/Language/handler"
 import Navigation from "@Core/Services/navigation"
 import DOM from "@DOMPath/DOM/Classes/dom"
 import { WindowContainer } from "@Environment/Library/DOM/buildBlock"
@@ -13,6 +13,8 @@ import getCounter from "@Core/Tools/objects/counter"
 import AlignedContent from "@Environment/Library/DOM/object/AlignedContent"
 import { SettingsActLink } from "@Environment/Library/DOM/settings"
 import { CoreLoader } from "@Core/Init/CoreLoader"
+import DynamicListPopup from "@Environment/Library/DOM/object/input/dynamicListPopup"
+import LanguageCore from "@Core/Services/Language/core"
 
 export default class TemplyApp extends App {
     static async lastChangelog() {
@@ -130,9 +132,15 @@ export default class TemplyApp extends App {
             ],
             {}, true,
         )))
-        w.render(new Card(new SettingsActLink([
-            () => { Navigation.url = { module: "about", params: ["changelog"] } },
-            $$("@about/changelog"),
+        w.render(new Card(new CardTextList([
+            new SettingsActLink([
+                () => { Navigation.url = { module: "about", params: ["changelog"] } },
+                $$("@about/changelog"),
+            ]),
+            new SettingsActLink([
+                () => { this.InitHelpList() },
+                $$("@about/help/link"),
+            ]),
         ])))
     }
 
@@ -142,6 +150,47 @@ export default class TemplyApp extends App {
 
         w.render(new Title($$("@about/changelog")))
         w.render(this.changelogFormated())
+    }
+
+    static InitHelpList() {
+        const curLang = $("@about/help/use_language", null, false) || LanguageCore.language.info.code
+
+        DynamicListPopup({
+            icon: "help",
+            placeholder: $$("@about/help/search_placeholder"),
+            async list(q) {
+                try {
+                    let articles = []
+                    if (q === "") {
+                        articles = await (
+                            await fetch(`https://temply.procsec.top/help/list/${encodeURI(curLang)}`)
+                        ).json()
+                    } else {
+                        articles = await (
+                            await fetch(`https://temply.procsec.top/help/find/${encodeURI(curLang)}/${encodeURI(q)}`)
+                        ).json()
+                    }
+
+                    return articles.map(article => (
+                        {
+                            name: article.title,
+                            value: article.link,
+                            icon: "arrow_forward",
+                        }
+                    ))
+                } catch (e) {
+                    return [
+                        {
+                            name: $$("@about/help/lookup_error"),
+                            icon: "sentiment_dissatisfied",
+                        },
+                    ]
+                }
+            },
+            onSelect(value) {
+                window.open(value, "_blank")
+            },
+        })
     }
 }
 

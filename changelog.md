@@ -1,3 +1,8 @@
+# 0.7.5 23.08.2010
+## General
+* Core updated to actual version
++ Help articles list and search in about menu
+
 # 0.7.4 26.07.2019
 ## General
 * Small fixes
