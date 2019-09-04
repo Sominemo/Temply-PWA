@@ -1,3 +1,9 @@
+# 0.8.1 04.09.2019
+## Storage
++ Export and import now support multi-week timetables
+* Temply now uses export file schema ver. 2
+! Old export files are still supported. The timetable length preferences will be reset to 1 week, as it was in earlier versions
+
 # 0.8.0 04.09.2019
 ## Time Management
 + Multiple weeks support

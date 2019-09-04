@@ -10,6 +10,7 @@ import pFileReader from "@Core/Tools/objects/pFileReader"
 import Toast from "@Environment/Library/DOM/elements/toast"
 import { CoreLoader } from "@Core/Init/CoreLoader"
 import TemplyApp from "@App/modules/main/TemplyApp"
+import SettingsStorage from "@Core/Services/Settings/SettingsStorage"
 
 CoreLoader.registerTask({
     id: "db-presence",
@@ -110,6 +111,9 @@ CoreLoader.registerTask({
             ],
         })
 
+        const actualVersion = 2
+        const minVersion = 1
+
         DBUserPresence.registerNewPresence({
             id: "TimeManagement",
             name: $$("@settings/storage/dbs/time_management"),
@@ -142,11 +146,12 @@ CoreLoader.registerTask({
                                     async onchange(file) {
                                         const data = JSON.parse(await pFileReader(file))
                                         try {
-                                            DBUserPresence.get("TimeManagement").functions.find(e => e.name === "import").handler(data)
+                                            await DBUserPresence.get("TimeManagement").functions.find(e => e.name === "import").handler(data)
                                             Toast.add($$("success"))
                                             p.close()
                                         } catch (e) {
                                             Toast.add($$("failure"))
+                                            Report.error(e)
                                         }
                                     },
                                 }),
@@ -159,8 +164,21 @@ CoreLoader.registerTask({
                 {
                     name: "import",
                     async handler(data) {
+                        if (!("meta" in data)) {
+                            data.meta = { version: 1 }
+                        }
+
+                        if (data.meta.version > actualVersion && data.meta.legacySupport > actualVersion) throw new Error("Unsupported import version")
                         const subDB = TimeManagementStorage.connection.OSTool("subjects")
                         const schDB = TimeManagementStorage.connection.OSTool("schedule")
+
+                        if (data.meta.version === 1) {
+                            await SettingsStorage.delete("timetable_weeks_count")
+                            await SettingsStorage.delete("timetable_first_week_number")
+                        } else {
+                            await SettingsStorage.set("timetable_weeks_count", data.timetable.weeksCount)
+                            await SettingsStorage.set("timetable_first_week_number", data.timetable.firstWeek)
+                        }
 
                         await subDB.clear()
                         await schDB.clear()
@@ -178,12 +196,19 @@ CoreLoader.registerTask({
                         const db = TimeManagementStorage.connection
                         const sub = await db.OSTool("subjects").getAll()
                         const sch = await db.OSTool("schedule").getAll()
+                        const weeksCount = await SettingsStorage.get("timetable_weeks_count")
+                        const firstWeek = await SettingsStorage.get("timetable_first_week_number")
 
                         download([JSON.stringify(
                             {
                                 meta: {
-                                    version: 1,
+                                    version: actualVersion,
+                                    legacySupport: minVersion,
                                     app: { v: TemplyApp.version, tag: "pwa" },
+                                },
+                                timetable: {
+                                    weeksCount,
+                                    firstWeek,
                                 },
                                 subjects: sub,
                                 schedule: sch,
