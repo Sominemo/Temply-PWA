@@ -28,6 +28,7 @@ import Design from "@Core/Services/design"
 import SettingsLayoutManager from "@Core/Services/Settings/user/manager"
 import TimeManagementStorage from "@App/modules/diary/storage/TimeManagementStorage"
 import { CoreLoader } from "@Core/Init/CoreLoader"
+import WeekNumber from "@Core/Tools/time/weekNumber"
 import generateLanguageList from "../SettingsLayout/LanguageList"
 import generateDBSettingsLayout from "../SettingsLayout/DBPresence"
 import generateThemesList from "../SettingsLayout/ThemesList"
@@ -188,6 +189,10 @@ CoreLoader.registerTask({
         let lessonLength = await SettingsStorage.get("timetable_lesson_default_length")
         let breakLength = await SettingsStorage.get("timetable_break_default_length")
         let lessonStart = await SettingsStorage.get("timetable_lesson_default_start")
+        const weekCount = () => SettingsStorage.get("timetable_weeks_count")
+        let startWeek = await SettingsStorage.get("timetable_first_week_number")
+        const curWeekNumber = () => TimeManagementStorage.weekOrderNumber()
+        let weekNumber
 
         layout.getAct("timetable")
             .createSection({
@@ -255,6 +260,48 @@ CoreLoader.registerTask({
                         lessonStart = await SettingsStorage.get("timetable_lesson_default_start")
                     },
                 }),
+                options: {
+                },
+            })
+            .createItem({
+                id: "timetable-default-schedule-length",
+                dom: async () => new BigNumberInput(
+                    {
+                        units: num => $("@units/week", { number: num }),
+                        placeholder: $$("@timetable/schedule_length"),
+                        content: await weekCount(),
+                        max: 53,
+                        min: 1,
+                        async onchange(n) {
+                            n = parseInt(n, 10)
+                            if (n < 1 || n > 53) n = await weekCount()
+                            await SettingsStorage.set("timetable_weeks_count", n)
+                            weekNumber.changeValue(await TimeManagementStorage.weekOrderNumber())
+                        },
+                    },
+                ),
+                options: {
+                },
+            })
+            .createItem({
+                id: "timetable-default-week-number",
+                dom: async () => {
+                    weekNumber = new BigNumberInput(
+                        {
+                            placeholder: $$("@timetable/week_number"),
+                            content: await curWeekNumber(),
+                            min: 1,
+                            max: () => weekCount(),
+                            async onchange(n) {
+                                n = parseInt(n, 10)
+                                if (n < 1 || n > await weekCount()) n = 1
+                                startWeek = WeekNumber()[1] + n - 1
+                                await SettingsStorage.set("timetable_first_week_number", startWeek)
+                            },
+                        },
+                    )
+                    return weekNumber
+                },
                 options: {
                 },
             })

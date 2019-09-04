@@ -69,12 +69,22 @@ export default class Timetable {
         let countEmpty = 0
 
         const curWeekday = (date.getDay() === 0 ? 7 : date.getDay())
+        const weeksCount = await SettingsStorage.get("timetable_weeks_count")
+        const maxWeekday = weeksCount * 7
+        const curWeek = await TimeManagementStorage.weekOrderNumber()
+        const absoluteWeekDay = (curWeek - 1) * 7 + curWeekday
 
         async function generateDay(day) {
             const cont = new DOM({ new: "div" })
 
-            cont.render(new Title((curWeekday === day && !editMode ? $$("@dateformats/relative/today") : $$(`@dateformats/week/days/${day}`))))
-            const timetable = await TimeManagementStorage.getScheduleInDay(day)
+            const orDay = day
+            let week = Math.floor(day / 7) + 1
+            day %= 7
+            day = (day === 0 ? 7 : day)
+            if (day === 7) week--
+
+            cont.render(new Title((absoluteWeekDay === orDay && !editMode ? $$("@dateformats/relative/today") : $$("@dateformats/week/days/generate", { day, week }))))
+            const timetable = await TimeManagementStorage.getScheduleInDay(orDay)
             const list = []
             const tasks = timetable.map(async (rec, n) => {
                 const sub = await TimeManagementStorage.getSubject(rec.subject)
@@ -116,7 +126,7 @@ export default class Timetable {
                                                 module: "timetable",
                                                 params: [
                                                     "editor",
-                                                    day,
+                                                    orDay,
                                                     rec.key,
                                                 ],
                                             }
@@ -162,7 +172,7 @@ export default class Timetable {
                             module: "timetable",
                             params: [
                                 "editor",
-                                day,
+                                orDay,
                             ],
                         }
                     },
@@ -179,11 +189,11 @@ export default class Timetable {
             return cont
         }
 
-        const cards = Array.from({ length: 7 }, (v, k) => k + 1).map(n => generateDay(n))
+        const cards = Array.from({ length: maxWeekday }, (v, k) => k + 1).map(n => generateDay(n))
         const cardsResult = await Promise.all(cards)
         cardsResult.forEach(e => w.render(e))
 
-        if (countEmpty === 7) {
+        if (countEmpty === maxWeekday) {
             w.render(new Title($$("timetable")))
             w.render(new WarningConstructorButton({
                 type: 1,
@@ -197,6 +207,24 @@ export default class Timetable {
             }))
         }
 
+        if (editMode && weeksCount < 53) {
+            w.render(new WarningConstructorButton({
+                type: 1,
+                icon: "info",
+                title: $$("@timetable/edit/need_more_weeks"),
+                content: $$("@timetable/edit/multi_week_support"),
+                style: { marginTop: "15px" },
+                button: {
+                    content: $$("@timetable/edit/add_more_weeks"),
+                    async handler() {
+                        if (weeksCount === 53) return
+                        await SettingsStorage.set("timetable_weeks_count", weeksCount + 1)
+                        Navigation.url = { module: "timetable", params: ["edit"] }
+                    },
+                },
+            }))
+        }
+
         WindowManager.newWindow().append(w)
     }
 
@@ -204,9 +232,12 @@ export default class Timetable {
 
     static async InitEdit(weekday = 1, item = null) {
         const db = TimeManagementStorage
+
+        const maxWeekday = await SettingsStorage.get("timetable_weeks_count") * 7
+
         item = parseInt(item, 10) || 0
         weekday = parseInt(weekday, 10) || 1
-        if (weekday < 1 || weekday > 7) weekday = 1
+        if (weekday < 1 || weekday > maxWeekday) weekday = 1
 
         const w = new WindowContainer()
 
@@ -327,7 +358,7 @@ export default class Timetable {
                     end: 86400,
                 })
                 candidates.push({
-                    day: (weekday === 7 ? 1 : weekday + 1),
+                    day: (weekday === maxWeekday ? 1 : weekday + 1),
                     start: 0,
                     end: lessonEnd,
                 })

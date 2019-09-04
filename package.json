@@ -1,6 +1,6 @@
 {
     "name": "temply-pwa",
-    "version": "0.7.5",
+    "version": "0.8.0",
     "description": "Temply PWA",
     "main": "index.html",
     "config": {
@@ -9,6 +9,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --config webpack/webpack.config.js --watch",
+        "1build": "webpack --config webpack/webpack.config.js",
         "major": "webpack --config webpack/webpack.config.js --env.major --en",
         "minor": "webpack --config webpack/webpack.config.js --env.minor",
         "patch": "webpack --config webpack/webpack.config.js --env.patch",

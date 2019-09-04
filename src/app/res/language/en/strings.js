@@ -17,10 +17,12 @@ export default {
         break_length: "break length",
         lesson_start: "lesson start",
         lessons_start: "lessons start",
+        schedule_length: "timetable length",
         lesson_end: "lesson end",
         empty: "your timetable is empty",
         empty_description: "Created items will appear on this page",
         empty_fill_it: "fill it",
+        week_number: "current week number",
         edit: {
             mode: "edit",
             add_item: "Add Item",
@@ -54,6 +56,9 @@ export default {
             removed: "deleted",
             remove_fail: "unable to delete",
             subject_exists: "there's already a subject with such name",
+            need_more_weeks: "need more weeks?",
+            multi_week_support: "Temply supports multiple weeks timetables",
+            add_more_weeks: "add",
         },
     },
     recovery_mode: {
@@ -74,19 +79,30 @@ export default {
             name: "plural",
             data: ["min", "mins"],
         },
+        week: {
+            type: "func",
+            name: "plural",
+            data: ["week"],
+        },
     },
     dateformats: {
         week: {
             __index: "week",
             days: {
                 __index: "week days",
-                7: "sunday",
-                1: "monday",
-                2: "tuesday",
-                3: "wednesday",
-                4: "thursday",
-                5: "friday",
-                6: "saturday",
+                generate: {
+                    type: "func",
+                    name: "weekDay",
+                    data: {
+                        7: "sunday",
+                        1: "monday",
+                        2: "tuesday",
+                        3: "wednesday",
+                        4: "thursday",
+                        5: "friday",
+                        6: "saturday",
+                    },
+                },
             },
         },
         relative: {

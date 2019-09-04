@@ -2,6 +2,8 @@ import DBTool from "@Core/Tools/db/DBTool"
 import FieldsContainer from "@Core/Tools/validation/fieldsContainer"
 import FieldChecker from "@Core/Tools/validation/fieldChecker"
 import TimestampToDays from "@Core/Tools/time/timestampToDays"
+import SettingsStorage from "@Core/Services/Settings/SettingsStorage"
+import WeekNumber from "@Core/Tools/time/weekNumber"
 
 export default class TimeManagementStorage {
     static connection = new DBTool("timeManagement", 1, {
@@ -115,12 +117,13 @@ export default class TimeManagementStorage {
     }
 
     static async newTimetableItem(data) {
+        const maxWeekDays = (await SettingsStorage.get("timetable_weeks_count")) * 7
         new FieldsContainer([
             ["subject", "day", "start", "end"],
             {
                 key: new FieldChecker({ isInt: true }),
                 subject: new FieldChecker({ isInt: true }),
-                day: new FieldChecker({ isInt: true, range: [1, 7] }),
+                day: new FieldChecker({ isInt: true, range: [1, maxWeekDays] }),
                 start: new FieldChecker({ isInt: true, range: [0, 86400] }),
                 end: new FieldChecker({ isInt: true, range: [0, 86400] }),
                 cab: new FieldChecker({ max: 10 }),
@@ -266,5 +269,13 @@ export default class TimeManagementStorage {
 
         if (!nextThisWeek) return current
         return timetable[nextThisWeek]
+    }
+
+    static async weekOrderNumber() {
+        const c = WeekNumber()[1]
+        const s = await SettingsStorage.get("timetable_first_week_number")
+        const n = await SettingsStorage.get("timetable_weeks_count")
+
+        return ((Math.abs(c - s) % n) + 1)
     }
 }

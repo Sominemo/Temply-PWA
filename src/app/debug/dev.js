@@ -25,6 +25,7 @@ import DOM from "@DOMPath/DOM/Classes/dom"
 import DOMController from "@DOMPath/DOM/Helpers/domController"
 import { CoreLoader } from "@Core/Init/CoreLoader"
 import SW from "@Core/Services/SW"
+import ObjectStoreTool from "@Core/Tools/db/ObjectStoreTool"
 
 function compare(a, b, path = "/") {
     const keys = Object.keys(a)
@@ -51,7 +52,8 @@ const DevUtils = {
     Design,
     idb,
     report: Report,
-    dbtool: DBTool,
+    DBTool,
+    ObjectStoreTool,
     dbuser: DBUserPresence,
     setStor: SettingsStorage,
     setCh: SettingsCheckProvider,

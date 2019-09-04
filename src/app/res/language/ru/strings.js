@@ -17,10 +17,12 @@ export default {
         break_length: "длина перерыва",
         lesson_start: "начало занятия",
         lessons_start: "начало занятий",
+        schedule_length: "длина расписания",
         lesson_end: "конец занятия",
         empty: "расписание не заполнено",
         empty_description: "новосозданные элементы будут появляться здесь",
         empty_fill_it: "заполнить",
+        week_number: "номер текущей недели",
         edit: {
             mode: "редактировать",
             add_item: "добавить",
@@ -54,6 +56,9 @@ export default {
             removed: "удалено",
             remove_fail: "ошибка при удалении",
             subject_exists: "предмет с таким названием уже существует",
+            need_more_weeks: "нужно больше недель?",
+            multi_week_support: "Temply поддерживает расписание на несколько недель",
+            add_more_weeks: "добавить",
         },
     },
     recovery_mode: {
@@ -74,19 +79,30 @@ export default {
             name: "plural",
             data: ["минута", "минуты", "минут"],
         },
+        week: {
+            type: "func",
+            name: "plural",
+            data: ["неделя", "недели", "недель"],
+        },
     },
     dateformats: {
         week: {
             __index: "неделя",
             days: {
                 __index: "дни недели",
-                7: "воскресенье",
-                1: "понедельник",
-                2: "вторник",
-                3: "среда",
-                4: "четверг",
-                5: "пятница",
-                6: "суббота",
+                generate: {
+                    type: "func",
+                    name: "weekDay",
+                    data: {
+                        7: "воскресенье",
+                        1: "понедельник",
+                        2: "вторник",
+                        3: "среда",
+                        4: "четверг",
+                        5: "пятница",
+                        6: "суббота",
+                    },
+                },
             },
         },
         relative: {

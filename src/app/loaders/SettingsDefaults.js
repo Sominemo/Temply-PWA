@@ -3,6 +3,7 @@ import FieldChecker from "@Core/Tools/validation/fieldChecker"
 import Report from "@Core/Services/report"
 import App from "@Core/Services/app"
 import { CoreLoader, CoreLoaderResult } from "@Core/Init/CoreLoader"
+import WeekNumber from "@Core/Tools/time/weekNumber"
 
 const timetableDefaults = {
     lesson: 45,
@@ -92,6 +93,31 @@ CoreLoader.registerTask({
                     default: timetableDefaults.start,
                     checker: new FieldChecker({ type: "number", isInt: true, range: [0, 86400] }),
                     async onfail(a, b, c) { await c(timetableDefaults.start) },
+                },
+            },
+            {
+                name: "timetable_weeks_count",
+                rule: {
+                    default: 1,
+                    checker: new FieldChecker({ type: "number", isInt: true, range: [0, 53] }),
+                    async onfail(a, b, c) { await c(1) },
+                },
+            },
+            {
+                name: "timetable_first_week_number",
+                rule: {
+                    default() {
+                        const year = new Date().getFullYear()
+                        const lookupDate = new Date(year, 8, 1)
+                        while (lookupDate.getDay() !== 1) {
+                            lookupDate.setDate(lookupDate.getDate() + 1)
+                        }
+                        return WeekNumber(new Date(year, 8, lookupDate.getDate()))[1]
+                    },
+                    checker: new FieldChecker({ type: "number", isInt: true, range: [0, 53] }),
+                    async onfail(a, b, c) {
+                        await c(WeekNumber(new Date(new Date().getFullYear(), 8, 1))[1])
+                    },
                 },
             },
         ], "user")

@@ -106,7 +106,7 @@ module.exports = (env = {}) => ({
         },
     },
     entry: [
-        path.join(PATHS.core, "init", "index.js"),
+        path.join(PATHS.core, "Init", "index.js"),
     ],
     ...(!PROD || env.makeMaps ? { devtool: "source-map" } : {}),
     output: {

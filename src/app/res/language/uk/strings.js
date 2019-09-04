@@ -16,11 +16,13 @@ export default {
         lesson_length: "довжина заняття",
         break_length: "довжина перерви",
         lesson_start: "початок заняття",
+        schedule_length: "довжина розкладу",
         lessons_start: "початок занять",
         lesson_end: "кінець заняття",
         empty: "розклад не заповнено",
         empty_description: "новостворені елементи зв'являтимуться тут",
         empty_fill_it: "заповнити",
+        week_number: "номер поточного тижня",
         edit: {
             mode: "редагувати",
             add_item: "додати",
@@ -54,6 +56,9 @@ export default {
             removed: "видалено",
             remove_fail: "помилка при видаленні",
             subject_exists: "предмет з такою назвою вже існує",
+            need_more_weeks: "потрібно більше тижнів?",
+            multi_week_support: "Temply підтримує розклад на кілька тижнів",
+            add_more_weeks: "додати",
         },
     },
     recovery_mode: {
@@ -74,19 +79,30 @@ export default {
             name: "plural",
             data: ["хвилина", "хвилини", "хвилин"],
         },
+        week: {
+            type: "func",
+            name: "plural",
+            data: ["тиждень", "тижні", "тижнів"],
+        },
     },
     dateformats: {
         week: {
             __index: "тиждень",
             days: {
                 __index: "дні тижня",
-                7: "неділя",
-                1: "понеділок",
-                2: "вівторок",
-                3: "середа",
-                4: "четвер",
-                5: "п'ятниця",
-                6: "субота",
+                generate: {
+                    type: "func",
+                    name: "weekDay",
+                    data: {
+                        7: "неділя",
+                        1: "понеділок",
+                        2: "вівторок",
+                        3: "середа",
+                        4: "четвер",
+                        5: "п'ятниця",
+                        6: "субота",
+                    },
+                },
             },
         },
         relative: {

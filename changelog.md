@@ -1,4 +1,11 @@
-# 0.7.5 23.08.2010
+# 0.8.0 04.09.2019
+## Time Management
++ Multiple weeks support
+
+## General
+* Core updated to actual version
+
+# 0.7.5 23.08.2019
 ## General
 * Core updated to actual version
 + Help articles list and search in about menu
