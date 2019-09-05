@@ -111,7 +111,7 @@ CoreLoader.registerTask({
             ],
         })
 
-        const actualVersion = 2
+        const actualVersion = 3
         const minVersion = 1
 
         DBUserPresence.registerNewPresence({
@@ -180,6 +180,16 @@ CoreLoader.registerTask({
                             await SettingsStorage.set("timetable_first_week_number", data.timetable.firstWeek)
                         }
 
+                        if (data.meta.version < 3) {
+                            await SettingsStorage.delete("timetable_break_default_length")
+                            await SettingsStorage.delete("timetable_lesson_default_length")
+                            await SettingsStorage.delete("timetable_lesson_default_start")
+                        } else {
+                            await SettingsStorage.set("timetable_break_default_length", data.timetable.defaultBreakLength)
+                            await SettingsStorage.set("timetable_lesson_default_length", data.timetable.defaultLessonLength)
+                            await SettingsStorage.set("timetable_lesson_default_start", data.timetable.defaultLessonStart)
+                        }
+
                         await subDB.clear()
                         await schDB.clear()
                         await Promise.all(
@@ -199,6 +209,10 @@ CoreLoader.registerTask({
                         const weeksCount = await SettingsStorage.get("timetable_weeks_count")
                         const firstWeek = await SettingsStorage.get("timetable_first_week_number")
 
+                        const defaultBreakLength = await SettingsStorage.get("timetable_break_default_length")
+                        const defaultLessonLength = await SettingsStorage.get("timetable_lesson_default_length")
+                        const defaultLessonStart = await SettingsStorage.get("timetable_lesson_default_start")
+
                         download([JSON.stringify(
                             {
                                 meta: {
@@ -209,6 +223,9 @@ CoreLoader.registerTask({
                                 timetable: {
                                     weeksCount,
                                     firstWeek,
+                                    defaultBreakLength,
+                                    defaultLessonLength,
+                                    defaultLessonStart,
                                 },
                                 subjects: sub,
                                 schedule: sch,

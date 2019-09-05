@@ -1,6 +1,6 @@
 {
     "name": "temply-pwa",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "description": "Temply PWA",
     "main": "index.html",
     "config": {
