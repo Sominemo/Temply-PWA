@@ -1,7 +1,12 @@
+# 0.8.3 26.10.2019
+## General
+* Updated PWA Core with Safari support
+
 # 0.8.2 05.09.2019
 ## Storage
 * Export v3: All currently supported timetable settings are being exported.
-! Export files v2 and v1 will reset unsupported for the version timetable settings (for v1 it means resetting all the timetable settings)
+! Export files v2 and v1 will reset unsupported for the version timetable settings 
+! For v1 it means resetting all the timetable settings
 
 # 0.8.1 04.09.2019
 ## Storage

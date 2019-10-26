@@ -1,6 +1,6 @@
 {
     "name": "temply-pwa",
-    "version": "0.8.2",
+    "version": "0.8.3",
     "description": "Temply PWA",
     "main": "index.html",
     "config": {
@@ -66,6 +66,7 @@
         "idb": "^4.0.0",
         "node-fetch": "^2.6.0",
         "regenerator-runtime": "^0.13.2",
-        "semver-parser": "^3.0.1"
+        "semver-parser": "^3.0.1",
+        "sjcl": "^1.0.8"
     }
 }

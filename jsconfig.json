@@ -1,6 +1,6 @@
 {
   "exclude": [
-    "node_modules*",
+    "node_modules*"
   ],
   "compilerOptions": {
     "target": "esnext",
@@ -29,7 +29,7 @@
       "@Themes/*": [
         "src/app/res/styles/themes/*",
         "src/environment/res/styles/themes/*"
-      ],
+      ]
     }
   }
 }
