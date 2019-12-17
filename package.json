@@ -62,7 +62,7 @@
     },
     "dependencies": {
         "core-js": "^3.0.0",
-        "git-rev-sync": "^1.12.0",
+        "git-rev-sync": "^2.0.0",
         "idb": "^4.0.0",
         "node-fetch": "^2.6.0",
         "regenerator-runtime": "^0.13.2",
