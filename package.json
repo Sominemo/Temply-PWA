@@ -58,7 +58,7 @@
         "webpack-auto-inject-version": "^1.2.2",
         "webpack-cli": "^3.1.2",
         "webpack-pwa-manifest": "^4.0.0",
-        "workbox-webpack-plugin": "^4.0.0"
+        "workbox-webpack-plugin": "^5.0.0"
     },
     "dependencies": {
         "core-js": "^3.0.0",
